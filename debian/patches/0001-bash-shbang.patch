@@ -1,0 +1,29 @@
+Description: Use bash shbang in fmgui scripts
+ The scripts that launch fmgui have bashisms, but the upstream
+ scripts specify /bin/sh as the shbang command. Use /bin/bash.
+ .
+ fmgui (10.3.0.0-60-1ifs) UNRELEASED; urgency=medium
+ .
+   * Convert to quilt. Corrected version number for upstream.
+Author: Brian T. Smith <bsmith@systemfabricworks.com>
+Forwarded: no
+Last-Update: <2017-06-15>
+
+---
+
+--- fmgui-10.3.0.0-60.orig/fmgui.sh
++++ fmgui-10.3.0.0-60/fmgui.sh
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ #
+ # $Id: fmgui.sh,v 1.4 2015/06/26 18:17:36 Exp $
+ #
+--- fmgui-10.3.0.0-60.orig/install/fmgui.sh
++++ fmgui-10.3.0.0-60/install/fmgui.sh
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ #
+ # $Id: fmgui.sh,v 1.4 2015/06/26 18:17:36 Exp $
+ #

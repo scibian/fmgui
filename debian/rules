@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+#
+# Copyright (c)2016 System Fabric Works, Inc.
+#
+
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+export OPA_JAVA=$(JAVA_HOME)
+export CFLAGS=
+APPDIR=.
+DESTDIR=debian/fmgui
+JAVADIR=/usr/share/java
+DOCDIR=/usr/share/doc
+APPFOLDER=fmgui
+APPJAR=fmgui.jar
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	ant clear
+
+override_dh_autoconfigure:
+
+override_dh_auto_build:
+	ant -v build
+
+override_dh_auto_test:
+
+override_dh_auto_install:
+	mkdir -p $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
+	mkdir -p $(DESTDIR)$(JAVADIR)/$(APPFOLDER)
+	mkdir -p $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/lib
+	mkdir -p $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/help
+	mkdir -p $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util
+	mkdir -p $(DESTDIR)/usr/bin
+	mkdir -p $(DESTDIR)/usr/share/applications
+	mkdir -p $(DESTDIR)/usr/share/desktop-directories
+	mkdir -p $(DESTDIR)/usr/share/icons/hicolor/48x48/apps
+	mkdir -p $(DESTDIR)/etc/xdg/menus/applications-merged
+	mkdir -p $(DESTDIR)/etc/profile.d
+	mkdir -p $(DESTDIR)/var/opt/opafm/fmgui
+	cp -a $(APPDIR)/$(APPJAR) $(DESTDIR)$(JAVADIR)/$(APPFOLDER)
+	cp -a $(APPDIR)/LICENSE $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
+	cp -a $(APPDIR)/THIRD-PARTY-README $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
+	cp -a $(APPDIR)/Pre-Release_Notice_v.2.pdf $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
+	cp -a $(APPDIR)/Third_Party_Copyright_Notices_and_Licenses.docx $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
+	cp -a $(APPDIR)/lib/* $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/lib
+	cp -a $(APPDIR)/help/* $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/help
+	cp -a $(APPDIR)/util/fmguiclear.sh $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util
+	cp -a $(APPDIR)/util/postsetup.sh $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util
+	cp -a $(APPDIR)/util/ClearFMGUICache.desktop $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util
+	cp -a $(APPDIR)/install/fmgui.sh $(DESTDIR)/usr/bin/fmgui
+	cp -a $(APPDIR)/install/fmguivars.sh $(DESTDIR)/etc/profile.d
+	cp -a $(APPDIR)/install/fmgui.desktop $(DESTDIR)/usr/share/applications
+	cp -a $(APPDIR)/install/Fabric.directory $(DESTDIR)/usr/share/desktop-directories
+	cp -a $(APPDIR)/install/images/* $(DESTDIR)/usr/share/icons/hicolor
+	cp -a $(APPDIR)/install/Fabric.menu $(DESTDIR)/etc/xdg/menus/applications-merged
+	chmod 755 $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util/fmguiclear.sh
+	chmod 755 $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util/postsetup.sh
+	chmod 751 $(DESTDIR)/var/opt/opafm/fmgui
+
+

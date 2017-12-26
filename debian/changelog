@@ -1,0 +1,44 @@
+fmgui (10.5.0.0-140-1ifs+c9u1) unstable; urgency=medium
+
+  * Build for calibre9
+  * Add a debian/gbp.conf file
+
+ -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 26 Dec 2017 10:44:45 +0100
+
+fmgui (10.5.0.0-140-1ifs) UNRELEASED; urgency=medium
+
+  * Import FMGUI 10.5.0.0-140 from upstream.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Tue, 26 Sep 2017 14:27:12 -0500
+
+fmgui (10.4.0.0-184-1ifs) UNRELEASED; urgency=medium
+
+  * Import FMGUI 10.4.0.0-184 from upstream.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Fri, 21 Jul 2017 16:07:23 -0500
+
+fmgui (10.3.0.0-60-1ifs) UNRELEASED; urgency=medium
+
+  * Convert to quilt. Corrected version number for upstream.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Wed, 14 Jun 2017 15:33:12 -0500
+
+fmgui (10.3.0.0.60) UNRELEASED; urgency=medium
+
+  * Import fmgui 10.3.0.0.60 from upstream IntelOPA-FMGUI 10.3.0.0.60.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Thu, 05 Jan 2017 20:49:35 -0600
+
+fmgui (10.2.0.0.152) UNRELEASED; urgency=medium
+
+  * Import fmgui 10.2.0.0.152 from upstream IntelOPA-FMGUI 10.2.0.0.152.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Thu, 13 Oct 2016 09:46:35 -0500
+
+fmgui (10.1.0.0.112) UNRELEASED; urgency=medium
+
+  * Import fmgui 10.1.0.0.112 from upstream IntelOPA-FMGUI 10.1.0.0.112.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Mon, 22 Aug 2016 17:01:35 -0500
+
+
