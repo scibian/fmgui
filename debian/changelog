@@ -1,9 +1,15 @@
-fmgui (10.5.0.0-140-1ifs+c9u1) unstable; urgency=medium
+fmgui (10.6.0.0-136-2ifs+deb9) UNRELEASED; urgency=medium
 
-  * Build for calibre9
-  * Add a debian/gbp.conf file
+  * Branch for stretch.
 
- -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 26 Dec 2017 10:44:45 +0100
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Fri, 23 Feb 2018 15:01:02 -0600
+
+fmgui (10.6.0.0-136-1ifs) UNRELEASED; urgency=medium
+
+  * Import FMGUI 10.6.0.0-136 from upstream.
+  * Use git packaging and pristine-tar.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Fri, 01 Dec 2017 12:02:44 -0600
 
 fmgui (10.5.0.0-140-1ifs) UNRELEASED; urgency=medium
 

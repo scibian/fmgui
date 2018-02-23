@@ -82,8 +82,8 @@ public abstract class VFUtilTrendDataObserver
             long topoNoResp = 0;
             for (UtilStatsBean util : utils) {
                 value += getValue(util);
-                pmaNoResp += util.getPmaFailedPorts();
-                topoNoResp += util.getTopoFailedPorts();
+                pmaNoResp += util.getPmaNoRespPorts();
+                topoNoResp += util.getTopoIncompPorts();
             }
 
             VFSource sourceName = new VFSource(bean.getVfName());

@@ -60,9 +60,9 @@ public class UtilStatsBean implements Serializable {
 
     private long maxKPps; // unsigned int
 
-    private int pmaFailedPorts; // unsigned short
+    private int pmaNoRespPorts; // unsigned short
 
-    private int topoFailedPorts; // unsigned short
+    private int topoIncompPorts; // unsigned short
 
     /**
      * @return the totalMBps
@@ -277,41 +277,41 @@ public class UtilStatsBean implements Serializable {
     }
 
     /**
-     * @return the pmaFailedPorts
+     * @return the pmaNoRespPorts
      */
-    public int getPmaFailedPorts() {
-        return pmaFailedPorts;
+    public int getPmaNoRespPorts() {
+        return pmaNoRespPorts;
     }
 
     /**
-     * @param pmaFailedPorts
-     *            the pmaFailedPorts to set
+     * @param pmaNoRespPorts
+     *            the pmaNoRespPorts to set
      */
-    public void setPmaFailedPorts(short pmaFailedPorts) {
-        this.pmaFailedPorts = Utils.unsignedShort(pmaFailedPorts);
+    public void setPmaNoRespPorts(short pmaNoRespPorts) {
+        this.pmaNoRespPorts = Utils.unsignedShort(pmaNoRespPorts);
     }
 
-    public void setPmaFailedPorts(int pmaFailedPorts) {
-        this.pmaFailedPorts = pmaFailedPorts;
+    public void setPmaNoRespPorts(int pmaNoRespPorts) {
+        this.pmaNoRespPorts = pmaNoRespPorts;
     }
 
     /**
-     * @return the topoFailedPorts
+     * @return the topoIncompPorts
      */
-    public int getTopoFailedPorts() {
-        return topoFailedPorts;
+    public int getTopoIncompPorts() {
+        return topoIncompPorts;
     }
 
     /**
-     * @param topoFailedPorts
-     *            the topoFailedPorts to set
+     * @param topoIncompPorts
+     *            the topoIncompPorts to set
      */
-    public void setTopoFailedPorts(short topoFailedPorts) {
-        this.topoFailedPorts = Utils.unsignedShort(topoFailedPorts);
+    public void setTopoIncompPorts(short topoIncompPorts) {
+        this.topoIncompPorts = Utils.unsignedShort(topoIncompPorts);
     }
 
-    public void setTopoFailedPorts(int topoFailedPorts) {
-        this.topoFailedPorts = topoFailedPorts;
+    public void setTopoIncompPorts(int topoIncompPorts) {
+        this.topoIncompPorts = topoIncompPorts;
     }
 
     /*
@@ -326,8 +326,8 @@ public class UtilStatsBean implements Serializable {
                 + ", maxMBps=" + maxMBps + ", numBWBuckets=" + numBWBuckets
                 + ", bwBuckets=" + Arrays.toString(bwBuckets.toArray())
                 + ", avgKPps=" + avgKPps + ", minKPps=" + minKPps + ", maxKPps="
-                + maxKPps + ", pmaFailedPorts=" + pmaFailedPorts
-                + ", topoFailedPorts=" + topoFailedPorts + "]";
+                + maxKPps + ", pmaNoRespPorts=" + pmaNoRespPorts
+                + ", topoIncompPorts=" + topoIncompPorts + "]";
     }
 
 }

@@ -38,7 +38,7 @@ import com.intel.stl.api.subnet.Selection;
 import com.intel.stl.ui.common.STLConstants;
 import com.intel.stl.ui.common.UILabels;
 import com.intel.stl.ui.common.Util;
-import com.intel.stl.ui.model.FocusFlagViz;
+import com.intel.stl.ui.model.FocusStatusViz;
 import com.intel.stl.ui.model.PortEntry;
 import com.intel.stl.ui.performance.GroupSource;
 import com.intel.stl.ui.performance.observer.TopNDataObserver;
@@ -190,8 +190,8 @@ public abstract class TopNItem extends AbstractPerformanceItem<GroupSource> {
                     for (FocusPortsRspBean port : portList) {
                         PortEntry pe = new PortEntry(port.getNodeDesc(),
                                 port.getNodeLid(), port.getPortNumber());
-                        pe.setObject(FocusFlagViz
-                                .getFocusFlagViz(port.getLocalFlags()));
+                        pe.setObject(FocusStatusViz
+                                .getFocusStatusViz(port.getLocalStatus()));
                         dataset.addValue(getValue(port),
                                 STLConstants.K0113_PORT_VALUE.getValue(), pe);
                         dataset.addValue(getNeighborValue(port),
@@ -209,7 +209,7 @@ public abstract class TopNItem extends AbstractPerformanceItem<GroupSource> {
     }
 
     protected Number getNeighborValue(FocusPortsRspBean port) {
-        return port.getValue();
+        return port.getNeighborValue();
     }
 
     public void updateVFTopN(final List<VFFocusPortsRspBean> portList) {
@@ -227,8 +227,8 @@ public abstract class TopNItem extends AbstractPerformanceItem<GroupSource> {
                     for (VFFocusPortsRspBean port : portList) {
                         PortEntry pe = new PortEntry(port.getNodeDesc(),
                                 port.getNodeLid(), port.getPortNumber());
-                        pe.setObject(FocusFlagViz
-                                .getFocusFlagViz(port.getLocalFlags()));
+                        pe.setObject(FocusStatusViz
+                                .getFocusStatusViz(port.getLocalStatus()));
                         dataset.addValue(port.getValue(),
                                 STLConstants.K0113_PORT_VALUE.getValue(), pe);
                         dataset.addValue(port.getNeighborValue(),

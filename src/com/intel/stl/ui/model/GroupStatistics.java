@@ -24,6 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.ui.model;
 
 import java.util.ArrayList;
@@ -48,9 +49,9 @@ public class GroupStatistics {
 
     private EnumMap<NodeType, Long> portTypesDist;
 
-    private int numFailedNodes;
+    private int numNoRespNodes;
 
-    private long numFailedPorts;
+    private long numNoRespPorts;
 
     private int numSkippedNodes;
 
@@ -75,8 +76,8 @@ public class GroupStatistics {
     public void setImageInfo(ImageInfoBean imageInfo,
             List<SMInfoDataBean> sms) {
         numLinks = imageInfo.getNumLinks();
-        numFailedNodes = imageInfo.getNumFailedNodes();
-        numFailedPorts = imageInfo.getNumFailedPorts();
+        numNoRespNodes = imageInfo.getNumNoRespNodes();
+        numNoRespPorts = imageInfo.getNumNoRespPorts();
         numSkippedNodes = imageInfo.getNumSkippedNodes();
         numSkippedPorts = imageInfo.getNumSkippedPorts();
         numSMs = imageInfo.getNumSMs();
@@ -199,15 +200,15 @@ public class GroupStatistics {
     /**
      * @return the numFailedNodes
      */
-    public int getNumFailedNodes() {
-        return numFailedNodes;
+    public int getNumNoRespNodes() {
+        return numNoRespNodes;
     }
 
     /**
      * @return the numFailedPorts
      */
-    public long getNumFailedPorts() {
-        return numFailedPorts;
+    public long getNumNoRespPorts() {
+        return numNoRespPorts;
     }
 
     /**
@@ -255,8 +256,8 @@ public class GroupStatistics {
     public String toString() {
         return "GroupStatistics [name=" + subnet.getName() + ", numLinks="
                 + numLinks + ", nodeTypesDist=" + nodeTypesDist
-                + ", portTypesDist=" + portTypesDist + ", numFailedNodes="
-                + numFailedNodes + ", numFailedPorts=" + numFailedPorts
+                + ", portTypesDist=" + portTypesDist + ", numNoRespNodes="
+                + numNoRespNodes + ", numNoRespPorts=" + numNoRespPorts
                 + ", numSkippedNodes=" + numSkippedNodes + ", numSkippedPorts="
                 + numSkippedPorts + ", numSMs=" + numSMs + ", SMInfo=" + smInfo
                 + ", msmUptimeInSeconds=" + msmUptimeInSeconds + "]";

@@ -2,14 +2,18 @@ Source: fmgui
 Maintainer: Brian T. Smith <bsmith@systemfabricworks.com>
 Section: java
 Priority: extra
-Standards-Version: 3.9.6
-Build-Depends: debhelper (>= 9), ant (>= 1.9), openjdk-7-jdk
+Standards-Version: 3.9.8
+Homepage: http://www.intel.com
+Build-Depends: ant (>= 1.9),
+               debhelper (>= 10),
+               openjdk-8-jdk,
 
 Package: fmgui
 Architecture: all
-Depends: ${misc:Depends}, openjdk-7-jdk, libgnome-2-0, libgnome2-bin
+Depends: libgnome-2-0,
+         libgnome2-bin,
+         openjdk-8-jdk,
+         ${misc:Depends},
 Description: Fabric Manager Graphical User Interface
  FMGUI is the Fabric Manager Graphical User Interface.  It
  can be run by invoking the Bash script fmgui.
-
-

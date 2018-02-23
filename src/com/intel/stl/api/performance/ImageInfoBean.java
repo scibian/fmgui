@@ -55,9 +55,9 @@ public class ImageInfoBean implements ITimestamped, Serializable {
 
     private int numSMs; // should be fine
 
-    private int numFailedNodes; // should be fine
+    private int numNoRespNodes; // should be fine
 
-    private long numFailedPorts; // unsigned int
+    private long numNoRespPorts; // unsigned int
 
     private int numSkippedNodes;
 
@@ -220,41 +220,41 @@ public class ImageInfoBean implements ITimestamped, Serializable {
     }
 
     /**
-     * @return the numFailedNodes
+     * @return the numNoRespNodes
      */
-    public int getNumFailedNodes() {
-        return numFailedNodes;
+    public int getNumNoRespNodes() {
+        return numNoRespNodes;
     }
 
     /**
-     * @param numFailedNodes
-     *            the numFailedNodes to set
+     * @param numNoRespNodes
+     *            the numNoRespNodes to set
      */
-    public void setNumFailedNodes(int numFailedNodes) {
-        this.numFailedNodes = numFailedNodes;
+    public void setNumNoRespNodes(int numNoRespNodes) {
+        this.numNoRespNodes = numNoRespNodes;
     }
 
     /**
-     * @return the numFailedPorts
+     * @return the numNoRespPorts
      */
-    public long getNumFailedPorts() {
-        return numFailedPorts;
+    public long getNumNoRespPorts() {
+        return numNoRespPorts;
     }
 
     /**
-     * @param numFailedPorts
-     *            the numFailedPorts to set
+     * @param numNoRespPorts
+     *            the numNoRespPorts to set
      */
-    public void setNumFailedPorts(long numFailedPorts) {
-        this.numFailedPorts = numFailedPorts;
+    public void setNumNoRespPorts(long numNoRespPorts) {
+        this.numNoRespPorts = numNoRespPorts;
     }
 
     /**
-     * @param numFailedPorts
-     *            the numFailedPorts to set
+     * @param numNoRespPorts
+     *            the numNoRespPorts to set
      */
-    public void setNumFailedPorts(int numFailedPorts) {
-        this.numFailedPorts = Utils.unsignedInt(numFailedPorts);
+    public void setNumNoRespPorts(int numNoRespPorts) {
+        this.numNoRespPorts = Utils.unsignedInt(numNoRespPorts);
     }
 
     /**
@@ -426,8 +426,8 @@ public class ImageInfoBean implements ITimestamped, Serializable {
                 + ", numHCAPorts=" + numHFIPorts + ", numSwitchNodes="
                 + numSwitchNodes + ", numSwitchPorts=" + numSwitchPorts
                 + ", numLinks=" + numLinks + ", numSMs=" + numSMs
-                + ", numFailedNodes=" + numFailedNodes + ", numFailedPorts="
-                + numFailedPorts + ", numSkippedNodes=" + numSkippedNodes
+                + ", numNoRespNodes=" + numNoRespNodes + ", numNoRespPorts="
+                + numNoRespPorts + ", numSkippedNodes=" + numSkippedNodes
                 + ", numSkippedPorts=" + numSkippedPorts
                 + ", numUnexpectedClearPorts=" + numUnexpectedClearPorts
                 + ", imageInterval=" + imageInterval + ", SMInfo="
@@ -441,10 +441,10 @@ public class ImageInfoBean implements ITimestamped, Serializable {
         if (other == null) {
             return true;
         }
-        if (numFailedNodes != other.numFailedNodes) {
+        if (numNoRespNodes != other.numNoRespNodes) {
             return true;
         }
-        if (numFailedPorts != other.numFailedPorts) {
+        if (numNoRespPorts != other.numNoRespPorts) {
             return true;
         }
         if (numHFIPorts != other.numHFIPorts) {

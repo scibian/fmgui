@@ -1,11 +1,8 @@
 #!/usr/bin/make -f
-#
-# Copyright (c)2016 System Fabric Works, Inc.
-#
 
-export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 export OPA_JAVA=$(JAVA_HOME)
-export CFLAGS=
+
 APPDIR=.
 DESTDIR=debian/fmgui
 JAVADIR=/usr/share/java
@@ -16,16 +13,21 @@ APPJAR=fmgui.jar
 %:
 	dh $@
 
+.PHONY: override_dh_auto_clean
 override_dh_auto_clean:
 	ant clear
 
-override_dh_autoconfigure:
+.PHONY: override_dh_auto_configure
+override_dh_auto_configure:
 
+.PHONY: override_dh_auto_build
 override_dh_auto_build:
 	ant -v build
 
+.PHONY: override_dh_auto_test
 override_dh_auto_test:
 
+.PHONY: 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
 	mkdir -p $(DESTDIR)$(JAVADIR)/$(APPFOLDER)
@@ -40,7 +42,6 @@ override_dh_auto_install:
 	mkdir -p $(DESTDIR)/etc/profile.d
 	mkdir -p $(DESTDIR)/var/opt/opafm/fmgui
 	cp -a $(APPDIR)/$(APPJAR) $(DESTDIR)$(JAVADIR)/$(APPFOLDER)
-	cp -a $(APPDIR)/LICENSE $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
 	cp -a $(APPDIR)/THIRD-PARTY-README $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
 	cp -a $(APPDIR)/Pre-Release_Notice_v.2.pdf $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
 	cp -a $(APPDIR)/Third_Party_Copyright_Notices_and_Licenses.docx $(DESTDIR)$(DOCDIR)/$(APPFOLDER)
@@ -58,5 +59,4 @@ override_dh_auto_install:
 	chmod 755 $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util/fmguiclear.sh
 	chmod 755 $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util/postsetup.sh
 	chmod 751 $(DESTDIR)/var/opt/opafm/fmgui
-
 

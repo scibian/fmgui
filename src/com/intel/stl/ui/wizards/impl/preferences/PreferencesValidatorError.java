@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -54,8 +54,10 @@ public enum PreferencesValidatorError {
 
     // Timing Window
     TIMING_WINDOW_MISSING(9, UILabels.STL50073_TIMING_WINDOW_MISSING),
-    TIMING_WINDOW_INVALID_TYPE(10, UILabels.STL50074_TIMING_WINDOW_INVALID_TYPE),
-    TIMING_WINDOW_OUT_OF_RANGE(11, UILabels.STL50075_TIMING_WINDOW_OUT_OF_RANGE),
+    TIMING_WINDOW_INVALID_TYPE(10,
+            UILabels.STL50074_TIMING_WINDOW_INVALID_TYPE),
+    TIMING_WINDOW_OUT_OF_RANGE(11,
+            UILabels.STL50075_TIMING_WINDOW_OUT_OF_RANGE),
     TIMING_WINDOW_FORMAT_EXCEPTION(12,
             UILabels.STL50076_TIMING_WINDOW_FORMAT_EXCEPTION),
 
@@ -68,7 +70,8 @@ public enum PreferencesValidatorError {
     NUM_WORST_NODES_FORMAT_EXCEPTION(16,
             UILabels.STL50080_NUM_WORST_NODES_FORMAT_EXCEPTION),
     UNABLE_TO_VALIDATE(17, UILabels.STL50089_UNABLE_TO_VALIDATE),
-    OK(18, UILabels.STL50063_OK);
+    OK(18, UILabels.STL50063_OK),
+    UNKNOWN_ERROR(19, UILabels.STL50100_UNKNOWN_ERROR);
 
     private final static HashMap<Integer, PreferencesValidatorError> validateErrorMap =
             new HashMap<Integer, PreferencesValidatorError>();

@@ -1368,6 +1368,10 @@ public class ComponentFactory {
         DecimalFormat df0 = new DecimalFormat("0");
         DecimalFormat df1 = new DecimalFormat("#,##0");
         DecimalFormat df2 = new DecimalFormat("0.##E0");
+        DecimalFormat df3 = new DecimalFormat("0.00");
+        units.add(new NumberTickUnit(0.01, df3, 2));
+        units.add(new NumberTickUnit(0.1, df3, 2));
+        units.add(new NumberTickUnit(0.5, df3, 5));
         units.add(new NumberTickUnit(1, df0, 2));
         units.add(new NumberTickUnit(2, df0, 2));
         units.add(new NumberTickUnit(5, df0, 5));

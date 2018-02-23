@@ -369,7 +369,7 @@ public class PerformanceErrorsSection extends
                 bean.getPortXmitPkts());
         setValStr(errorMap, STLConstants.K0833_TX_MULTICAST_PACKETS.getValue(),
                 bean.getPortMulticastXmitPkts());
-        setValStr(errorMap, STLConstants.K0731_TX_DISCARDS.getValue(),
+        setValStr(errorMap, STLConstants.K0714_TRAN_DISCARDS.getValue(),
                 bean.getPortXmitDiscards());
         setValStr(errorMap, STLConstants.K0521_TX_PORT_CONSTRAINT.getValue(),
                 bean.getPortXmitConstraintErrors());
@@ -426,7 +426,7 @@ public class PerformanceErrorsSection extends
                 bean.getPortVFXmitData());
         setValStr(errorMap, STLConstants.K0734_TX_CUMULATIVE_PACKETS.getValue(),
                 bean.getPortVFXmitPkts());
-        setValStr(errorMap, STLConstants.K0731_TX_DISCARDS.getValue(),
+        setValStr(errorMap, STLConstants.K0714_TRAN_DISCARDS.getValue(),
                 bean.getPortVFXmitDiscards());
         setValStr(errorMap, STLConstants.K0836_TX_WAIT.getValue(),
                 bean.getPortVFXmitWait());

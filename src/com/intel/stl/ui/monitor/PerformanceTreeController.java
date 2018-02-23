@@ -99,16 +99,20 @@ public class PerformanceTreeController
         view.setNodeName(node);
         setRunning(true);
 
-        if (lastNode != null && lastNode.hasSamePath(node)
-                && lastNode.getRoot() == node.getRoot()) {
-            // refresh the subpage
-            currentSubpage.showNode(node, new FinishObserver() {
-                @Override
-                public void onFinish() {
-                    setRunning(false);
-                }
-            });
-            return;
+        if (lastNode != null) {
+            if (lastNode.hasSamePath(node)
+                    && lastNode.getRoot() == node.getRoot()) {
+                // refresh the subpage
+                currentSubpage.showNode(node, new FinishObserver() {
+                    @Override
+                    public void onFinish() {
+                        setRunning(false);
+                    }
+                });
+                return;
+            }
+            // collapse last node
+            collapseTreeSelection(lastNode, node);
         }
 
         // Deregister tasks on all subpages
@@ -141,14 +145,63 @@ public class PerformanceTreeController
                 currentSubpageName = subpage.getName();
             }
             subpage.showNode(node, new FinishObserver() {
+
                 @Override
                 public void onFinish() {
                     setRunning(false);
                 }
+
             });
             lastNode = node;
             currentSubpage = subpage;
             view.setTabs(subpages, curIndex);
+        }
+    }
+
+    protected void collapseTreeSelection(FVResourceNode node,
+            FVResourceNode current) {
+        TreePath toCollapse = null;
+        switch (node.getType()) {
+            case SWITCH:
+            case HFI:
+            case ACTIVE_PORT:
+            case INACTIVE_PORT:
+                if (node.getParent() != null) {
+                    toCollapse = node.getParent().getPath();
+                }
+                break;
+
+            default:
+                break;
+        }
+        FVResourceNode parent = current.getParent();
+        switch (current.getType()) {
+            case SWITCH:
+            case HFI:
+                if (parent != null && parent.getPath().equals(toCollapse)) {
+                    toCollapse = null;
+                }
+                break;
+
+            case ACTIVE_PORT:
+            case INACTIVE_PORT:
+                if (parent != null) {
+                    if (parent.getPath().equals(toCollapse)) {
+                        toCollapse = null;
+                    }
+                    parent = parent.getParent();
+                    if (parent != null && parent.getPath().equals(toCollapse)) {
+                        toCollapse = null;
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+        if (toCollapse != null) {
+            view.collapseTreePath(getCurrentTreeModel(), toCollapse);
+            view.ensureSelectionVisible(getCurrentTreeModel());
         }
     }
 

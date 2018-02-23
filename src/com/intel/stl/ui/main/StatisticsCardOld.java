@@ -107,14 +107,14 @@ public class StatisticsCardOld extends
         nodeTypesController.setDistribution(NodeTypeViz
                 .getDistributionValues2(sta.getNodeTypesDist()));
         nodeStatesController.setDistribution(StateShortTypeViz
-                .getDistributionValues(sta.getNumFailedNodes(),
+                .getDistributionValues(sta.getNumNoRespNodes(),
                         sta.getNumSkippedNodes(), totalNodes));
 
         final long totalPorts = sta.getNumActivePorts();
         portTypesController.setDistribution(NodeTypeViz
                 .getDistributionValues(sta.getPortTypesDist()));
         portStatesController.setDistribution(StateShortTypeViz
-                .getDistributionValues(sta.getNumFailedPorts(),
+                .getDistributionValues(sta.getNumNoRespPorts(),
                         sta.getNumSkippedPorts(), totalPorts));
 
         // only need to do it once

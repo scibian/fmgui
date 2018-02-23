@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -113,10 +113,10 @@ public class PreferencesInputValidator {
                 errorCode = error.getId();
             }
         } catch (NumberFormatException e) {
-
-            errorCode =
-                    PreferencesValidatorError.REFRESH_RATE_FORMAT_EXCEPTION
-                            .getId();
+            errorCode = PreferencesValidatorError.REFRESH_RATE_FORMAT_EXCEPTION
+                    .getId();
+        } catch (Exception e) {
+            errorCode = PreferencesValidatorError.UNKNOWN_ERROR.getId();
         }
 
         if (Validator.isBlankOrNull(preferencesModel.getRefreshRate())) {
@@ -134,10 +134,10 @@ public class PreferencesInputValidator {
 
         try {
 
-            if (Validator.isBlankOrNull(preferencesModel.getRefreshRateUnits())) {
-                errorCode =
-                        PreferencesValidatorError.REFRESH_RATE_UNITS_MISSING
-                                .getId();
+            if (Validator
+                    .isBlankOrNull(preferencesModel.getRefreshRateUnits())) {
+                errorCode = PreferencesValidatorError.REFRESH_RATE_UNITS_MISSING
+                        .getId();
             } else {
 
                 // Convert the string to a number
@@ -154,10 +154,11 @@ public class PreferencesInputValidator {
                 }
             }
         } catch (NumberFormatException e) {
-
             errorCode =
                     PreferencesValidatorError.REFRESH_RATE_UNITS_FORMAT_EXCEPTION
                             .getId();
+        } catch (Exception e) {
+            errorCode = PreferencesValidatorError.UNKNOWN_ERROR.getId();
         }
 
         return errorCode;
@@ -169,16 +170,16 @@ public class PreferencesInputValidator {
 
         try {
 
-            if (Validator.isBlankOrNull(preferencesModel
-                    .getTimingWindowInSeconds())) {
+            if (Validator.isBlankOrNull(
+                    preferencesModel.getTimingWindowInSeconds())) {
                 errorCode =
                         PreferencesValidatorError.TIMING_WINDOW_MISSING.getId();
             } else {
-                int timingWindow =
-                        Integer.parseInt(preferencesModel
-                                .getTimingWindowInSeconds());
+                int timingWindow = Integer
+                        .parseInt(preferencesModel.getTimingWindowInSeconds());
 
-                if ((Integer.valueOf(timingWindow) instanceof Integer) == false) {
+                if ((Integer
+                        .valueOf(timingWindow) instanceof Integer) == false) {
                     errorCode =
                             PreferencesValidatorError.TIMING_WINDOW_INVALID_TYPE
                                     .getId();
@@ -193,10 +194,10 @@ public class PreferencesInputValidator {
                 }
             }
         } catch (NumberFormatException e) {
-
-            errorCode =
-                    PreferencesValidatorError.TIMING_WINDOW_FORMAT_EXCEPTION
-                            .getId();
+            errorCode = PreferencesValidatorError.TIMING_WINDOW_FORMAT_EXCEPTION
+                    .getId();
+        } catch (Exception e) {
+            errorCode = PreferencesValidatorError.UNKNOWN_ERROR.getId();
         }
 
         return errorCode;
@@ -209,14 +210,14 @@ public class PreferencesInputValidator {
         try {
 
             if (Validator.isBlankOrNull(preferencesModel.getNumWorstNodes())) {
-                errorCode =
-                        PreferencesValidatorError.NUM_WORST_NODES_MISSING
-                                .getId();
+                errorCode = PreferencesValidatorError.NUM_WORST_NODES_MISSING
+                        .getId();
             } else {
                 int numWorstNodes =
                         Integer.parseInt(preferencesModel.getNumWorstNodes());
 
-                if ((Integer.valueOf(numWorstNodes) instanceof Integer) == false) {
+                if ((Integer
+                        .valueOf(numWorstNodes) instanceof Integer) == false) {
                     errorCode =
                             PreferencesValidatorError.NUM_WORST_NODES_INVALID_TYPE
                                     .getId();
@@ -230,10 +231,11 @@ public class PreferencesInputValidator {
                 }
             }
         } catch (NumberFormatException e) {
-
             errorCode =
                     PreferencesValidatorError.NUM_WORST_NODES_FORMAT_EXCEPTION
                             .getId();
+        } catch (Exception e) {
+            errorCode = PreferencesValidatorError.UNKNOWN_ERROR.getId();
         }
 
         return errorCode;
@@ -255,7 +257,8 @@ public class PreferencesInputValidator {
         } else if (str.equals(STLConstants.K0011_MINUTES.getValue())) {
             return TimeUnit.MINUTES;
         } else {
-            throw new RuntimeException("Unknown time unit string '" + str + "'");
+            throw new RuntimeException(
+                    "Unknown time unit string '" + str + "'");
         }
     }
 
@@ -265,8 +268,8 @@ public class PreferencesInputValidator {
         } else if (value == TimeUnit.MINUTES.ordinal()) {
             return TimeUnit.MINUTES;
         } else {
-            throw new RuntimeException("Unknown time unit value '" + value
-                    + "'");
+            throw new RuntimeException(
+                    "Unknown time unit value '" + value + "'");
         }
     }
 
@@ -280,7 +283,8 @@ public class PreferencesInputValidator {
         } else if (str.equals(minutes.toUpperCase())) {
             return TimeUnit.MINUTES.ordinal();
         } else {
-            throw new RuntimeException("Unknown time unit string '" + str + "'");
+            throw new RuntimeException(
+                    "Unknown time unit string '" + str + "'");
         }
     }
 
@@ -290,8 +294,8 @@ public class PreferencesInputValidator {
         } else if (value == TimeUnit.MINUTES.ordinal()) {
             return TimeUnit.MINUTES.name();
         } else {
-            throw new RuntimeException("Unknown time unit value '" + value
-                    + "'");
+            throw new RuntimeException(
+                    "Unknown time unit value '" + value + "'");
         }
     }
 

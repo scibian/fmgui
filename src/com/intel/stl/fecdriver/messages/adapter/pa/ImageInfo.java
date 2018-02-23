@@ -24,6 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.pa;
 
 import com.intel.stl.api.performance.ImageIdBean;
@@ -34,9 +35,11 @@ import com.intel.stl.common.StringUtils;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAccess/Common/Inc/stl_pa.h v1.55
- *
  * <pre>
+ * ref: /ALL_EMB/IbAccess/Common/Inc/stl_pa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  *  typedef struct _STL_SMINFO_DATA {
  * [4] 	STL_LID_32				lid;
  * [5] 	IB_BITFIELD2(uint8,
@@ -48,7 +51,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * [80] 	char					smNodeDesc[64]; // can be 64 char w/o \0
  *  } PACK_SUFFIX STL_SMINFO_DATA;
  *
- *  typedef struct _STL_IMAGE_INFO_DATA {
+ *  typedef struct _STL_PA_IMAGE_INFO_DATA {
  * [16] 	STL_PA_IMAGE_ID_DATA	imageId;
  * [24] 	uint64					sweepStart;
  * [28] 	uint32					sweepDuration;
@@ -59,19 +62,22 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * [40] 	uint32					numSwitchPorts;
  * [44] 	uint32					numLinks;
  * [48] 	uint32					numSMs;
- * [52] 	uint32					numFailedNodes;
- * [56] 	uint32					numFailedPorts;
+ * [52] 	uint32					numNoRespNodes;
+ * [56] 	uint32					numNoRespPorts;
  * [60] 	uint32					numSkippedNodes;
  * [64] 	uint32					numSkippedPorts;
  * [68] 	uint32					numUnexpectedClearPorts;
  * [72] 	uint32					imageInterval;
  * [232] 	STL_SMINFO_DATA			SMInfo[2];
- *  } PACK_SUFFIX STL_IMAGE_INFO_DATA;
+ *  } PACK_SUFFIX STL_PA_IMAGE_INFO_DATA;
  *
  *  typedef struct _STL_PA_Image_ID_Data {
  *  	uint64					imageNumber;
  *  	int32					imageOffset;
- *  	uint32					reserved;
+ *      union {
+ *          uint32              absoluteTime;
+ *          int32               timeOffset;
+ *      }
  *  } PACK_SUFFIX STL_PA_IMAGE_ID_DATA;
  * </pre>
  *
@@ -116,7 +122,8 @@ public class ImageInfo extends SimpleDatagram<ImageInfoBean> {
     public ImageInfoBean toObject() {
         buffer.clear();
         ImageInfoBean bean = new ImageInfoBean();
-        bean.setImageId(new ImageIdBean(buffer.getLong(), buffer.getInt()));
+        bean.setImageId(new ImageIdBean(buffer.getLong(), buffer.getInt(),
+                buffer.getInt()));
         buffer.position(16);
         bean.setSweepStart(buffer.getLong());
         bean.setSweepDuration(buffer.getInt());
@@ -127,8 +134,8 @@ public class ImageInfo extends SimpleDatagram<ImageInfoBean> {
         bean.setNumSwitchPorts(buffer.getInt());
         bean.setNumLinks(buffer.getInt());
         bean.setNumSMs(buffer.getInt());
-        bean.setNumFailedNodes(buffer.getInt());
-        bean.setNumFailedPorts(buffer.getInt());
+        bean.setNumNoRespNodes(buffer.getInt());
+        bean.setNumNoRespPorts(buffer.getInt());
         bean.setNumSkippedNodes(buffer.getInt());
         bean.setNumSkippedPorts(buffer.getInt());
         bean.setNumUnexpectedClearPorts(buffer.getInt());

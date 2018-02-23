@@ -59,13 +59,13 @@ public class GroupInfoBean implements ITimestamped, Serializable {
 
     private UtilStatsBean recvUtilStats;
 
-    private ErrSummaryBean internalErrorMaximums;
+    private CategorySummaryBean internalCategoryMaximums;
 
-    private List<ErrBucketBean> internalErrorPorts;
+    private List<CategoryBucketBean> internalCategoryStatPorts;
 
-    private ErrSummaryBean externalErrorMaximums;
+    private CategorySummaryBean externalCategoryMaximums;
 
-    private List<ErrBucketBean> externalErrorPorts;
+    private List<CategoryBucketBean> externalCategoryStatPorts;
 
     private byte maxInternalRate;
 
@@ -134,6 +134,7 @@ public class GroupInfoBean implements ITimestamped, Serializable {
      * @param sweepTimestamp
      *            the sweepTimestamp to set
      */
+    @Override
     public void setTimestamp(long sweepTimestamp) {
         this.timestamp = sweepTimestamp;
     }
@@ -161,6 +162,7 @@ public class GroupInfoBean implements ITimestamped, Serializable {
      * @param imageInterval
      *            the imageInterval to set
      */
+    @Override
     public void setImageInterval(int imageInterval) {
         this.imageInterval = imageInterval;
     }
@@ -259,100 +261,112 @@ public class GroupInfoBean implements ITimestamped, Serializable {
     /**
      * @return the internalErrors
      */
-    public ErrStatBean getInternalErrors() {
-        ErrStatBean internalErrors = new ErrStatBean();
-        internalErrors.setErrorMaximums(internalErrorMaximums);
+    public CategoryStatBean getInternalCategoryStats() {
+        CategoryStatBean internalCategoryStats = new CategoryStatBean();
+        internalCategoryStats.setCategoryMaximums(internalCategoryMaximums);
 
-        internalErrors.setPorts(getInternalErrorPortsAsArray());
-        return internalErrors;
+        internalCategoryStats.setPorts(getInternalCategoryStatPortsAsArray());
+        return internalCategoryStats;
     }
 
     /**
-     * @param internalErrors
-     *            the internalErrors to set
+     * @param internalCategoryStats
+     *            the internalCategoryStats to set
      */
-    public void setInternalErrors(ErrStatBean internalErrors) {
-        this.internalErrorMaximums = internalErrors.getErrorMaximums();
-        setInternalErrorPorts(internalErrors.getPorts());
+    public void setInternalCategoryStats(
+            CategoryStatBean internalCategoryStats) {
+        this.internalCategoryMaximums =
+                internalCategoryStats.getCategoryMaximums();
+        setInternalCategoryStatPorts(internalCategoryStats.getPorts());
     }
 
-    public ErrSummaryBean getInternalErrorMaximums() {
-        return internalErrorMaximums;
+    public CategorySummaryBean getInternalCategoryMaximums() {
+        return internalCategoryMaximums;
     }
 
-    public void setInternalErrorMaximums(ErrSummaryBean internalErrorMaximums) {
-        this.internalErrorMaximums = internalErrorMaximums;
+    public void setInternalCategoryMaximums(
+            CategorySummaryBean internalCategoryMaximums) {
+        this.internalCategoryMaximums = internalCategoryMaximums;
     }
 
-    public ErrBucketBean[] getInternalErrorPortsAsArray() {
-        if (internalErrorPorts == null) {
-            internalErrorPorts = new ArrayList<ErrBucketBean>();
+    public CategoryBucketBean[] getInternalCategoryStatPortsAsArray() {
+        if (internalCategoryStatPorts == null) {
+            internalCategoryStatPorts = new ArrayList<CategoryBucketBean>();
         }
-        ErrBucketBean[] ebArray = new ErrBucketBean[internalErrorPorts.size()];
-        return internalErrorPorts.toArray(ebArray);
+        CategoryBucketBean[] ebArray =
+                new CategoryBucketBean[internalCategoryStatPorts.size()];
+        return internalCategoryStatPorts.toArray(ebArray);
     }
 
-    public void setInternalErrorPorts(ErrBucketBean[] internalErrorPorts) {
-        List<ErrBucketBean> ebList =
-                new ArrayList<ErrBucketBean>(Arrays.asList(internalErrorPorts));
-        this.internalErrorPorts = ebList;
+    public void setInternalCategoryStatPorts(
+            CategoryBucketBean[] internalCategoryStatPorts) {
+        List<CategoryBucketBean> ebList = new ArrayList<CategoryBucketBean>(
+                Arrays.asList(internalCategoryStatPorts));
+        this.internalCategoryStatPorts = ebList;
     }
 
-    public List<ErrBucketBean> getInternalErrorPorts() {
-        return internalErrorPorts;
+    public List<CategoryBucketBean> getInternalCategoryStatPorts() {
+        return internalCategoryStatPorts;
     }
 
-    public void setInternalErrorPorts(List<ErrBucketBean> internalErrorPorts) {
-        this.internalErrorPorts = internalErrorPorts;
-    }
-
-    /**
-     * @return the externalErrors
-     */
-    public ErrStatBean getExternalErrors() {
-        ErrStatBean externalErrors = new ErrStatBean();
-        externalErrors.setErrorMaximums(externalErrorMaximums);
-        externalErrors.setPorts(getExternalErrorPortsAsArray());
-        return externalErrors;
+    public void setInternalCategoryStatPorts(
+            List<CategoryBucketBean> internalCategoryStatPorts) {
+        this.internalCategoryStatPorts = internalCategoryStatPorts;
     }
 
     /**
-     * @param externalErrors
-     *            the externalErrors to set
+     * @return the externalCategoryStats
      */
-    public void setExternalErrors(ErrStatBean externalErrors) {
-        this.externalErrorMaximums = externalErrors.getErrorMaximums();
-        setExternalErrorPorts(externalErrors.getPorts());
+    public CategoryStatBean getExternalCategoryStats() {
+        CategoryStatBean externalCategoryStats = new CategoryStatBean();
+        externalCategoryStats.setCategoryMaximums(externalCategoryMaximums);
+        externalCategoryStats.setPorts(getExternalCategoryStatPortsAsArray());
+        return externalCategoryStats;
     }
 
-    public ErrSummaryBean getExternalErrorMaximums() {
-        return externalErrorMaximums;
+    /**
+     * @param externalCategoryStats
+     *            the externalCategoryStats to set
+     */
+    public void setExternalCategoryStats(
+            CategoryStatBean externalCategoryStats) {
+        this.externalCategoryMaximums =
+                externalCategoryStats.getCategoryMaximums();
+        setExternalCategoryStatPorts(externalCategoryStats.getPorts());
     }
 
-    public void setExternalErrorMaximums(ErrSummaryBean externalErrorMaximums) {
-        this.externalErrorMaximums = externalErrorMaximums;
+    public CategorySummaryBean getExternalCategoryMaximums() {
+        return externalCategoryMaximums;
     }
 
-    public ErrBucketBean[] getExternalErrorPortsAsArray() {
-        if (externalErrorPorts == null) {
-            externalErrorPorts = new ArrayList<ErrBucketBean>();
+    public void setExternalCategoryMaximums(
+            CategorySummaryBean externalCategoryMaximums) {
+        this.externalCategoryMaximums = externalCategoryMaximums;
+    }
+
+    public CategoryBucketBean[] getExternalCategoryStatPortsAsArray() {
+        if (externalCategoryStatPorts == null) {
+            externalCategoryStatPorts = new ArrayList<CategoryBucketBean>();
         }
-        ErrBucketBean[] ebArray = new ErrBucketBean[externalErrorPorts.size()];
-        return externalErrorPorts.toArray(ebArray);
+        CategoryBucketBean[] ebArray =
+                new CategoryBucketBean[externalCategoryStatPorts.size()];
+        return externalCategoryStatPorts.toArray(ebArray);
     }
 
-    public void setExternalErrorPorts(ErrBucketBean[] externalErrorPorts) {
-        List<ErrBucketBean> ebList =
-                new ArrayList<ErrBucketBean>(Arrays.asList(externalErrorPorts));
-        this.externalErrorPorts = ebList;
+    public void setExternalCategoryStatPorts(
+            CategoryBucketBean[] externalErrorPorts) {
+        List<CategoryBucketBean> ebList = new ArrayList<CategoryBucketBean>(
+                Arrays.asList(externalErrorPorts));
+        this.externalCategoryStatPorts = ebList;
     }
 
-    public List<ErrBucketBean> getExternalErrorPorts() {
-        return externalErrorPorts;
+    public List<CategoryBucketBean> getExternalCategoryStatPorts() {
+        return externalCategoryStatPorts;
     }
 
-    public void setExternalErrorPorts(List<ErrBucketBean> externalErrorPorts) {
-        this.externalErrorPorts = externalErrorPorts;
+    public void setExternalCategoryStatPorts(
+            List<CategoryBucketBean> externalCategoryStatPorts) {
+        this.externalCategoryStatPorts = externalCategoryStatPorts;
     }
 
     /**
@@ -506,13 +520,13 @@ public class GroupInfoBean implements ITimestamped, Serializable {
                 + ", numExternalPorts=" + numExternalPorts
                 + ", internalUtilStats=" + internalUtilStats
                 + ", sendUtilStats=" + sendUtilStats + ", recvUtilStats="
-                + recvUtilStats + ", internalErrors=" + getInternalErrors()
-                + ", externalErrors=" + getExternalErrors()
-                + ", maxInternalRate=" + maxInternalRate + ", minInternalRate="
-                + minInternalRate + ", maxExternalRate=" + maxExternalRate
-                + ", minExternalRate=" + minExternalRate + ", maxInternalMBps="
-                + maxInternalMBps + ", maxExternalMBps=" + maxExternalMBps
-                + "]";
+                + recvUtilStats + ", internalCategoryStats="
+                + getInternalCategoryStats() + ", externalCategoryStats="
+                + getExternalCategoryStats() + ", maxInternalRate="
+                + maxInternalRate + ", minInternalRate=" + minInternalRate
+                + ", maxExternalRate=" + maxExternalRate + ", minExternalRate="
+                + minExternalRate + ", maxInternalMBps=" + maxInternalMBps
+                + ", maxExternalMBps=" + maxExternalMBps + "]";
     }
 
 }

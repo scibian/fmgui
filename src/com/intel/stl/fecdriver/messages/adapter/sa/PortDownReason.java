@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -31,9 +31,11 @@ import com.intel.stl.api.subnet.PortDownReasonBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref /ALL_EMB/IbAcess/Common/Inc/stl_sa.h v1.92
- * 
  * <pre>
+ * ref /ALL_EMB/IbAcess/Common/Inc/stl_sa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  * typedef struct {
  *     uint8 Reserved[6];
  *     uint8 NeighborLinkDownReason;
@@ -46,7 +48,7 @@ public class PortDownReason extends SimpleDatagram<PortDownReasonBean> {
 
     /**
      * Description:
-     * 
+     *
      * @param length
      */
     public PortDownReason() {
@@ -55,16 +57,15 @@ public class PortDownReason extends SimpleDatagram<PortDownReasonBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.fecdriver.messages.adapter.SimpleDatagram#toObject()
      */
     @Override
     public PortDownReasonBean toObject() {
         buffer.clear();
         buffer.position(6);
-        PortDownReasonBean bean =
-                new PortDownReasonBean(buffer.get(), buffer.get(),
-                        buffer.getLong());
+        PortDownReasonBean bean = new PortDownReasonBean(buffer.get(),
+                buffer.get(), buffer.getLong());
         return bean;
     }
 

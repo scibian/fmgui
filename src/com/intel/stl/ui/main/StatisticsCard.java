@@ -129,12 +129,12 @@ public class StatisticsCard
         }
 
         int totalNodes = sta.getNumNodes();
-        nodesController.setStates(totalNodes, sta.getNumFailedNodes(),
+        nodesController.setStates(totalNodes, sta.getNumNoRespNodes(),
                 sta.getNumSkippedNodes());
         nodesController.setTypes(totalNodes, sta.getNodeTypesDist());
 
         long totalPorts = sta.getNumActivePorts();
-        portsController.setStates(totalPorts, sta.getNumFailedPorts(),
+        portsController.setStates(totalPorts, sta.getNumNoRespPorts(),
                 sta.getNumSkippedPorts());
         portsController.setTypes(totalPorts, sta.getPortTypesDist());
 

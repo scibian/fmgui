@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,6 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.pa;
 
 import com.intel.stl.api.performance.ImageIdBean;
@@ -33,9 +34,11 @@ import com.intel.stl.common.StringUtils;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAccess/Common/Inc/stl_pa.h v1.52
- * 
  * <pre>
+ * ref: /ALL_EMB/IbAccess/Common/Inc/stl_pa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  *  typedef struct _STL_PA_VF_PORT_COUNTERS_DATA {
  * [4]     uint32              nodeLid;
  * [5]     uint8               portNumber;
@@ -61,14 +64,17 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * [216]   uint64              portVFRcvBubble;
  * [224]   uint64              portVFMarkFECN;
  *  } PACK_SUFFIX STL_PA_VF_PORT_COUNTERS_DATA;
- *  
+ *
  *  typedef struct _STL_PA_Image_ID_Data {
  * [8] 	uint64					imageNumber;
- * [12] 	int32					imageOffset;
- * [16] 	uint32					reserved;
+ * [12] int32					imageOffset;
+ * [16] union {
+ *          uint32              absoluteTime;
+ *          int32               timeOffset;
+ *      }
  *  } PACK_SUFFIX STL_PA_IMAGE_ID_DATA;
  * </pre>
- * 
+ *
  */
 public class VFPortCounters extends SimpleDatagram<VFPortCountersBean> {
 
@@ -111,7 +117,7 @@ public class VFPortCounters extends SimpleDatagram<VFPortCountersBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
      */
     @Override
@@ -126,7 +132,8 @@ public class VFPortCounters extends SimpleDatagram<VFPortCountersBean> {
                 buffer.arrayOffset() + VFNAME_OFFSET,
                 PAConstants.STL_PM_VFNAMELEN));
         buffer.position(IMAGEID_OFFSET);
-        bean.setImageId(new ImageIdBean(buffer.getLong(), buffer.getInt()));
+        bean.setImageId(new ImageIdBean(buffer.getLong(), buffer.getInt(),
+                buffer.getInt()));
         buffer.position(COUNTERS_OFFSET);
         bean.setPortVFXmitData(buffer.getLong());
         bean.setPortVFRcvData(buffer.getLong());

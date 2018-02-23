@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -38,26 +38,26 @@ import com.intel.stl.api.notice.TrapSysguidBean;
 import com.intel.stl.api.subnet.GIDBean;
 import com.intel.stl.fecdriver.messages.adapter.sa.GID;
 
+/**
+ * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit a86e948b247e4d9fd98434e350b00f112ba93c39
+ * date 2017-08-16 10:28:01
+ *
+ * typedef struct {
+ *     IB_GID      Gid;
+ * } PACK_SUFFIX STL_TRAP_GID;
+ *
+ * #define STL_TRAP_GID_NOW_IN_SERVICE_DATA STL_TRAP_GID
+ * #define STL_TRAP_GID_OUT_OF_SERVICE_DATA STL_TRAP_GID
+ * #define STL_TRAP_GID_ADD_MULTICAST_GROUP_DATA STL_TRAP_GID
+ * #define STL_TRAP_GID_DEL_MULTICAST_GROUP_DATA STL_TRAP_GID
+ * </pre>
+ *
+ * @param data
+ * @return
+ */
 public class TrapDetail {
-    /**
-     * Description:
-     * 
-     * <pre>
-     * ref:/ALL_EMB/IbAcess/Common/Inc/stl_sm.h v1.115
-     * 
-     * typedef struct {
-     *     IB_GID      Gid;
-     * } PACK_SUFFIX STL_TRAP_GID;
-     * 
-     * #define STL_TRAP_GID_NOW_IN_SERVICE_DATA STL_TRAP_GID
-     * #define STL_TRAP_GID_OUT_OF_SERVICE_DATA STL_TRAP_GID
-     * #define STL_TRAP_GID_ADD_MULTICAST_GROUP_DATA STL_TRAP_GID
-     * #define STL_TRAP_GID_DEL_MULTICAST_GROUP_DATA STL_TRAP_GID
-     * </pre>
-     * 
-     * @param data
-     * @return
-     */
     public static GIDBean getGID(byte[] data) {
         GID.Global gid = new GID.Global();
         gid.wrap(data, 0);
@@ -66,15 +66,15 @@ public class TrapDetail {
 
     /**
      * Description:
-     * 
+     *
      * <pre>
      * ref:/ALL_EMB/IbAcess/Common/Inc/stl_sm.h
-     * 
+     *
      * typedef struct {
      *     uint32      Lid;
      * } PACK_SUFFIX STL_TRAP_PORT_CHANGE_STATE_DATA;
      * </pre>
-     * 
+     *
      * @param data
      * @return
      */
@@ -97,16 +97,16 @@ public class TrapDetail {
 
     /**
      * Description:
-     * 
+     *
      * <pre>
      * ref:/ALL_EMB/IbAcess/Common/Inc/stl_sm.h
-     * 
+     *
      * typedef struct {
      *     uint64      SystemImageGuid;
      *     uint32      Lid;
      * } PACK_SUFFIX STL_TRAP_SYSGUID_CHANGE_DATA;
      * </pre>
-     * 
+     *
      * @param data
      * @return
      */
@@ -135,18 +135,18 @@ public class TrapDetail {
     }
 
     /**
-     * 
+     *
      * Description:
-     * 
+     *
      * <pre>
      * ref:/ALL_EMB/IbAcess/Common/Inc/stl_sm.h
-     * 
-     * LinkWidth of at least one port of switch at <ReportingLID> has changed 
+     *
+     * LinkWidth of at least one port of switch at <ReportingLID> has changed
      * typedef struct {
-     *     uint32  ReportingLID;           
+     *     uint32  ReportingLID;
      * } PACK_SUFFIX STL_SMA_TRAP_DATA_LINK_WIDTH;
      * </pre>
-     * 
+     *
      * @param data
      * @return
      */

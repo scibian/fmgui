@@ -27,7 +27,7 @@
 
 package com.intel.stl.ui.performance.observer;
 
-import com.intel.stl.api.performance.ErrStatBean;
+import com.intel.stl.api.performance.CategoryStatBean;
 import com.intel.stl.api.performance.GroupInfoBean;
 import com.intel.stl.api.performance.UtilStatsBean;
 import com.intel.stl.api.performance.VFInfoBean;
@@ -92,15 +92,15 @@ public abstract class AbstractDataObserver<E, I extends IPerformanceItem<?>>
         throw new UnsupportedOperationException("Unknown Type " + type);
     }
 
-    protected ErrStatBean[] getErrStatBeans(GroupInfoBean bean, DataType type) {
+    protected CategoryStatBean[] getCategoryStatBeans(GroupInfoBean bean, DataType type) {
         switch (type) {
             case INTERNAL:
-                return new ErrStatBean[] { bean.getInternalErrors() };
+                return new CategoryStatBean[] { bean.getInternalCategoryStats() };
             case EXTERNAL:
-                return new ErrStatBean[] { bean.getExternalErrors() };
+                return new CategoryStatBean[] { bean.getExternalCategoryStats() };
             case ALL:
-                return new ErrStatBean[] { bean.getInternalErrors(),
-                        bean.getExternalErrors() };
+                return new CategoryStatBean[] { bean.getInternalCategoryStats(),
+                        bean.getExternalCategoryStats() };
             case TRANSMIT:
             case RECEIVE:
                 throw new IllegalArgumentException("Unsupported Type " + type);
@@ -121,11 +121,11 @@ public abstract class AbstractDataObserver<E, I extends IPerformanceItem<?>>
         throw new UnsupportedOperationException("Unknown Type " + type);
     }
 
-    protected ErrStatBean[] getErrStatBeans(VFInfoBean bean, DataType type) {
+    protected CategoryStatBean[] getCategoryStatBeans(VFInfoBean bean, DataType type) {
         switch (type) {
             case INTERNAL:
             case ALL:
-                return new ErrStatBean[] { bean.getInternalErrors() };
+                return new CategoryStatBean[] { bean.getInternalCategoryStats() };
             case TRANSMIT:
             case RECEIVE:
             case EXTERNAL:

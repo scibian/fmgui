@@ -134,6 +134,10 @@ public class PreferencesWizardView extends AbstractTaskView
 
     private JScrollPane scrollPane;
 
+    // This field is used to handle the special case where the list is deleted
+    // and the change is not detected
+    private String initialEmailList;
+
     public PreferencesWizardView(IWizardView wizardViewListener) {
 
         super("");
@@ -281,13 +285,12 @@ public class PreferencesWizardView extends AbstractTaskView
         JLabel lblSeconds = ComponentFactory
                 .getH5Label(STLConstants.K0012_SECONDS.getValue(), Font.BOLD);
 
-        txtFldNumWorstNodes =
-                new SafeNumberField<Integer>(new DecimalFormat("###"),
-                        PreferencesInputValidator.getInstance()
-                                .getMinNumWorstNode(),
-                        true, PreferencesInputValidator.getInstance()
-                                .getMaxNumWorstNode(),
-                        true);
+        txtFldNumWorstNodes = new SafeNumberField<Integer>(
+                new DecimalFormat("###"),
+                PreferencesInputValidator.getInstance().getMinNumWorstNode(),
+                true,
+                PreferencesInputValidator.getInstance().getMaxNumWorstNode(),
+                true);
         txtFldNumWorstNodes.setName(WidgetName.SW_P_NUM_WORST_NODES.name());
         JLabel lblNumWorstNodes = ComponentFactory.getH5Label(
                 STLConstants.K3009_NUM_WORST_NODES.getValue(), Font.BOLD);
@@ -465,6 +468,10 @@ public class PreferencesWizardView extends AbstractTaskView
                 public void removeUpdate(DocumentEvent e) {
                     super.removeUpdate(e);
                     checkEmailLabel(e);
+                    String emailList = getEmailList();
+                    if (!emailList.equals(initialEmailList)) {
+                        doOnEdit(e);
+                    }
                 }
 
                 @Override
@@ -624,8 +631,12 @@ public class PreferencesWizardView extends AbstractTaskView
             txtFldNumWorstNodes
                     .setText(preferences.getProperty(PROPERTY_NUM_WORST_NODES));
 
-            emailListArea
-                    .setText(preferences.getProperty(PROPERTY_MAIL_RECIPIENTS));
+            initialEmailList =
+                    preferences.getProperty(PROPERTY_MAIL_RECIPIENTS);
+            if (initialEmailList == null) {
+                initialEmailList = "";
+            }
+            emailListArea.setText(initialEmailList);
             emailTestBtn.setEnabled(preferences
                     .getProperty(PROPERTY_MAIL_RECIPIENTS).length() > 0);
 
@@ -666,8 +677,7 @@ public class PreferencesWizardView extends AbstractTaskView
      */
     @Override
     public void setSubnet(SubnetDescription subnet) {
-        // TODO Auto-generated method stub
-
+        // Not used
     }
 
     /*
@@ -734,8 +744,8 @@ public class PreferencesWizardView extends AbstractTaskView
                 preferencesModel = model.getPreferencesModel();
 
                 try {
-                    Integer refreshRate = Integer.valueOf(
-                            preferencesModel.getRefreshRate());
+                    Integer refreshRate =
+                            Integer.valueOf(preferencesModel.getRefreshRate());
                     addCBoxItem(refreshRate, cboxRefreshRate);
                     cboxRefreshRate.setSelectedItem(refreshRate);
                 } catch (NumberFormatException nfe) {

@@ -154,7 +154,7 @@ public class PerformanceChartsCreator implements IChartCreator {
             UtilDataset ud = (UtilDataset) dataset;
             JFreeChart chart = ComponentFactory.createUtilXYTrendChart(
                     STLConstants.K0035_TIME.getValue(),
-                    STLConstants.K0040_MBPS.getValue(), ud.getUtilDataset(),
+                    STLConstants.K0066_KPPS.getValue(), ud.getUtilDataset(),
                     ud.getPmaDataset(), ud.getTopoDataset(), true);
             return chart;
         } else {

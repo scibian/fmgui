@@ -47,7 +47,7 @@ public class VFInfoBean implements ITimestamped, Serializable {
 
     private UtilStatsBean internalUtilStats;
 
-    private ErrStatBean internalErrors;
+    private CategoryStatBean internalCategoryStats;
 
     private byte maxInternalRate;
 
@@ -133,18 +133,19 @@ public class VFInfoBean implements ITimestamped, Serializable {
     }
 
     /**
-     * @return the internalErrors
+     * @return the internalCategoryStats
      */
-    public ErrStatBean getInternalErrors() {
-        return internalErrors;
+    public CategoryStatBean getInternalCategoryStats() {
+        return internalCategoryStats;
     }
 
     /**
-     * @param internalErrors
-     *            the internalErrors to set
+     * @param internalCategoryStats
+     *            the internalCategoryStats to set
      */
-    public void setInternalErrors(ErrStatBean internalErrors) {
-        this.internalErrors = internalErrors;
+    public void setInternalCategoryStats(
+            CategoryStatBean internalCategoryStats) {
+        this.internalCategoryStats = internalCategoryStats;
     }
 
     /**
@@ -301,8 +302,8 @@ public class VFInfoBean implements ITimestamped, Serializable {
     public String toString() {
         return "VFInfoBean [vfName=" + vfName + ", imageId=" + imageId
                 + ", numPorts=" + numPorts + ", internalUtilStats="
-                + internalUtilStats + ", internalErrors=" + internalErrors
-                + ", maxInternalRate="
+                + internalUtilStats + ", internalCategoryStats="
+                + internalCategoryStats + ", maxInternalRate="
                 + StringUtils.byteHexString(maxInternalRate)
                 + ", minInternalRate="
                 + StringUtils.byteHexString(minInternalRate)

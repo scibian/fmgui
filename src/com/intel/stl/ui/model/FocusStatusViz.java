@@ -31,48 +31,47 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.intel.stl.api.configuration.FocusFlag;
+import com.intel.stl.api.configuration.FocusStatus;
 import com.intel.stl.ui.common.STLConstants;
 import com.intel.stl.ui.common.UIConstants;
 
-public enum FocusFlagViz {
-    OK(FocusFlag.OK, STLConstants.K0645_OK.getValue(),
+public enum FocusStatusViz {
+    OK(FocusStatus.OK, STLConstants.K0645_OK.getValue(),
             UIConstants.INTEL_DARK_GRAY),
-    PMA_IGNORE(FocusFlag.PMA_IGNORE, STLConstants.K0212_PMA_IGNORE.getValue(),
+    PMA_IGNORE(FocusStatus.PMA_IGNORE, STLConstants.K0212_PMA_IGNORE.getValue(),
             UIConstants.INTEL_BLUE),
-    PMA_NORESP(FocusFlag.PMA_NORESP,
-            STLConstants.K0213_PMA_NORESP.getValue(),
+    PMA_NORESP(FocusStatus.PMA_NORESP, STLConstants.K0213_PMA_NORESP.getValue(),
             UIConstants.INTEL_DARK_YELLOW),
-    TOPO_NORESP(FocusFlag.TOPO_NORESP,
+    TOPO_NORESP(FocusStatus.TOPO_NORESP,
             STLConstants.K0214_TOPO_NORESP.getValue(),
             UIConstants.INTEL_DARK_RED);
 
-    private static final Map<Byte, FocusFlagViz> focusFlagMap =
-            new HashMap<Byte, FocusFlagViz>();
+    private static final Map<Byte, FocusStatusViz> focusStatusMap =
+            new HashMap<Byte, FocusStatusViz>();
 
     static {
-        for (FocusFlagViz ffv : FocusFlagViz.values()) {
-            focusFlagMap.put(ffv.flag.getCode(), ffv);
+        for (FocusStatusViz ffv : FocusStatusViz.values()) {
+            focusStatusMap.put(ffv.status.getCode(), ffv);
         }
     };
 
-    private final FocusFlag flag;
+    private final FocusStatus status;
 
     private final String value;
 
     private final Color color;
 
-    private FocusFlagViz(FocusFlag flag, String value, Color color) {
-        this.flag = flag;
+    private FocusStatusViz(FocusStatus status, String value, Color color) {
+        this.status = status;
         this.value = value;
         this.color = color;
     }
 
     /**
-     * @return the flag
+     * @return the status
      */
-    public FocusFlag getFlag() {
-        return flag;
+    public FocusStatus getStatus() {
+        return status;
     }
 
     /**
@@ -89,10 +88,11 @@ public enum FocusFlagViz {
         return color;
     }
 
-    public static FocusFlagViz getFocusFlagViz(byte flag) {
-        FocusFlagViz res = focusFlagMap.get(flag);
+    public static FocusStatusViz getFocusStatusViz(byte status) {
+        FocusStatusViz res = focusStatusMap.get(status);
         if (res == null) {
-            throw new IllegalArgumentException("Unknow flag '" + flag + "'!");
+            throw new IllegalArgumentException(
+                    "Unknow status '" + status + "'!");
         }
         return res;
     }

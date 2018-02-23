@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,11 +33,13 @@ import com.intel.stl.api.notice.VendorNoticeAttrBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/stl_mad.h v1.19
- * 
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_mad_types.h
+ * commit c7cf5c3fc444b3b2a9134fb512994f52966cfc2f
+ * date 2017-07-12 13:28:36
+ *
  *  union {
- *      // Generic Notice attributes 
+ *      // Generic Notice attributes
  *      struct //_GENERIC {
  *          STL_FIELDUNION3(u, 32,
  *              IsGeneric:1,            // RO
@@ -45,8 +47,8 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *              ProducerType:24);       // RO
  *          uint16  TrapNumber;         // RO
  *      } PACK_SUFFIX Generic;
- * 
- *      // Vendor specific Notice attributes 
+ *
+ *      // Vendor specific Notice attributes
  *      struct //_VENDOR {
  *          STL_FIELDUNION3(u, 32,
  *              IsGeneric:1,            // RO
@@ -57,8 +59,8 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *  } PACK_SUFFIX Attributes;
  * </pre>
  */
-public abstract class NoticeAttr<E extends NoticeAttrBean> extends
-        SimpleDatagram<E> {
+public abstract class NoticeAttr<E extends NoticeAttrBean>
+        extends SimpleDatagram<E> {
 
     public NoticeAttr() {
         super(6);
@@ -72,7 +74,7 @@ public abstract class NoticeAttr<E extends NoticeAttrBean> extends
     public static class Generic extends NoticeAttr<GenericNoticeAttrBean> {
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
@@ -91,7 +93,7 @@ public abstract class NoticeAttr<E extends NoticeAttrBean> extends
     public static class Vendor extends NoticeAttr<VendorNoticeAttrBean> {
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override

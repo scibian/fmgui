@@ -2,16 +2,11 @@ Description: Correct path in desktop file.
  fmgui.desktop is used by the X11 desktop to create a menu entry
  for fmgui. This patch provides the correct path to fmgui. It also
  places a newline at the EOF.
- .
- fmgui (10.3.0.0-60-1ifs) UNRELEASED; urgency=medium
- .
-   * Convert to quilt. Corrected version number for upstream.
 Author: Brian T. Smith <bsmith@systemfabricworks.com>
 Forwarded: not-needed
-Last-Update: <2017-06-15>
-
+Last-Update: <2017-12-01>
 ---
-
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- fmgui-10.3.0.0-60.orig/install/fmgui.desktop
 +++ fmgui-10.3.0.0-60/install/fmgui.desktop
 @@ -2,8 +2,8 @@

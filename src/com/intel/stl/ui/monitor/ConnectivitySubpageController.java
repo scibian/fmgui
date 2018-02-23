@@ -150,7 +150,19 @@ public class ConnectivitySubpageController
             case HFI:
                 processHFI(node, observer);
                 break;
+            case ACTIVE_PORT:
+                FVResourceNode parent = node.getParent();
+                String vfName = null;
+                FVResourceNode group = parent.getParent();
+                if (group.getType() == TreeNodeType.VIRTUAL_FABRIC) {
+                    vfName = group.getTitle();
+                }
+                tableController.showConnectivity(node.getParent().getId(),
+                        vfName, observer, (short) node.getId());
+                break;
 
+            case INACTIVE_PORT:
+                break;
             default:
                 break;
         } // switch

@@ -33,7 +33,7 @@ import java.util.Map;
 
 import org.jfree.chart.axis.CategoryAxis;
 
-import com.intel.stl.ui.model.FocusFlagViz;
+import com.intel.stl.ui.model.FocusStatusViz;
 import com.intel.stl.ui.model.PortEntry;
 
 public class PortEntryAxis extends CategoryAxis {
@@ -76,7 +76,7 @@ public class PortEntryAxis extends CategoryAxis {
                 return paint;
             } else if (category instanceof PortEntry) {
                 PortEntry pe = (PortEntry) category;
-                FocusFlagViz ffv = (FocusFlagViz) pe.getObject();
+                FocusStatusViz ffv = (FocusStatusViz) pe.getObject();
                 return ffv.getColor();
             }
         }

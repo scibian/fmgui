@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -36,6 +36,7 @@ import static com.intel.stl.ui.model.DeviceProperty.SMALL_PKT_LIMIT;
 
 import com.intel.stl.api.subnet.FlitControlBean;
 import com.intel.stl.api.subnet.PortInfoBean;
+import com.intel.stl.ui.common.UIConstants;
 import com.intel.stl.ui.model.DevicePropertyCategory;
 
 public class FlitControlPreemptionProcessor extends BaseCategoryProcessor {
@@ -54,17 +55,22 @@ public class FlitControlPreemptionProcessor extends BaseCategoryProcessor {
             getEmptyFlitControlPreemption(category);
             return;
         }
-        addProperty(category, MIN_INITIAL, hex(flitInfo.getMinInitial()));
-        addProperty(category, MIN_TAIL, hex(flitInfo.getMinTail()));
-        addProperty(category, LARGE_PKT_LIMIT, hex(flitInfo.getLargePktLimit()));
-        addProperty(category, SMALL_PKT_LIMIT, hex(flitInfo.getSmallPktLimit()));
+        addProperty(category, MIN_INITIAL,
+                dec(flitInfo.getMinInitial() * UIConstants.BYTE_PER_FLIT));
+        addProperty(category, MIN_TAIL,
+                dec(flitInfo.getMinTail() * UIConstants.BYTE_PER_FLIT));
+        addProperty(category, LARGE_PKT_LIMIT,
+                hex(flitInfo.getLargePktLimit()));
+        addProperty(category, SMALL_PKT_LIMIT,
+                hex(flitInfo.getSmallPktLimit()));
         addProperty(category, MAX_SMALL_PKT_LIMIT,
                 hex(flitInfo.getMaxSmallPktLimit()));
         addProperty(category, PREEMPTION_LIMIT,
                 hex(flitInfo.getPreemptionLimit()));
     }
 
-    private void getEmptyFlitControlPreemption(DevicePropertyCategory category) {
+    private void getEmptyFlitControlPreemption(
+            DevicePropertyCategory category) {
         addProperty(category, MIN_INITIAL, "");
         addProperty(category, MIN_TAIL, "");
         addProperty(category, LARGE_PKT_LIMIT, "");

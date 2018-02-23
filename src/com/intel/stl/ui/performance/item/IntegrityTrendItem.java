@@ -27,7 +27,7 @@
 
 package com.intel.stl.ui.performance.item;
 
-import com.intel.stl.api.performance.ErrStatBean;
+import com.intel.stl.api.performance.CategoryStatBean;
 import com.intel.stl.ui.common.STLConstants;
 import com.intel.stl.ui.performance.GroupSource;
 import com.intel.stl.ui.performance.observer.ErrorDataObserver;
@@ -70,8 +70,8 @@ public class IntegrityTrendItem extends TrendItem<GroupSource> {
         CombinedGroupInfoProvider provider = new CombinedGroupInfoProvider();
         ErrorDataObserver observer = new ErrorDataObserver(this) {
             @Override
-            protected long getValue(ErrStatBean error) {
-                return error.getErrorMaximums().getIntegrityErrors();
+            protected long getValue(CategoryStatBean error) {
+                return error.getCategoryMaximums().getIntegrityErrors();
             }
         };
         registerDataProvider(DataProviderName.PORT_GROUP, provider, observer);
@@ -79,8 +79,8 @@ public class IntegrityTrendItem extends TrendItem<GroupSource> {
         CombinedVFInfoProvider vfProvider = new CombinedVFInfoProvider();
         VFErrorDataObserver vfObserver = new VFErrorDataObserver(this) {
             @Override
-            protected long getValue(ErrStatBean error) {
-                return error.getErrorMaximums().getIntegrityErrors();
+            protected long getValue(CategoryStatBean error) {
+                return error.getCategoryMaximums().getIntegrityErrors();
             }
         };
         registerDataProvider(DataProviderName.VIRTUAL_FABRIC, vfProvider,

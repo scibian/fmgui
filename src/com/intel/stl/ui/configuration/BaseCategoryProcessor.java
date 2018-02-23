@@ -100,6 +100,10 @@ public abstract class BaseCategoryProcessor
         return Long.toString(unsignedValue);
     }
 
+    protected static String dec(long value) {
+        return Long.toString(value);
+    }
+
     protected static String dec(short value) {
         int unsignedValue = value & 0xffff;
         return Integer.toString(unsignedValue);

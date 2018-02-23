@@ -460,6 +460,7 @@ public abstract class AbstractPerformanceItem<S extends ISource>
         for (IDataObserver<?> observer : observers.values()) {
             observer.setType(type);
         }
+        onRefresh(null);
     }
 
     @Override

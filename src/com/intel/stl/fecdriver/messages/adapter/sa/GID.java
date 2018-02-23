@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,6 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.sa;
 
 import java.nio.ByteOrder;
@@ -39,9 +40,11 @@ import com.intel.stl.api.subnet.GIDSiteLocal;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/ib_type.h v1.63
- * 
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/ib_types.h
+ * commit 24edfc87c81e68e0205cf3e95a952b4f627dabe6
+ * date 2017-07-17 08:18:39
+ *
  * typedef union _IB_GID {
  * 	uchar	Raw[16];
  * 	struct {
@@ -71,23 +74,23 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * #if CPU_BE
  * 			struct {
  * 				uint64		FormatPrefix:	10;
- * 				uint64		Reserved:		54;	// Must be zero 
+ * 				uint64		Reserved:		54;	// Must be zero
  * 			} s;
  * 			EUI64		InterfaceID;
  * #else
  * 			EUI64		InterfaceID;
  * 			struct {
- * 				uint64		Reserved:		54;	// Must be zero 
+ * 				uint64		Reserved:		54;	// Must be zero
  * 				uint64		FormatPrefix:	10;
  * 			} s;
  * #endif
  * 		} LinkLocal;
- * 		
+ *
  * 		struct {
  * #if CPU_BE
  * 			struct {
  * 				uint64		FormatPrefix:	10;
- * 				uint64		Reserved:		38;	// Must be zero 
+ * 				uint64		Reserved:		38;	// Must be zero
  * 				uint64		SubnetPrefix:	16;
  * 			} s;
  * 			EUI64		InterfaceID;
@@ -95,12 +98,12 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * 			EUI64		InterfaceID;
  * 			struct {
  * 				uint64		SubnetPrefix:	16;
- * 				uint64		Reserved:		38;	// Must be zero 
+ * 				uint64		Reserved:		38;	// Must be zero
  * 				uint64		FormatPrefix:	10;
  * 			} s;
  * #endif
  * 		} SiteLocal;
- * 		
+ *
  * 		struct {
  * #if CPU_BE
  * 			uint64		SubnetPrefix;
@@ -110,7 +113,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * 			uint64		SubnetPrefix;
  * #endif
  * 		} Global;
- * 		
+ *
  * 		struct {
  * #if CPU_BE
  * 			struct {
@@ -131,7 +134,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * 	} Type;
  * } PACK_SUFFIX IB_GID;
  * </pre>
- * 
+ *
  */
 public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
@@ -206,7 +209,7 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
@@ -253,7 +256,7 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
@@ -303,7 +306,7 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
@@ -318,9 +321,8 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
     public static class SiteLocal extends GID<GIDSiteLocal> {
         // TODO: test it's correct
         public void setFormatPrefix(short prefix) {
-            long old =
-                    getByteOrder() == ByteOrder.BIG_ENDIAN ? buffer.getLong(0)
-                            : buffer.getLong(8);
+            long old = getByteOrder() == ByteOrder.BIG_ENDIAN
+                    ? buffer.getLong(0) : buffer.getLong(8);
             long value = ((prefix & 0x3ffL) << 54) | (old & 0xffff);
             if (getByteOrder() == ByteOrder.BIG_ENDIAN) {
                 buffer.putLong(0, value);
@@ -340,9 +342,8 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
         }
 
         public void setSubnetPrefix(short prefix) {
-            long old =
-                    getByteOrder() == ByteOrder.BIG_ENDIAN ? buffer.getLong(0)
-                            : buffer.getLong(8);
+            long old = getByteOrder() == ByteOrder.BIG_ENDIAN
+                    ? buffer.getLong(0) : buffer.getLong(8);
             long value = (old & 0xffc0000000000000L) | ((long) prefix & 0xffff);
             if (getByteOrder() == ByteOrder.BIG_ENDIAN) {
                 buffer.putLong(0, value);
@@ -379,14 +380,13 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
         public GIDSiteLocal toObject() {
-            GIDSiteLocal bean =
-                    new GIDSiteLocal(getFormatPrefix(), getSubnetPrefix(),
-                            getInterfaceId());
+            GIDSiteLocal bean = new GIDSiteLocal(getFormatPrefix(),
+                    getSubnetPrefix(), getInterfaceId());
             return bean;
         }
 
@@ -444,7 +444,7 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
@@ -455,7 +455,7 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.lang.Object#toString()
          */
         @Override
@@ -470,9 +470,8 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
     public static class Multicast extends GID<GIDMulticast> {
         public void setFormatPrefix(byte prefix) {
-            short old =
-                    getByteOrder() == ByteOrder.BIG_ENDIAN ? buffer.getShort(0)
-                            : buffer.getShort(14);
+            short old = getByteOrder() == ByteOrder.BIG_ENDIAN
+                    ? buffer.getShort(0) : buffer.getShort(14);
             short value = (short) ((prefix << 8) | (old & 0xff));
             if (getByteOrder() == ByteOrder.BIG_ENDIAN) {
                 buffer.putShort(0, value);
@@ -482,16 +481,14 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
         }
 
         public byte getFormatPrefix() {
-            short value =
-                    (getByteOrder() == ByteOrder.BIG_ENDIAN) ? buffer
-                            .getShort(0) : buffer.getShort(14);
+            short value = (getByteOrder() == ByteOrder.BIG_ENDIAN)
+                    ? buffer.getShort(0) : buffer.getShort(14);
             return (byte) (value >>> 8);
         }
 
         public void setFlags(byte flag) {
-            short old =
-                    getByteOrder() == ByteOrder.BIG_ENDIAN ? buffer.getShort(0)
-                            : buffer.getShort(14);
+            short old = getByteOrder() == ByteOrder.BIG_ENDIAN
+                    ? buffer.getShort(0) : buffer.getShort(14);
             short value = (short) ((old & 0xff0f) | (flag << 4));
             if (getByteOrder() == ByteOrder.BIG_ENDIAN) {
                 buffer.putShort(0, value);
@@ -511,9 +508,8 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
         }
 
         public void setScope(byte scope) {
-            short old =
-                    getByteOrder() == ByteOrder.BIG_ENDIAN ? buffer.getShort(0)
-                            : buffer.getShort(14);
+            short old = getByteOrder() == ByteOrder.BIG_ENDIAN
+                    ? buffer.getShort(0) : buffer.getShort(14);
             short value = (short) ((old & 0xfff0) | (scope & 0x0f));
             if (getByteOrder() == ByteOrder.BIG_ENDIAN) {
                 buffer.putShort(0, value);
@@ -548,14 +544,13 @@ public abstract class GID<E extends GIDBean> extends SimpleDatagram<E> {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
          */
         @Override
         public GIDMulticast toObject() {
-            GIDMulticast bean =
-                    new GIDMulticast(getFormatPrefix(), getFlags(), getScope(),
-                            getGroupId());
+            GIDMulticast bean = new GIDMulticast(getFormatPrefix(), getFlags(),
+                    getScope(), getGroupId());
             return bean;
         }
 

@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -56,8 +56,8 @@ import com.intel.stl.ui.monitor.tree.FVTreeModel;
 
 /**
  */
-public abstract class TreeView extends JPanel implements TreeViewInterface,
-        IStack {
+public abstract class TreeView extends JPanel
+        implements TreeViewInterface, IStack {
 
     private static final long serialVersionUID = 849119323304459300L;
 
@@ -80,9 +80,9 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
     private SearchView searchView;
 
     /**
-     * 
+     *
      * Description: Constructor for the TreeView class
-     * 
+     *
      */
     public TreeView(IBackgroundService graphService,
             IBackgroundService outlineService) {
@@ -94,9 +94,9 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
     } // TreeView
 
     /**
-     * 
+     *
      * Description: Initializes the UI components for the tree view
-     * 
+     *
      */
     private void initComponents() {
 
@@ -135,10 +135,10 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
         ScrollPaneLayout spTreeLayout = new ScrollPaneLayout();
         scrpnTree.createHorizontalScrollBar();
         scrpnTree.createVerticalScrollBar();
-        spTreeLayout
-                .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        spTreeLayout
-                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        spTreeLayout.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        spTreeLayout.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrpnTree.getVerticalScrollBar().setUnitIncrement(10);
         scrpnTree.setLayout(spTreeLayout);
 
@@ -220,19 +220,18 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
     }
 
     /**
-     * 
+     *
      * Description: The derived class returns its main component which is put on
      * the right side of the main split pane
-     * 
+     *
      */
     protected abstract JComponent getMainComponent();
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * com.intel.hpc.stl.ui.trees.TreeViewInterface#setViewSize(java.awt.Dimension
-     * )
+     *
+     * @see com.intel.hpc.stl.ui.trees.TreeViewInterface#setViewSize(java.awt.
+     * Dimension )
      */
     @Override
     public void setViewSize(Dimension pSize) {
@@ -241,7 +240,7 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.hpc.stl.ui.trees.TreeViewInterface#getMainPanel()
      */
     @Override
@@ -251,7 +250,7 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.hpc.stl.ui.trees.TreeViewInterface#setTreeModel(com.intel.hpc
      * .stl.ui.trees.TreeTypeEnum, com.intel.hpc.stl.ui.trees.FVResourceNode)
@@ -279,7 +278,8 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
     }
 
     @Override
-    public void setTreeSelection(final TreeTypeEnum pTreeType, final int index) {
+    public void setTreeSelection(final TreeTypeEnum pTreeType,
+            final int index) {
         Util.runInEDT(new Runnable() {
             @Override
             public void run() {
@@ -295,12 +295,13 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
         if (sp != null) {
             return sp;
         } else {
-            throw new IllegalArgumentException("Couldn't find StackPanel for "
-                    + type);
+            throw new IllegalArgumentException(
+                    "Couldn't find StackPanel for " + type);
         }
     }
 
-    public void setTreeSelection(final FVTreeModel model, final TreePath[] paths) {
+    public void setTreeSelection(final FVTreeModel model,
+            final TreePath[] paths) {
         final boolean[] isExpanded = new boolean[paths.length];
         Util.runInEDT(new Runnable() {
             @Override
@@ -358,9 +359,22 @@ public abstract class TreeView extends JPanel implements TreeViewInterface,
         }
     }
 
+    public void ensureSelectionVisible(final FVTreeModel model) {
+        Util.runInEDT(new Runnable() {
+            @Override
+            public void run() {
+                for (StackPanel sp : stackPanels.values()) {
+                    if (sp.getTreeModel() == model) {
+                        sp.ensureSelectionVisible();
+                    }
+                }
+            }
+        });
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.monitor.view.TreeViewInterface#setSelectionMode(int)
      */

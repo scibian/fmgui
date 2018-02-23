@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.tree.TreePath;
-
-import net.engio.mbassy.bus.MBassador;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,9 +61,11 @@ import com.intel.stl.ui.monitor.tree.FVTreeModel;
 import com.intel.stl.ui.network.view.TopologyView;
 import com.intel.stl.ui.publisher.CallbackAdapter;
 
+import net.engio.mbassy.bus.MBassador;
+
 public class TopologyTreeController extends TreeController<TopologyView> {
-    private static final Logger log = LoggerFactory
-            .getLogger(TopologyTreeController.class);
+    private static final Logger log =
+            LoggerFactory.getLogger(TopologyTreeController.class);
 
     private static final boolean DEBUG = true;
 
@@ -79,7 +79,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /**
      * Description:
-     * 
+     *
      * @param pTreeView
      */
     public TopologyTreeController(TopologyView pTreeView,
@@ -92,7 +92,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.monitor.TreeController#setContext(com.intel.stl.ui.main
      * .Context)
@@ -112,7 +112,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.monitor.TreeController#onRefresh(com.intel.stl.ui.common
      * .IProgressObserver)
@@ -179,7 +179,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.monitor.TreeController#showNode(com.intel.stl.ui.monitor
      * .FVResourceNode)
@@ -193,17 +193,16 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see
-     * com.intel.stl.ui.monitor.TreeController#showNodes(com.intel.stl.ui.monitor
-     * .FVResourceNode[])
+     *
+     * @see com.intel.stl.ui.monitor.TreeController#showNodes(com.intel.stl.ui.
+     * monitor .FVResourceNode[])
      */
     @Override
     protected synchronized void showNodes(FVResourceNode[] nodes) {
         if (DEBUG) {
             System.out.println("Current TreeNodes " + Arrays.toString(nodes));
-            System.out.println("Last TreeNodes "
-                    + Arrays.toString(lastTreeSelection));
+            System.out.println(
+                    "Last TreeNodes " + Arrays.toString(lastTreeSelection));
         }
 
         if (nodes == null || nodes.length == 0
@@ -251,7 +250,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
      * <i>Description:</i> to return <code>true</code>, the nodes in
      * <code>nodes1</code> and <code>nodes2</code> shall have the same path and
      * the root needs to be the same instance
-     * 
+     *
      * @param nodes1
      * @param nodes2
      * @return
@@ -274,7 +273,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.monitor.TreeController#getUndoableSelection(com.intel
      * .stl.ui.monitor.TreeSelection, com.intel.stl.ui.monitor.TreeSelection)
@@ -301,7 +300,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.monitor.TreeController#getCurrentNode()
      */
     @Override
@@ -372,6 +371,9 @@ public class TopologyTreeController extends TreeController<TopologyView> {
         for (TreePath path : toCollapse) {
             view.collapseTreePath(getCurrentTreeModel(), path);
         }
+        if (!toCollapse.isEmpty()) {
+            view.ensureSelectionVisible(getCurrentTreeModel());
+        }
     }
 
     protected void selectTreeSelections(FVResourceNode[] nodes) {
@@ -388,7 +390,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /**
      * Description:
-     * 
+     *
      */
     public void clearTreeSelection() {
         view.clearTreeSelection(getCurrentTreeModel());
@@ -405,9 +407,9 @@ public class TopologyTreeController extends TreeController<TopologyView> {
             }
             int lid = node.getLid();
             TreePath path = null;
-            path =
-                    model.getTreePath(lid, node.isEndNode() ? TreeNodeType.HFI
-                            : TreeNodeType.SWITCH, getSearchHint());
+            path = model.getTreePath(lid,
+                    node.isEndNode() ? TreeNodeType.HFI : TreeNodeType.SWITCH,
+                    getSearchHint());
             if (path == null) {
                 log.warn("Couldn't find tree node for node Lid=" + lid);
             } else {
@@ -491,8 +493,8 @@ public class TopologyTreeController extends TreeController<TopologyView> {
             TreePath[] pathArray = new TreePath[paths.size()];
             for (int i = 0; i < paths.size(); i++) {
                 pathArray[i] = paths.get(i);
-                treeNodes.add((FVResourceNode) pathArray[i]
-                        .getLastPathComponent());
+                treeNodes.add(
+                        (FVResourceNode) pathArray[i].getLastPathComponent());
             }
             lastTreeSelection = treeNodes.toArray(new FVResourceNode[0]);
             view.setTreeSelection(model, pathArray);
@@ -530,7 +532,7 @@ public class TopologyTreeController extends TreeController<TopologyView> {
 
     /**
      * <i>Description:</i>
-     * 
+     *
      * @param treeModel
      * @param paths
      * @param expanded

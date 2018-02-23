@@ -36,8 +36,8 @@ import java.util.Map;
 import java.util.Random;
 
 import com.intel.stl.api.IRandomable;
-import com.intel.stl.api.performance.ErrBucketBean;
-import com.intel.stl.api.performance.ErrStatBean;
+import com.intel.stl.api.performance.CategoryBucketBean;
+import com.intel.stl.api.performance.CategoryStatBean;
 import com.intel.stl.api.performance.FocusPortsRspBean;
 import com.intel.stl.api.performance.GroupInfoBean;
 import com.intel.stl.api.performance.ImageInfoBean;
@@ -123,9 +123,9 @@ public class Randomizer implements IRandomable {
         int index = recentImageInfos.indexOf(imageInfo);
         if (index >= 0) {
             ImageInfoBean last = recentImageInfos.get(index);
-            imageInfo.setNumFailedNodes(last.getNumFailedNodes());
+            imageInfo.setNumNoRespNodes(last.getNumNoRespNodes());
             imageInfo.setNumSkippedNodes(last.getNumSkippedNodes());
-            imageInfo.setNumFailedPorts(last.getNumFailedPorts());
+            imageInfo.setNumNoRespPorts(last.getNumNoRespPorts());
             imageInfo.setNumSkippedPorts(last.getNumSkippedPorts());
             return;
         }
@@ -135,13 +135,13 @@ public class Randomizer implements IRandomable {
         }
         recentImageInfos.add(imageInfo);
 
-        imageInfo.setNumFailedNodes(random.nextInt(nodes) / 10);
-        nodes -= imageInfo.getNumFailedNodes();
+        imageInfo.setNumNoRespNodes(random.nextInt(nodes) / 10);
+        nodes -= imageInfo.getNumNoRespNodes();
         imageInfo.setNumSkippedNodes(random.nextInt(nodes) / 10);
 
         long ports = imageInfo.getNumHFIPorts() + imageInfo.getNumSwitchPorts();
-        imageInfo.setNumFailedPorts((long) (random.nextDouble() * ports / 10));
-        ports -= imageInfo.getNumFailedPorts();
+        imageInfo.setNumNoRespPorts((long) (random.nextDouble() * ports / 10));
+        ports -= imageInfo.getNumNoRespPorts();
         imageInfo.setNumSkippedPorts((long) (random.nextDouble() * ports / 10));
 
     }
@@ -158,7 +158,7 @@ public class Randomizer implements IRandomable {
         if (index >= 0) {
             GroupInfoBean last = recentGroupInfos.get(index);
             info.setInternalUtilStats(last.getInternalUtilStats());
-            info.setInternalErrors(last.getInternalErrors());
+            info.setInternalCategoryStats(last.getInternalCategoryStats());
             return;
         }
 
@@ -179,9 +179,9 @@ public class Randomizer implements IRandomable {
             allPacketRate = packetRate;
             if (Math.random() > 0.8) {
                 allPmaFailedPorts = pmaFailedPorts = Math.max(pmaFailedPorts,
-                        internalUtil.getPmaFailedPorts() + random.nextInt(10));
+                        internalUtil.getPmaNoRespPorts() + random.nextInt(10));
                 allTopoFailedPorts = topoFailedPorts = Math.max(topoFailedPorts,
-                        internalUtil.getTopoFailedPorts() + random.nextInt(10));
+                        internalUtil.getTopoIncompPorts() + random.nextInt(10));
             } else {
                 allPmaFailedPorts = pmaFailedPorts = 0;
                 allTopoFailedPorts = topoFailedPorts = 0;
@@ -194,35 +194,35 @@ public class Randomizer implements IRandomable {
         }
         internalUtil.setTotalMBps(bandwidth);
         internalUtil.setTotalKPps(packetRate);
-        internalUtil.setPmaFailedPorts(pmaFailedPorts);
-        internalUtil.setTopoFailedPorts(topoFailedPorts);
+        internalUtil.setPmaNoRespPorts(pmaFailedPorts);
+        internalUtil.setTopoIncompPorts(topoFailedPorts);
 
         randomHistogram(internalUtil.getBwBucketsAsArray());
 
-        ErrStatBean errStat = info.getInternalErrors();
+        CategoryStatBean errStat = info.getInternalCategoryStats();
         if (isAll) {
             congestion = Math.max(congestion,
-                    errStat.getErrorMaximums().getCongestionErrors()
+                    errStat.getCategoryMaximums().getCongestion()
                             + random.nextInt(99));
             allCongestion = congestion;
 
             signalIntegrity = Math.max(signalIntegrity,
-                    errStat.getErrorMaximums().getIntegrityErrors()
+                    errStat.getCategoryMaximums().getIntegrityErrors()
                             + random.nextInt(99));
             allSignalIntegrity = signalIntegrity;
 
             smaCongestion = Math.max(smaCongestion,
-                    errStat.getErrorMaximums().getSmaCongestionErrors()
+                    errStat.getCategoryMaximums().getSmaCongestion()
                             + random.nextInt(99));
             allSmaCongestion = smaCongestion;
 
             security = Math.max(security,
-                    errStat.getErrorMaximums().getSecurityErrors()
+                    errStat.getCategoryMaximums().getSecurityErrors()
                             + random.nextInt(99));
             allSecurity = security;
 
             routing = Math.max(routing,
-                    errStat.getErrorMaximums().getRoutingErrors()
+                    errStat.getCategoryMaximums().getRoutingErrors()
                             + random.nextInt(99));
             allRouting = routing;
         } else {
@@ -232,22 +232,22 @@ public class Randomizer implements IRandomable {
             security = (int) (allSecurity * random.nextDouble());
             routing = (int) (allRouting * random.nextDouble());
         }
-        errStat.getErrorMaximums().setCongestionErrors(congestion);
-        errStat.getErrorMaximums().setIntegrityErrors(signalIntegrity);
-        errStat.getErrorMaximums().setSmaCongestionErrors(smaCongestion);
-        errStat.getErrorMaximums().setSecurityErrors(security);
-        errStat.getErrorMaximums().setRoutingErrors(routing);
+        errStat.getCategoryMaximums().setCongestion(congestion);
+        errStat.getCategoryMaximums().setIntegrityErrors(signalIntegrity);
+        errStat.getCategoryMaximums().setSmaCongestion(smaCongestion);
+        errStat.getCategoryMaximums().setSecurityErrors(security);
+        errStat.getCategoryMaximums().setRoutingErrors(routing);
 
-        ErrBucketBean[] ports = errStat.getPorts();
+        CategoryBucketBean[] ports = errStat.getPorts();
         int[] congestions = new int[ports.length];
         int[] integrities = new int[ports.length];
         int[] smaCongestions = new int[ports.length];
         int[] securities = new int[ports.length];
         int[] routings = new int[ports.length];
         for (int i = 0; i < ports.length; i++) {
-            congestions[i] = ports[i].getCongestionErrors();
+            congestions[i] = ports[i].getCongestion();
             integrities[i] = ports[i].getIntegrityErrors();
-            smaCongestions[i] = ports[i].getSmaCongestionErrors();
+            smaCongestions[i] = ports[i].getSmaCongestion();
             securities[i] = ports[i].getSecurityErrors();
             routings[i] = ports[i].getRoutingErrors();
         }
@@ -257,9 +257,9 @@ public class Randomizer implements IRandomable {
         randomHistogram(securities);
         randomHistogram(routings);
         for (int i = 0; i < ports.length; i++) {
-            ports[i].setCongestionErrors(congestions[i]);
+            ports[i].setCongestion(congestions[i]);
             ports[i].setIntegrityErrors(integrities[i]);
-            ports[i].setSmaCongestionErrors(smaCongestions[i]);
+            ports[i].setSmaCongestion(smaCongestions[i]);
             ports[i].setSecurityErrors(securities[i]);
             ports[i].setRoutingErrors(routings[i]);
         }
@@ -276,7 +276,7 @@ public class Randomizer implements IRandomable {
         if (index >= 0) {
             VFInfoBean last = recentVFInfos.get(index);
             info.setInternalUtilStats(last.getInternalUtilStats());
-            info.setInternalErrors(last.getInternalErrors());
+            info.setInternalCategoryStats(last.getInternalCategoryStats());
             return;
         }
 
@@ -291,45 +291,45 @@ public class Randomizer implements IRandomable {
         internalUtil.setTotalMBps(bandwidth);
         internalUtil.setTotalKPps(packetRate);
         if (Math.random() > 0.8) {
-            internalUtil.setPmaFailedPorts(
-                    internalUtil.getPmaFailedPorts() + random.nextInt(10));
-            internalUtil.setTopoFailedPorts(
-                    internalUtil.getTopoFailedPorts() + random.nextInt(10));
+            internalUtil.setPmaNoRespPorts(
+                    internalUtil.getPmaNoRespPorts() + random.nextInt(10));
+            internalUtil.setTopoIncompPorts(
+                    internalUtil.getTopoIncompPorts() + random.nextInt(10));
         }
 
         randomHistogram(internalUtil.getBwBucketsAsArray());
 
-        ErrStatBean errStat = info.getInternalErrors();
-        long value = errStat.getErrorMaximums().getCongestionErrors()
+        CategoryStatBean errStat = info.getInternalCategoryStats();
+        long value = errStat.getCategoryMaximums().getCongestion()
                 + random.nextInt(99);
-        errStat.getErrorMaximums().setCongestionErrors(value);
+        errStat.getCategoryMaximums().setCongestion(value);
 
-        value = errStat.getErrorMaximums().getIntegrityErrors()
+        value = errStat.getCategoryMaximums().getIntegrityErrors()
                 + random.nextInt(99);
-        errStat.getErrorMaximums().setIntegrityErrors(value);
+        errStat.getCategoryMaximums().setIntegrityErrors(value);
 
-        value = errStat.getErrorMaximums().getSmaCongestionErrors()
+        value = errStat.getCategoryMaximums().getSmaCongestion()
                 + random.nextInt(99);
-        errStat.getErrorMaximums().setSmaCongestionErrors(value);
+        errStat.getCategoryMaximums().setSmaCongestion(value);
 
-        value = errStat.getErrorMaximums().getSecurityErrors()
+        value = errStat.getCategoryMaximums().getSecurityErrors()
                 + random.nextInt(99);
-        errStat.getErrorMaximums().setSecurityErrors(value);
+        errStat.getCategoryMaximums().setSecurityErrors(value);
 
-        value = errStat.getErrorMaximums().getRoutingErrors()
+        value = errStat.getCategoryMaximums().getRoutingErrors()
                 + random.nextInt(99);
-        errStat.getErrorMaximums().setRoutingErrors(value);
+        errStat.getCategoryMaximums().setRoutingErrors(value);
 
-        ErrBucketBean[] ports = errStat.getPorts();
+        CategoryBucketBean[] ports = errStat.getPorts();
         int[] congestions = new int[ports.length];
         int[] integrities = new int[ports.length];
         int[] smaCongestions = new int[ports.length];
         int[] securities = new int[ports.length];
         int[] routings = new int[ports.length];
         for (int i = 0; i < ports.length; i++) {
-            congestions[i] = ports[i].getCongestionErrors();
+            congestions[i] = ports[i].getCongestion();
             integrities[i] = ports[i].getIntegrityErrors();
-            smaCongestions[i] = ports[i].getSmaCongestionErrors();
+            smaCongestions[i] = ports[i].getSmaCongestion();
             securities[i] = ports[i].getSecurityErrors();
             routings[i] = ports[i].getRoutingErrors();
         }
@@ -339,9 +339,9 @@ public class Randomizer implements IRandomable {
         randomHistogram(securities);
         randomHistogram(routings);
         for (int i = 0; i < ports.length; i++) {
-            ports[i].setCongestionErrors(congestions[i]);
+            ports[i].setCongestion(congestions[i]);
             ports[i].setIntegrityErrors(integrities[i]);
-            ports[i].setSmaCongestionErrors(smaCongestions[i]);
+            ports[i].setSmaCongestion(smaCongestions[i]);
             ports[i].setSecurityErrors(securities[i]);
             ports[i].setRoutingErrors(routings[i]);
         }
@@ -385,7 +385,7 @@ public class Randomizer implements IRandomable {
             if (flag > 3) {
                 flag = 0;
             }
-            focusPorts.get(i).setLocalFlags((byte) flag);
+            focusPorts.get(i).setLocalStatus((byte) flag);
         }
     }
 
@@ -405,7 +405,7 @@ public class Randomizer implements IRandomable {
             if (flag > 3) {
                 flag = 0;
             }
-            focusPort.get(i).setLocalFlags((byte) flag);
+            focusPort.get(i).setLocalStatus((byte) flag);
         }
     }
 

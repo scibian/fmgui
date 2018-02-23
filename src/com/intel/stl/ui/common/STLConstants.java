@@ -444,6 +444,7 @@ public enum STLConstants {
     K0509_ACTIVE_LINK_SPEED(509),
     K0510_LINK_SPEED_ENABLED(510),
     K0511_LINK_SPEED_SUPPORTED(511),
+    K0512_PORT_GROUP_FDBCAP(512),
     // K0512 is Available
     // K0513 is Available
     // K0514 is Available

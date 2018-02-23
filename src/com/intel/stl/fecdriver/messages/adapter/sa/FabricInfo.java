@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -31,24 +31,31 @@ import com.intel.stl.api.subnet.FabricInfoBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * 
- * ref: /ALL_EMB/IbAccess/Common/Inc/stl_sa.h v1.111
- * 
+ *
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  * typedef struct {
- *     uint32  NumHFIs;
- *     uint32  NumSwitches;
- *     uint32  NumInternalHFILinks;
- *     uint32  NumExternalHFILinks;
- *     uint32  NumInternalISLs;
- *     uint32  NumExternalISLs;
- *     uint32  NumDegradedHFILinks;
- *     uint32  NumDegradedISLs;
- *     uint32  NumOmittedHFILinks;
- *     uint32  NumOmittedISLs;
+ *     uint32  NumHFIs;             // HFI Nodes
+ *     uint32  NumSwitches;         // Switch Nodes (ASICs)
+ *          // Internal = in same SystemImageGuid
+ *          // HFI = HFI to switch and HFI to HFI links
+ *          // ISL = switch to switch links
+ *          // links which are Omitted will not be considered for Degraded checks
+ *          // switch port 0 is not counted as a link
+ *     uint32  NumInternalHFILinks; // HFI to switch (or HFI) links
+ *     uint32  NumExternalHFILinks; // HFI to switch (or HFI) links
+ *     uint32  NumInternalISLs;     // switch to switch links
+ *     uint32  NumExternalISLs;     // switch to switch links
+ *     uint32  NumDegradedHFILinks; // links with one or both sides below best enabled
+ *     uint32  NumDegradedISLs;     // links with one or both sides below best enabled
+ *     uint32  NumOmittedHFILinks;  // inks quarantined or left in Init
+ *     uint32  NumOmittedISLs;      // links quarantined or left in Init
  *     uint32  rsvd5[92];
  * } PACK_SUFFIX STL_FABRICINFO_RECORD;
- * 
+ *
  * </pre>
  */
 public class FabricInfo extends SimpleDatagram<FabricInfoBean> {

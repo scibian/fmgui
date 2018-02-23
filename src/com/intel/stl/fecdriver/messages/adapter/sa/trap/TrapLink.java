@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,8 +32,10 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
  * <pre>
- * ref:/ALL_EMB/IbAcess/Common/Inc/stl_sm.h v1.115
- * 
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit a86e948b247e4d9fd98434e350b00f112ba93c39
+ * date 2017-08-16 10:28:01
+ *
  * typedef struct {
  *     uint32      Lid;
  *     uint8       Port;
@@ -50,7 +52,7 @@ public class TrapLink extends SimpleDatagram<TrapLinkBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.fecdriver.messages.adapter.SimpleDatagram#toObject()
      */
     @Override

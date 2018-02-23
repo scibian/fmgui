@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,34 +33,36 @@ import com.intel.stl.fecdriver.messages.adapter.sa.GID;
 
 /**
  * <pre>
- * ref:/ALL_EMB/IbAcess/Common/Inc/stl_sm.h v1.115
- * 
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit a86e948b247e4d9fd98434e350b00f112ba93c39
+ * date 2017-08-16 10:28:01
+ *
  * typedef struct {
  *     STL_FIELDUNION9(u,16,
  *                 Lid1:1, Lid2:1, PKey:1, SL:1,
  *                 QP1:1, QP2:1, Gid1:1, Gid2:1,
  *                 Reserved:8);
  *     uint16      PKey;
- *     //  4 bytes 
+ *     //  4 bytes
  *     uint32      Lid1;
  *     uint32      Lid2;
  *     STL_FIELDUNION2(u2,8,
  *                 SL:5,
  *                 Reserved:3);
  *     uint8       Reserved[3];
- *     //  16 bytes 
+ *     //  16 bytes
  *     IB_GID      Gid1;
- *     //  32 bytes 
+ *     //  32 bytes
  *     IB_GID      Gid2;
- *     //  48 bytes 
+ *     //  48 bytes
  *     STL_FIELDUNION2(qp1,32,
  *                 qp:24,
  *                 Reserved:8);
- *     //  52 bytes 
+ *     //  52 bytes
  *     STL_FIELDUNION2(qp2,32,
  *                 qp:24,
  *                 Reserved:8);
- *     //  56 bytes 
+ *     //  56 bytes
  * } PACK_SUFFIX STL_TRAP_SWITCH_BAD_PKEY_DATA;
  * </pre>
  */
@@ -72,7 +74,7 @@ public class TrapSwitchPKey extends SimpleDatagram<TrapSwitchPKeyBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.fecdriver.messages.adapter.SimpleDatagram#toObject()
      */
     @Override

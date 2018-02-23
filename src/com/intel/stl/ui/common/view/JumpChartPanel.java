@@ -52,7 +52,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import com.intel.stl.ui.common.UIConstants;
 import com.intel.stl.ui.common.view.JumpPopupUtil.IActionCreator;
 import com.intel.stl.ui.event.JumpDestination;
-import com.intel.stl.ui.model.FocusFlagViz;
+import com.intel.stl.ui.model.FocusStatusViz;
 import com.intel.stl.ui.model.PortEntry;
 
 public class JumpChartPanel extends ChartPanel implements ChartMouseListener {
@@ -240,9 +240,9 @@ public class JumpChartPanel extends ChartPanel implements ChartMouseListener {
                 CategoryLabelEntity labelEntity = (CategoryLabelEntity) entity;
                 Comparable key = labelEntity.getKey();
                 if (key instanceof PortEntry) {
-                    FocusFlagViz flag =
-                            (FocusFlagViz) ((PortEntry) key).getObject();
-                    if (flag != null && flag != FocusFlagViz.OK) {
+                    FocusStatusViz flag =
+                            (FocusStatusViz) ((PortEntry) key).getObject();
+                    if (flag != null && flag != FocusStatusViz.OK) {
                         return "<html>" + key.toString() + "<br>"
                                 + flag.getValue() + "</html>";
                     }
