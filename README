@@ -1,0 +1,89 @@
+Introduciton
+
+This README file contains instructions to build the Intel OPA Fabric Manager GUI 
+jar file from source. However, you should be aware that the FM GUI jar 
+distributed by Intel is signed but this build process does sign the generated jar 
+and a CA certificate is not distributed with the source. Distributing the 
+generated jar will result in user machines not being able to verify the origin 
+of the jar file.
+
+Source Directory Structure
+
+Architecture
+The Fabric Manager GUI has a component-based architecture. In this section, 
+the main components are briefly described, what their function is, and how 
+they can be found in the source directory structure.
+
+FE Adapter
+The FE Adapter is the application interface to Fabric Management (FM) 
+functions through a Fabric Executive (FE). Its function is to submit FM 
+commands to a FE and parse their responses into object representations that can be
+processed by the application. The package for this component is:
+com.intel.stl.fecdriver
+
+Data Manager
+The Database Manager is the component in charge of storing configuration 
+information as well caching Fabric Management data to a local database. 
+The packages applicable to this component are:
+
+com.intel.stl.datamanager - interface to application
+com.intel.stl.dbengine - interface to SQL engine
+
+User Interface APIs
+The User Interface APIs component provides all services available to a 
+UI component to display Fabric Management data. These services are grouped 
+by function but in general they are group under the following package:
+
+com.intel.stl.api
+
+User Interface
+The User Interface component is the graphical implementation of the 
+Fabric Manager GUI. It includes all the widgets and logic to display 
+Fabric Management information. The main package for this component is:
+
+com.intel.stl.ui
+
+Build Requirements
+
+Java Development Kit
+The Fabric Manager GUI build requires a Java Development Kit (JDK) 7. 
+The JDK 7 binaries can be downloaded from Oracle's Java SE Downloads site.
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+You should always set the environment variable OPA_JAVA to the 
+location of the JDK installation; this is the pathname of the folder that 
+contains folders bin, lib, and include. 
+If you don't set OPA_JAVA, the build process will attempt to use the 
+default JDK in the system, if available.
+
+Ant
+The Fabric Manager GUI build also requires Apache Ant 1.9. 
+The Ant tool is available from the Apache Ant Project Binary 
+Distributions download site. 
+http://ant.apache.org/bindownload.cgi 
+Follow the installation instructions available in the online 
+Ant manual.
+http://ant.apache.org/manual/index.html
+and always make sure ant is in in your PATH.
+
+Building the Jar
+
+After the build requirements have been met, the steps to generate 
+the FM GUI jar are straightforward:
+
+Open a terminal/command window at the location where you unzipped 
+the FM GUI distribution source. We will refer to this location as FMGUI_SRC
+Start the build process by entering the following command:
+
+    ant
+
+Wait for the successful completion of the build process:
+
+    BUILD SUCCESSFUL
+    Total time: n seconds
+
+Type the following command to start the application:
+
+    fmgui
+
+
+

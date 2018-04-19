@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=
+Exec=sh ~/.Intel/FabricManagerGUI/fmguiclear.sh
+GenericName=
+Icon=text-x-script
+Name=Clear FM GUI Cache
+Path=
+StartupNotify=true
+Terminal=1
+TerminalOptions=
+Type=Application
+Categories=Application;Fabric;System

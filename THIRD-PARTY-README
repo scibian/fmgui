@@ -1,0 +1,16 @@
+This package contains software from third party suppliers that is licensed by those parties.
+Licenses for the software may be found along with the corresponding third party software in
+this package, as follows:
+
+Hibernate 4.3.5		lib/hibernate_license.txt
+HSQLDB 2.3.2		lib/hsqldb_license.txt
+JFreeChart 1.0.17	lib/jfreechart_license.txt
+JSCH 0.1.51			lib/jsch_license.txt
+JavaHelp 2.0.05		lib/javahelp_license.html
+JavaMail 1.5.2		lib/javamail_license.txt
+LogBack 1.1.2		lib/logback_license.txt
+SLF4J 1.7.7			lib/slf4j_license.txt
+SwingX 1.6.4		lib/swingx_license.txt
+gritty 0.02			lib/gritty_license.txt
+JGraphX 2.3.05		lib/jgraphx_license.txt
+MBassador 1.1.9		lib/mbassador_license.txt

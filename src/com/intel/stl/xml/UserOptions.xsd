@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+	<xsd:annotation>
+		<xsd:documentation>
+			Element UserOptions is the root element for a document instance.
+			This document holds user options that are set through the UI, either
+			as a setting selected by the user or as value that the UI keeps track
+			of for future invocations (e.g. LastSubnetAccessed).
+			Please note that we are not using a namespace since document instances
+			of this schema are for internal use only and are not expected to be
+			exchanged with other applications.
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="UserOptions">
+        <xsd:complexType>
+	    	<xsd:all>
+    	    	<xsd:element ref="Preferences" />
+                <xsd:element minOccurs="0" maxOccurs="1" ref="EventRules" />
+    	    	<xsd:element ref="PropertiesDisplay"/>
+			</xsd:all>
+		</xsd:complexType>
+    </xsd:element>
+	<xsd:element name="Preferences">
+        <xsd:complexType>
+   			<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+				<xsd:element name="Section" type="SectionType" />
+			</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="SectionType">
+   		<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+			<xsd:element name="Entry" type="EntryType" />
+		</xsd:sequence>
+		<xsd:attribute name="name" use="required" type="xsd:string" />
+    </xsd:complexType>
+    <xsd:complexType name="EntryType">
+    	<xsd:simpleContent>
+    		<xsd:extension base="xsd:string" >
+				<xsd:attribute name="name" use="required" type="xsd:string" />
+    		</xsd:extension>
+    	</xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:element name="EventRules">
+        <xsd:complexType>
+            <xsd:sequence maxOccurs="unbounded" minOccurs="0">
+                <xsd:element name="EventRule" type="EventRuleType" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="EventRuleType">
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="Action" type="ActionType" />
+        </xsd:sequence>
+        <xsd:attribute name="type" use="required" type="RuleType" />
+        <xsd:attribute name="severity" use="required" type="RuleSeverity" />
+    </xsd:complexType>
+    <xsd:complexType name="ActionType">
+        <xsd:attribute name="name" use="required" type="ActionName" />
+    </xsd:complexType>
+    <xsd:simpleType name="ActionName">
+        <xsd:restriction base = "xsd:string">
+            <xsd:enumeration value="SEND_EMAIL" />
+            <xsd:enumeration value="DISPLAY_MESSAGE" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RuleType">
+        <xsd:restriction base = "xsd:string">
+            <xsd:enumeration value="SM_TOPO_CHANGE" />
+            <xsd:enumeration value="PORT_ACTIVE" />
+            <xsd:enumeration value="PORT_INACTIVE" />
+            <xsd:enumeration value="FE_CONNECTION_LOST" />
+            <xsd:enumeration value="FE_CONNECTION_ESTABLISH" />
+            <xsd:enumeration value="SM_CONNECTION_LOST" />
+            <xsd:enumeration value="SM_CONNECTION_ESTABLISH" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RuleSeverity">
+        <xsd:restriction base = "xsd:string">
+            <xsd:enumeration value="INFO" />
+            <xsd:enumeration value="WARNING" />
+            <xsd:enumeration value="ERROR" />
+            <xsd:enumeration value="CRITICAL" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	<xsd:element name="PropertiesDisplay">
+        <xsd:complexType>
+	    	<xsd:all>
+		    	<xsd:annotation>
+                    <xsd:appinfo>
+                        <jaxb:property name="ResourceClassTypes"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+      			<!-- Any of these tags must occur once in any order -->
+				<xsd:element name="Switch" type="SwitchType"/>
+				<xsd:element name="Port" type="PortType"/>
+				<xsd:element name="Hfi" type="HfiType"/>
+			</xsd:all>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="ResourceClassType" abstract="true">
+    </xsd:complexType>
+    <xsd:complexType name="SwitchType">
+		<xsd:complexContent>
+			<xsd:extension base="ResourceClassType">
+	      		<xsd:sequence>
+					<xsd:element name="Groups">
+				        <xsd:complexType>
+      						<xsd:sequence maxOccurs="unbounded">
+								<xsd:element name="Group" type="SwitchGroupType"/>
+							</xsd:sequence>
+				    	</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+    <xsd:complexType name="HfiType">
+		<xsd:complexContent>
+			<xsd:extension base="ResourceClassType">
+      			<xsd:sequence>
+					<xsd:element name="Groups">
+				        <xsd:complexType>
+      						<xsd:sequence maxOccurs="unbounded">
+								<xsd:element name="Group" type="HfiGroupType" />
+							</xsd:sequence>
+				    	</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+    <xsd:complexType name="PortType">
+		<xsd:complexContent>
+			<xsd:extension base="ResourceClassType">
+	      		<xsd:sequence>
+					<xsd:element name="Groups">
+				        <xsd:complexType>
+      						<xsd:sequence maxOccurs="unbounded">
+								<xsd:element name="Group" type="PortGroupType" />
+							</xsd:sequence>
+				    	</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+    <xsd:complexType name="GroupType" abstract="true">
+   		<xsd:sequence minOccurs="0" maxOccurs="1">
+			<xsd:element name="Title" type="xsd:string" />
+		</xsd:sequence>
+		<xsd:attribute name="name" use="required" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="displayed" use="optional" type="xsd:boolean" default="true"></xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="SwitchGroupType">
+    	<xsd:complexContent>
+    		<xsd:extension base="GroupType">
+	      		<xsd:sequence maxOccurs="unbounded">
+					<xsd:element name="Category" type="SwitchCategoryType" />
+				</xsd:sequence>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="HfiGroupType">
+    	<xsd:complexContent>
+    		<xsd:extension base="GroupType">
+	      		<xsd:sequence maxOccurs="unbounded">
+					<xsd:element name="Category" type="HfiCategoryType" />
+				</xsd:sequence>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="PortGroupType">
+    	<xsd:complexContent>
+    		<xsd:extension base="GroupType">
+	      		<xsd:sequence maxOccurs="unbounded">
+					<xsd:element name="Category" type="PortCategoryType" />
+				</xsd:sequence>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:annotation>
+    	<xsd:documentation>
+    	Note that the following CategoryType(s) must match the definitions in 
+    	enumeration DeviceCategory otherwise you will see error while retrieving
+    	UserSettings. Internally, there is one XmlTypeAdapter per CategoryType
+    	that converts these values into DeviceCategory enumerations, validating 
+    	that each category apply to the DeviceType.
+    	</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ResourceCategoryType">
+    	<xsd:simpleContent>
+    		<xsd:extension base="xsd:string" >
+				<xsd:attribute name="showHeader" use="optional" default="true" type="xsd:boolean"></xsd:attribute>
+				<xsd:attribute name="valueHeader" use="optional" type="xsd:string"></xsd:attribute>
+    		</xsd:extension>
+    	</xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="SwitchCategoryType">
+    	<xsd:complexContent>
+    		<xsd:extension base="ResourceCategoryType">
+				<xsd:attribute name="name" use="required" type="SwitchCategory"></xsd:attribute>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="SwitchCategory">
+    	<xsd:restriction base = "xsd:string">
+    		<xsd:enumeration value="NODE_INFO" />
+    		<xsd:enumeration value="DEVICE_GROUPS" />
+    		<xsd:enumeration value="NODE_PORT_INFO" />
+    		<xsd:enumeration value="SWITCH_INFO" />
+    		<xsd:enumeration value="SWITCH_FORWARDING" />
+    		<xsd:enumeration value="SWITCH_ROUTING" />
+    		<xsd:enumeration value="SWITCH_IPADDR" />
+    		<xsd:enumeration value="SWITCH_PARTITION_ENFORCEMENT" />
+    		<xsd:enumeration value="SWITCH_ADAPTIVE_ROUTING" />
+    		<xsd:enumeration value="MFT_TABLE" />
+    		<xsd:enumeration value="LFT_HISTOGRAM" />
+    		<xsd:enumeration value="LFT_TABLE" />
+    		<xsd:enumeration value="SC2SLMT_CHART" />
+    	</xsd:restriction>
+    </xsd:simpleType>
+	<xsd:complexType name="HfiCategoryType">
+    	<xsd:complexContent>
+    		<xsd:extension base="ResourceCategoryType">
+				<xsd:attribute name="name" use="required" type="HfiCategory"></xsd:attribute>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="HfiCategory">
+    	<xsd:restriction base = "xsd:string">
+    		<xsd:enumeration value="NODE_INFO" />
+    		<xsd:enumeration value="DEVICE_GROUPS" />
+    		<xsd:enumeration value="NODE_PORT_INFO" />
+    		<xsd:enumeration value="SC2SLMT_CHART" />
+    	</xsd:restriction>
+    </xsd:simpleType>
+	<xsd:complexType name="PortCategoryType">
+    	<xsd:complexContent>
+    		<xsd:extension base="ResourceCategoryType">
+				<xsd:attribute name="name" use="required" type="PortCategory"></xsd:attribute>
+    		</xsd:extension>
+    	</xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="PortCategory">
+    	<xsd:restriction base = "xsd:string">
+    		<xsd:enumeration value="LINK_WIDTH" />
+    		<xsd:enumeration value="LINK_WIDTH_DOWNGRADE" />
+    		<xsd:enumeration value="LINK_SPEED" />
+    		<xsd:enumeration value="LINK_CONNECTED_TO" />
+    		<xsd:enumeration value="NEIGHBOR_MODE" />
+    		<xsd:enumeration value="PORT_INFO" />
+    		<xsd:enumeration value="PORT_LINK_MODE" />
+    		<xsd:enumeration value="PORT_LTP_CRC_MODE" />
+    		<xsd:enumeration value="PORT_ERROR_ACTIONS" />
+    		<xsd:enumeration value="PORT_MODE" />
+    		<xsd:enumeration value="PORT_PACKET_FORMAT" />
+    		<xsd:enumeration value="PORT_BUFFER_UNITS" />
+    		<xsd:enumeration value="PORT_IPADDR" />
+    		<xsd:enumeration value="PORT_SUBNET" />
+    		<xsd:enumeration value="PORT_CAPABILITIES" />
+    		<xsd:enumeration value="PORT_DIAGNOSTICS" />
+    		<xsd:enumeration value="PORT_MANAGEMENT" />
+    		<xsd:enumeration value="PORT_PARTITION_ENFORCEMENT" />
+    		<xsd:enumeration value="FLIT_CTRL_INTERLEAVE" />
+    		<xsd:enumeration value="FLIT_CTRL_PREEMPTION" />
+    		<xsd:enumeration value="VIRTUAL_LANE" />
+    		<xsd:enumeration value="MTU_CHART" />
+    		<xsd:enumeration value="HOQLIFE_CHART" />
+    		<xsd:enumeration value="VL_STALL_CHART" />
+    		<xsd:enumeration value="CABLE_INFO" />
+    		<xsd:enumeration value="SC2VLTMT_CHART" />
+    		<xsd:enumeration value="SC2VLNTMT_CHART" />
+    		<xsd:enumeration value="LINK_DOWN_ERROR_LOG" />
+    		<xsd:enumeration value="NEIGHBOR_LINK_DOWN_ERROR_LOG" />
+    	</xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

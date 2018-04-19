@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+GenericName=Fabric Manager GUI
+Name=Fabric Manager GUI
+Exec=/usr/local/bin/fmgui
+Icon=fmgui
+Terminal=false
+Type=Application
+Categories=Application;Fabric;System;

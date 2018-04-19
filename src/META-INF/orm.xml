@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+    <table-generator name="TABLE_GEN" table="GENERATOR_TABLE" pk-column-name="entity_name" value-column-name="sequence_value"></table-generator>
+	<named-query name="Subnet.All">
+		<query>
+			SELECT subnet
+			FROM SubnetRecord subnet
+		</query>
+	</named-query>
+    <named-query name="Subnet.findByName">
+        <query>
+            SELECT subnet 
+            FROM SubnetRecord subnet
+            WHERE subnet.uniqueName = :subnetName
+        </query>
+    </named-query>
+	<named-query name="EventRule.All">
+		<query>
+			SELECT rule
+			FROM EventRuleRecord rule
+		</query>
+	</named-query>
+	<named-query name="Node.findByLid">
+		<query>
+			SELECT node 
+			FROM TopologyNodeRecord node
+			WHERE node.id.topologyId = :topologyId AND node.lid = :lid
+		</query>
+	</named-query>
+	<named-query name="PortConfigBean.findByTopId">
+		<query>	
+		    SELECT new com.intel.stl.api.performance.PortConfigBean(portConfig.id.nodeGUID, nodeRec.node.nodeDesc, topNode.lid, portConfig.id.portNumber) 
+		    FROM TopologyNodeRecord topNode JOIN topNode.node nodeRec, PortConfigRecord portConfig  
+		    WHERE topNode.node.nodeGUID = nodeRec.nodeGUID and topNode.id.topologyId = :topologyId and topNode.node.nodeGUID = portConfig.id.nodeGUID
+		</query>
+	</named-query>
+	<named-query name="PortConfigBean.findByGroupName">
+		<query>	
+		    SELECT new com.intel.stl.api.performance.PortConfigBean(portConfig.id.nodeGUID, nodeRec.node.nodeDesc, nodeRec.node.lid, portConfig.id.portNumber) 
+		    FROM PortConfigRecord portConfig JOIN portConfig.node nodeRec
+		    WHERE portConfig.id.groupId.fabricId = :subnetId AND portConfig.id.groupId.subnetGroup = :groupName 
+		</query>
+	</named-query>
+	<named-query name="GroupInfoBean.findByTime">
+		<query>
+			SELECT info
+			FROM GroupInfoRecord info
+			WHERE info.id.groupId.fabricId = :subnetId AND info.id.groupId.subnetGroup = :groupName AND info.id.sweepTimestamp between :startTime and :stopTime 
+		</query>
+	</named-query>
+	<named-query name="Node.findByGuid">
+		<query>
+			SELECT node 
+			FROM TopologyNodeRecord node
+			WHERE node.id.topologyId = :topologyId AND node.id.topologyNode = :guid
+		</query>
+	</named-query>
+	<named-query name="Node.findByPortGuid">
+		<query>
+			SELECT node 
+			FROM NodeRecord node
+			WHERE node.node.nodeInfo.portGUID = :portguid
+		</query>
+	</named-query>
+	<named-query name="Link.findByGuid">
+		<query>
+			SELECT link 
+			FROM TopologyLinkRecord link
+			WHERE link.id.linkTopology = :topologyId AND link.id.sourceNode = :guid
+		</query>
+	</named-query>
+	<named-query name="Link.findByGuidPort">
+		<query>
+			SELECT link 
+			FROM TopologyLinkRecord link
+			WHERE link.id.linkTopology = :topologyId AND link.id.sourceNode = :guid AND (:port is null OR link.id.sourcePort = :port)
+		</query>
+	</named-query>
+	<named-query name="ImageInfo.findByImageNum">
+		<query>
+			SELECT imageInfo.imageInfo
+			FROM ImageInfoRecord imageInfo
+			WHERE imageInfo.id.fabricId = :subnetId AND imageInfo.imageInfo.imageId.imageNumber = :imageNumber
+		</query>
+	</named-query>
+	<named-query name="ImageInfo.findLatest">
+		<query>
+			SELECT max(imageInfo.id.sweepTimestamp)
+			FROM ImageInfoRecord imageInfo
+			WHERE imageInfo.id.fabricId = :subnetId
+		</query>
+	</named-query>
+	<named-query name="NoticeRecord.findById">
+		<query>
+			SELECT noticeRec
+			FROM NoticeRecord noticeRec
+			WHERE noticeRec.id.fabricId = :subnetId and noticeRec.id.noticeId = :id
+		</query>
+	</named-query>
+	<named-query name="NoticeRecord.findBySubnet">
+		<query>
+			SELECT noticeRec
+			FROM NoticeRecord noticeRec
+			WHERE noticeRec.id.fabricId = :subnetId and noticeRec.noticeStatus = :noticeStatus
+		</query>
+	</named-query>
+    <named-query name="User.All">
+        <query>
+            SELECT user
+            FROM UserRecord user
+        </query>
+    </named-query>
+	<mapped-superclass class="com.intel.stl.datamanager.DatabaseRecord">
+		<entity-listeners>
+			<entity-listener class="com.intel.stl.dbengine.impl.LastUpdateListener">
+				<pre-persist method-name="setLastUpdate"/>
+				<pre-update method-name="setLastUpdate"/>
+            </entity-listener>
+		</entity-listeners>
+        <attributes>
+			<version name="lastUpdate">
+			</version>
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.intel.stl.api.notice.NoticeAttrBean">
+        <attributes>
+			<basic name="type">
+				<column name="noticeAttrType"/>
+			</basic>
+			<transient name="isGeneric"/>
+		</attributes>
+	</mapped-superclass>
+	<embeddable class="com.intel.stl.api.configuration.AppInfo">
+		<attributes>
+			<basic name="appName">
+				<column length="32"/>
+			</basic>
+			<basic name="appBuildId">
+				<column length="64"/>
+			</basic>
+            <basic name="appBuildDate">
+                <column length="32"/>
+            </basic>
+            <basic name="opaFmVersion">
+                <column length="64"/>
+            </basic>
+            <transient name="propertiesMap"/>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.configuration.EventRule">
+		<attributes>
+			<basic name="eventType">
+				<column length="32"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="eventClass">
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="eventSeverity">
+				<column length="32"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="message">
+				<column length="128"/>
+			</basic>
+			<transient name="eventActions"/>
+			<transient name="eventName"/>
+			<transient name="eventSourceList"/>
+			<transient name="eventSubnets"/>
+		</attributes>
+	</embeddable>
+    <embeddable class="com.intel.stl.api.performance.ErrBucketBean">
+    </embeddable>
+	<embeddable class="com.intel.stl.api.performance.ErrSummaryBean">
+	</embeddable>
+	<embeddable class="com.intel.stl.api.subnet.GIDGlobal">
+	</embeddable>
+	<embeddable class="com.intel.stl.api.performance.GroupInfoBean">
+		<attributes>
+			<basic name="groupName">
+				<column name="gi_groupName" length="64"/>
+			</basic>
+			<basic name="sweepTimestamp">
+				<column name="gi_sweepTimestamp"/>
+			</basic>
+            <element-collection name="internalErrorPorts" fetch="EAGER">
+                 <order-column/>
+                 <collection-table name="INTERNAL_ERROR_PORTS">
+                     <join-column name="subnetId"/>
+                     <join-column name="groupName"/>
+                     <join-column name="sweepTimestamp"/>
+                 </collection-table>
+            </element-collection>
+            <element-collection name="externalErrorPorts" fetch="EAGER">
+                 <order-column/>
+                 <collection-table name="EXTERNAL_ERROR_PORTS">
+                     <join-column name="subnetId"/>
+                     <join-column name="groupName"/>
+                     <join-column name="sweepTimestamp"/>
+                 </collection-table>
+            </element-collection>
+			<embedded name="internalUtilStats">
+				<attribute-override name="totalMBps">
+					<column name="internal_totalMBps"/>
+				</attribute-override>
+				<attribute-override name="totalKPps">
+					<column name="internal_totalKPps"/>
+				</attribute-override>
+				<attribute-override name="avgMBps">
+					<column name="internal_avgMBps"/>
+				</attribute-override>
+				<attribute-override name="minMBps">
+					<column name="internal_minMBps"/>
+				</attribute-override>
+				<attribute-override name="maxMBps">
+					<column name="internal_maxMBps"/>
+				</attribute-override>
+				<attribute-override name="numBWBuckets">
+					<column name="internal_numBWBuckets"/>
+				</attribute-override>
+				<attribute-override name="avgKPps">
+					<column name="internal_avgKPps"/>
+				</attribute-override>
+				<attribute-override name="minKPps">
+					<column name="internal_minKPps"/>
+				</attribute-override>
+				<attribute-override name="maxKPps">
+					<column name="internal_maxKPps"/>
+				</attribute-override>
+				<attribute-override name="pmaFailedPorts">
+					<column name="internal_pmaFailedPorts"/>
+				</attribute-override>
+				<attribute-override name="topoFailedPorts">
+					<column name="internal_topoFailedPorts"/>
+				</attribute-override>
+			</embedded>
+			<embedded name="sendUtilStats">
+				<attribute-override name="totalMBps">
+					<column name="send_totalMBps"/>
+				</attribute-override>
+				<attribute-override name="totalKPps">
+					<column name="send_totalKPps"/>
+				</attribute-override>
+				<attribute-override name="avgMBps">
+					<column name="send_avgMBps"/>
+				</attribute-override>
+				<attribute-override name="minMBps">
+					<column name="send_minMBps"/>
+				</attribute-override>
+				<attribute-override name="maxMBps">
+					<column name="send_maxMBps"/>
+				</attribute-override>
+				<attribute-override name="numBWBuckets">
+					<column name="send_numBWBuckets"/>
+				</attribute-override>
+				<attribute-override name="avgKPps">
+					<column name="send_avgKPps"/>
+				</attribute-override>
+				<attribute-override name="minKPps">
+					<column name="send_minKPps"/>
+				</attribute-override>
+				<attribute-override name="maxKPps">
+					<column name="send_maxKPps"/>
+				</attribute-override>
+				<attribute-override name="pmaFailedPorts">
+					<column name="send_pmaFailedPorts"/>
+				</attribute-override>
+				<attribute-override name="topoFailedPorts">
+					<column name="send_topoFailedPorts"/>
+				</attribute-override>
+			</embedded>
+			<embedded name="recvUtilStats">
+				<attribute-override name="totalMBps">
+					<column name="recv_totalMBps"/>
+				</attribute-override>
+				<attribute-override name="totalKPps">
+					<column name="recv_totalKPps"/>
+				</attribute-override>
+				<attribute-override name="avgMBps">
+					<column name="recv_avgMBps"/>
+				</attribute-override>
+				<attribute-override name="minMBps">
+					<column name="recv_minMBps"/>
+				</attribute-override>
+				<attribute-override name="maxMBps">
+					<column name="recv_maxMBps"/>
+				</attribute-override>
+				<attribute-override name="numBWBuckets">
+					<column name="recv_numBWBuckets"/>
+				</attribute-override>
+				<attribute-override name="avgKPps">
+					<column name="recv_avgKPps"/>
+				</attribute-override>
+				<attribute-override name="minKPps">
+					<column name="recv_minKPps"/>
+				</attribute-override>
+				<attribute-override name="maxKPps">
+					<column name="recv_maxKPps"/>
+				</attribute-override>
+				<attribute-override name="pmaFailedPorts">
+					<column name="recv_pmaFailedPorts"/>
+				</attribute-override>
+				<attribute-override name="topoFailedPorts">
+					<column name="recv_topoFailedPorts"/>
+				</attribute-override>
+			</embedded>
+			<embedded name="internalErrorMaximums">
+				<attribute-override name="integrityErrors">
+					<column name="internal_integrityErrors"/>
+				</attribute-override>
+				<attribute-override name="congestionErrors">
+					<column name="internal_congestionErrors"/>
+				</attribute-override>
+				<attribute-override name="smaCongestionErrors">
+					<column name="internal_smaCongestionErrors"/>
+				</attribute-override>
+				<attribute-override name="bubbleErrors">
+					<column name="internal_bubbleErrors"/>
+				</attribute-override>
+				<attribute-override name="securityErrors">
+					<column name="internal_securityErrors"/>
+				</attribute-override>
+				<attribute-override name="routingErrors">
+					<column name="internal_routingErrors"/>
+				</attribute-override>
+				<attribute-override name="congInefficiencyPct10">
+					<column name="internal_congInefficiencyPct10"/>
+				</attribute-override>
+				<attribute-override name="waitInefficiencyPct10">
+					<column name="internal_waitInefficiencyPct10"/>
+				</attribute-override>
+				<attribute-override name="bubbleInefficiencyPct10">
+					<column name="internal_bubbleInefficiencyPct10"/>
+				</attribute-override>
+				<attribute-override name="discardsPct10">
+					<column name="internal_discardsPct10"/>
+				</attribute-override>
+				<attribute-override name="congestionDiscardsPct10">
+					<column name="internal_congestionDiscardsPct10"/>
+				</attribute-override>
+				<attribute-override name="utilizationPct10">
+					<column name="internal_utilizationPct10"/>
+				</attribute-override>
+			</embedded>
+			<embedded name="externalErrorMaximums">
+				<attribute-override name="integrityErrors">
+					<column name="external_integrityErrors"/>
+				</attribute-override>
+				<attribute-override name="congestionErrors">
+					<column name="external_congestionErrors"/>
+				</attribute-override>
+				<attribute-override name="smaCongestionErrors">
+					<column name="external_smaCongestionErrors"/>
+				</attribute-override>
+				<attribute-override name="bubbleErrors">
+					<column name="external_bubbleErrors"/>
+				</attribute-override>
+				<attribute-override name="securityErrors">
+					<column name="external_securityErrors"/>
+				</attribute-override>
+				<attribute-override name="routingErrors">
+					<column name="external_routingErrors"/>
+				</attribute-override>
+				<attribute-override name="congInefficiencyPct10">
+					<column name="external_congInefficiencyPct10"/>
+				</attribute-override>
+				<attribute-override name="waitInefficiencyPct10">
+					<column name="external_waitInefficiencyPct10"/>
+				</attribute-override>
+				<attribute-override name="bubbleInefficiencyPct10">
+					<column name="external_bubbleInefficiencyPct10"/>
+				</attribute-override>
+				<attribute-override name="discardsPct10">
+					<column name="external_discardsPct10"/>
+				</attribute-override>
+				<attribute-override name="congestionDiscardsPct10">
+					<column name="external_congestionDiscardsPct10"/>
+				</attribute-override>
+				<attribute-override name="utilizationPct10">
+					<column name="external_utilizationPct10"/>
+				</attribute-override>
+			</embedded>
+		</attributes>
+	</embeddable>
+    <embeddable class="com.intel.stl.api.subnet.HostInfo">
+        <attributes>
+            <basic name="host">
+                <column length="128"/>
+            </basic>
+            <basic name="port">
+            </basic>
+            <basic name="secureConnect">
+            </basic>
+            <embedded name="certsDescription"></embedded>
+            <transient name="inetAddress"/>
+            <transient name="connectionAssistant"/>
+        </attributes>
+    </embeddable>
+	<embeddable class="com.intel.stl.api.performance.ImageIdBean">
+	</embeddable>
+	<embeddable class="com.intel.stl.api.performance.ImageInfoBean">
+		<attributes>
+			<basic name="SMInfo">
+				<column length="384"/>
+			</basic>
+			<embedded name="imageId">
+			</embedded>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.subnet.NodeInfoBean">
+		<attributes>
+			<transient name="nodeGUID"/>
+			<transient name="nodeType"/>
+			<transient name="nodeTypeEnum"/>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.subnet.NodeRecordBean">
+		<attributes>
+			<basic name="nodeDesc">
+				<column length="128"/>
+			</basic>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.notice.NoticeBean">
+		<attributes>
+			<!-- Variable length, theoretical limit 10K (in data transfer applications);
+			 2K seems a reasonable amount for a Notice -->
+			<basic name="classData">
+				<column length="2048"/>
+			</basic>
+			<basic name="data">
+				<column name="noticeData" length="80"/>
+			</basic>
+			<embedded name="issuerGID"></embedded>
+			<transient name="id"/>
+			<transient name="attributes"/>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.notice.GenericNoticeAttrBean">
+		<attributes>
+	        <basic name="producerType">
+	            <column nullable="true"/>
+			</basic>
+	        <basic name="trapNumber">
+	            <column nullable="true"/>
+			</basic>			
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.notice.VendorNoticeAttrBean">
+		<attributes>
+	        <basic name="vendorID">
+	            <column nullable="true"/>
+			</basic>
+	        <basic name="deviceID">
+	            <column nullable="true"/>
+			</basic>			
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.subnet.SubnetDescription">
+		<attributes>
+            <basic name="name">
+                <column length="64"/>
+            </basic>
+			<basic name="lastStatus">
+				<column length="12"/>
+				<enumerated>STRING</enumerated>
+			</basic>
+			<element-collection name="feList" fetch="EAGER">
+				<order-column/>	<!-- Adding this tag would alter the table structure and the schema update process would wipe off the old data -->
+			     <collection-table name="HOSTS">
+			         <join-column name="subnetId"/>
+			     </collection-table>
+			</element-collection>
+            <transient name="subnetId"/>
+            <transient name="currentUser"/>
+            <transient name="smList"/>
+			<transient name="topologyUpdated"/>
+			<transient name="failoverInProgress"/>
+			<transient name="connectionAssistant"/>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.CertsDescription">
+		<attributes>
+			<basic name="keyStoreFile">
+				<column length="512"/>
+			</basic>
+			<basic name="trustStoreFile">
+				<column length="512"/>
+			</basic>
+            <transient name="keyStorePwd"/>
+            <transient name="trustStorePwd"/>
+            <transient name="empty"/>
+		</attributes>
+	</embeddable>
+	<embeddable class="com.intel.stl.api.performance.UtilStatsBean">
+        <attributes>
+            <!--bwBuckets are kept in the record so that we can have three collection tables,
+                internal, send and receive in the GroupInfoBean record. This is due to a 
+                limitation in Hibernate (override table name for a collection table)-->
+            <transient name="bwBuckets"/>
+        </attributes>
+	</embeddable>
+</entity-mappings>

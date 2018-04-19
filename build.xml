@@ -1,0 +1,55 @@
+<project name ="FMGUI" default="build" basedir=".">
+	<property name="src" value="src"/>
+	<property name="target" value="target"/>
+    <property name="resources" value="resources"/>
+	<property name="lib" value="lib"/>
+    <property name="fmgui.app.jar" value="fmgui.jar"/>
+    <property environment="env"/>
+	<path id="source.compile.path">
+		<fileset dir="${lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	<target name="init" description="Creates the build directory structure">
+	    <mkdir dir="${target}"/>
+	    <mkdir dir="${target}/classes"/>
+        <condition property="build.javac" value="${env.OPA_JAVA}\bin\javac" else="${env.JAVA_HOME}\bin\javac">
+            <isset property="env.OPA_JAVA"/>
+        </condition>
+	</target>
+	<target name="compile" description="Compiles the Fabric Manager GUI application">
+	    <javac  srcdir="${src}" destdir="${target}/classes"
+			        encoding="windows-1252"
+				    debug="true"
+		    		fork="yes"
+	    	        executable="${build.javac}"
+				    classpathref="source.compile.path">
+		    	<compilerarg value="-version"/>        
+	    </javac>
+	</target>
+	<target name="createJar" description="Creates jar for the Fabric Manager GUI application">
+        <copy todir="${target}/classes" flatten="false" preservelastmodified="true">
+            <fileset dir="${src}">
+                <include name="**/*.png"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.txt"/>
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.xsd"/>
+                <include name="**/*.MF"/>
+            </fileset>
+            <fileset dir="${resources}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${target}/${fmgui.app.jar}" basedir="${target}/classes" manifest="${target}/classes/META-INF/MANIFEST.MF" />
+		<copy file="${target}/${fmgui.app.jar}" todir="." overwrite="true" />
+	</target>
+	<target name="clear" description="Clears build files">
+	    <delete dir="${target}"/>
+	</target>
+	<target name="build" description="Builds the Fabric Manager GUI application" depends="init,compile,createJar">
+		<echo message="Fabric Manager GUI application has been built: ${target}/${fmgui.app.jar}"/>
+	</target>
+</project>

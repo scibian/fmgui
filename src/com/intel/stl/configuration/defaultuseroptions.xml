@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserOptions>
+	<!-- Default user options. This document must validate against schema UserOptions.xsd  -->
+	<Preferences>
+		<Section name="UserState">
+			<Entry name="lastsubnetaccessed"></Entry>
+		</Section>
+		<Section name="Preference">
+			<Entry name="RefreshRate">10</Entry>
+			<Entry name="RefreshRateUnits">Seconds</Entry>
+			<Entry name="TimingWindow">10</Entry>
+			<Entry name="NumWorstNodes">10</Entry>
+		</Section>
+	</Preferences>
+	<PropertiesDisplay>
+		<Switch>
+			<Groups>
+				<Group name="GENERAL">
+					<Category name="NODE_INFO" />
+					<Category name="NODE_PORT_INFO" />
+				</Group>
+				<Group name="SWITCH_INFO">
+					<Category name="SWITCH_INFO" />
+					<Category name="SWITCH_PARTITION_ENFORCEMENT" />
+					<Category name="SWITCH_FORWARDING" />
+				</Group>
+				<Group name="ROUTING_INFO">
+					<Category name="SWITCH_IPADDR" />
+					<Category name="SWITCH_ROUTING" />
+					<Category name="SWITCH_ADAPTIVE_ROUTING" />
+				</Group>
+				<Group name="DEVICE_GROUP">
+					<Category name="DEVICE_GROUPS" showHeader="false"/>
+				</Group>
+				<Group name="MFT">
+					<Category name="MFT_TABLE" />
+				</Group>
+				<Group name="LFT">
+					<Category name="LFT_HISTOGRAM" showHeader="false"/>
+				</Group>
+				<Group name="SC2SLMT">
+					<Category name="SC2SLMT_CHART" showHeader="false"/>
+				</Group>
+			</Groups>
+		</Switch>
+		<Hfi>
+			<Groups>
+				<Group name="GENERAL">
+					<Category name="NODE_INFO" />
+					<Category name="NODE_PORT_INFO" />
+				</Group>
+				<Group name="DEVICE_GROUP">
+					<Category name="DEVICE_GROUPS" showHeader="false"/>
+				</Group>
+				<Group name="SC2SLMT">
+					<Category name="SC2SLMT_CHART" showHeader="false"/>
+				</Group>
+			</Groups>
+		</Hfi>
+		<Port>
+			<Groups>
+				<Group name="DEVICE_INFO">
+					<Category name="PORT_INFO" showHeader="false"/>
+				</Group>
+				<Group name="PORT_LINK">
+					<Category name="LINK_WIDTH" />
+					<Category name="LINK_WIDTH_DOWNGRADE" />
+					<Category name="LINK_SPEED" />
+					<Category name="PORT_LINK_MODE" />
+					<Category name="PORT_LTP_CRC_MODE" />
+				</Group>
+				<Group name="LINK_CONNECTION">
+					<Category name="LINK_CONNECTED_TO" />
+					<Category name="NEIGHBOR_MODE" />
+					<Category name="PORT_MODE" />
+				</Group>
+				<Group name="PORT_CAPABILITY">
+					<Category name="PORT_CAPABILITIES" showHeader="false"/>
+				</Group>
+				<Group name="VIRTUAL_LANE">
+					<Category name="VIRTUAL_LANE" showHeader="false"/>
+				</Group>
+				<Group name="PORT_DIAGNOSTICS">
+					<Category name="PORT_DIAGNOSTICS" showHeader="false"/>
+				</Group>
+				<Group name="PORT_PARTITION_ENFORCEMENT">
+					<Category name="PORT_PARTITION_ENFORCEMENT" showHeader="false"/>
+				</Group>
+				<Group name="PORT_MANAGEMENT">
+					<Category name="PORT_MANAGEMENT" showHeader="false"/>
+				</Group>
+				<Group name="FLIT_CONTROL">
+					<Category name="FLIT_CTRL_INTERLEAVE" />
+					<Category name="FLIT_CTRL_PREEMPTION" />
+				</Group>
+				<Group name="PORT_ERROR_ACTIONS">
+					<Category name="PORT_ERROR_ACTIONS" showHeader="false"/>
+				</Group>
+				<Group name="MISCELLANEOUS">
+					<Category name="PORT_IPADDR" />
+					<Category name="PORT_BUFFER_UNITS" />
+					<Category name="PORT_SUBNET" />
+				</Group>
+				<Group name="MTU">
+					<Category name="MTU_CHART" showHeader="false"/>
+				</Group>
+				<Group name="HOQLIFE">
+					<Category name="HOQLIFE_CHART" showHeader="false"/>
+				</Group>
+				<Group name="VL_STALL_COUNT">
+					<Category name="VL_STALL_CHART" showHeader="false"/>
+				</Group>
+				<Group name="CABLE_INFO">
+					<Category name="CABLE_INFO" showHeader="false"/>
+				</Group>
+				<Group name="SC2VLTMT">
+					<Category name="SC2VLTMT_CHART" showHeader="false"/>
+				</Group>
+				<Group name="SC2VLNTMT">
+					<Category name="SC2VLNTMT_CHART" showHeader="false"/>
+				</Group>		
+				<Group name="LINK_DOWN_ERROR_REASON">
+					<Category name="LINK_DOWN_ERROR_LOG"/>
+					<Category name="NEIGHBOR_LINK_DOWN_ERROR_LOG"/>
+				</Group>							
+			</Groups>
+		</Port>
+	</PropertiesDisplay>
+</UserOptions>
