@@ -27,8 +27,8 @@
 
 package com.intel.stl.ui.performance.observer;
 
-import com.intel.stl.api.performance.ErrBucketBean;
-import com.intel.stl.api.performance.ErrStatBean;
+import com.intel.stl.api.performance.CategoryBucketBean;
+import com.intel.stl.api.performance.CategoryStatBean;
 import com.intel.stl.api.performance.VFInfoBean;
 import com.intel.stl.ui.model.DataType;
 import com.intel.stl.ui.performance.item.ErrHistogramItem;
@@ -70,10 +70,10 @@ public abstract class VFErrorHistogramDataObserver extends
             return;
         }
 
-        ErrStatBean[] errors = getErrStatBeans(data, type);
+        CategoryStatBean[] errors = getCategoryStatBeans(data, type);
         int[] counts = null;
-        for (ErrStatBean error : errors) {
-            ErrBucketBean[] buckets = error.getPorts();
+        for (CategoryStatBean error : errors) {
+            CategoryBucketBean[] buckets = error.getPorts();
             if (counts == null) {
                 counts = new int[buckets.length];
             }
@@ -84,5 +84,5 @@ public abstract class VFErrorHistogramDataObserver extends
         controller.updateHistogram(counts);
     }
 
-    protected abstract long getValue(ErrBucketBean err);
+    protected abstract long getValue(CategoryBucketBean err);
 }

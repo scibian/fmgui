@@ -35,12 +35,15 @@ import com.intel.stl.common.StringUtils;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm.h.1.157
- *
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit a86e948b247e4d9fd98434e350b00f112ba93c39
+ * date 2017-08-16 10:28:01
  *
  * STL_CABLE_INFO_STD
  *
+ * The following structure represents STD CableInfo page 0 upper in memory.
+ * (based on SFF-8636 Rev 2-5)
  *
  *typedef struct {
  *   // Page 0 upper, bytes 128-255
@@ -137,7 +140,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *
  *
  * A class to define the structure STL_CABLE_INFO_STD from
- * IbAccess/Common/Inc/stl_sm.h
+ * IbAccess/Common/Inc/stl_sm_types.h
  */
 public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
 

@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,16 +33,16 @@ import com.intel.stl.api.Utils;
 
 /**
  */
-public class ErrSummaryBean implements Serializable {
+public class CategorySummaryBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private long integrityErrors; // unsigned int
 
-    private long congestionErrors; // unsigned int
+    private long congestion; // unsigned int
 
-    private long smaCongestionErrors; // unsigned int
+    private long smaCongestion; // unsigned int
 
-    private long bubbleErrors; // unsigned int
+    private long bubble; // unsigned int
 
     private long securityErrors; // unsigned int
 
@@ -76,72 +76,72 @@ public class ErrSummaryBean implements Serializable {
     }
 
     /**
-     * @return the congestionErrors
+     * @return the congestion
      */
-    public long getCongestionErrors() {
-        return congestionErrors;
+    public long getCongestion() {
+        return congestion;
     }
 
     /**
-     * @param congestionErrors
-     *            the congestionErrors to set
+     * @param congestion
+     *            the congestion to set
      */
-    public void setCongestionErrors(long congestionErrors) {
-        this.congestionErrors = congestionErrors;
+    public void setCongestion(long congestion) {
+        this.congestion = congestion;
     }
 
     /**
-     * @param congestionErrors
-     *            the congestionErrors to set
+     * @param congestion
+     *            the congestion to set
      */
-    public void setCongestionErrors(int congestionErrors) {
-        this.congestionErrors = Utils.unsignedInt(congestionErrors);
+    public void setCongestion(int congestion) {
+        this.congestion = Utils.unsignedInt(congestion);
     }
 
     /**
-     * @return the smaCongestionErrors
+     * @return the smaCongestion
      */
-    public long getSmaCongestionErrors() {
-        return smaCongestionErrors;
+    public long getSmaCongestion() {
+        return smaCongestion;
     }
 
     /**
-     * @param smaCongestionErrors
-     *            the smaCongestionErrors to set
+     * @param smaCongestion
+     *            the smaCongestion to set
      */
-    public void setSmaCongestionErrors(long smaCongestionErrors) {
-        this.smaCongestionErrors = smaCongestionErrors;
+    public void setSmaCongestion(long smaCongestion) {
+        this.smaCongestion = smaCongestion;
     }
 
     /**
-     * @param smaCongestionErrors
-     *            the smaCongestionErrors to set
+     * @param smaCongestion
+     *            the smaCongestion to set
      */
-    public void setSmaCongestionErrors(int smaCongestionErrors) {
-        this.smaCongestionErrors = Utils.unsignedInt(smaCongestionErrors);
+    public void setSmaCongestion(int smaCongestion) {
+        this.smaCongestion = Utils.unsignedInt(smaCongestion);
     }
 
     /**
-     * @return the bubbleErrors
+     * @return the bubble
      */
-    public long getBubbleErrors() {
-        return bubbleErrors;
+    public long getBubble() {
+        return bubble;
     }
 
     /**
-     * @param bubbleErrors
-     *            the bubbleErrors to set
+     * @param bubble
+     *            the bubble to set
      */
-    public void setBubbleErrors(long bubbleErrors) {
-        this.bubbleErrors = bubbleErrors;
+    public void setBubble(long bubble) {
+        this.bubble = bubble;
     }
 
     /**
-     * @param bubbleErrors
-     *            the bubbleErrors to set
+     * @param bubble
+     *            the bubble to set
      */
-    public void setBubbleErrors(int bubbleErrors) {
-        this.bubbleErrors = Utils.unsignedInt(bubbleErrors);
+    public void setBubble(int bubble) {
+        this.bubble = Utils.unsignedInt(bubble);
     }
 
     /**
@@ -222,15 +222,14 @@ public class ErrSummaryBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "ErrSummaryBean [integrityErrors=" + integrityErrors
-                + ", congestionErrors=" + congestionErrors
-                + ", smaCongestionErrors=" + smaCongestionErrors
-                + ", bubbleErrors=" + bubbleErrors + ", securityErrors="
+        return "CategorySummaryBean [integrityErrors=" + integrityErrors
+                + ", congestion=" + congestion + ", smaCongestion="
+                + smaCongestion + ", bubble=" + bubble + ", securityErrors="
                 + securityErrors + ", routingErrors=" + routingErrors
                 + ", discardsPct10=" + discardsPct10 + ", utilizationPct10="
                 + utilizationPct10 + "]";

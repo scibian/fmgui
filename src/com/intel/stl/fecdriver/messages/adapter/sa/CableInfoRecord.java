@@ -24,6 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.sa;
 
 import com.intel.stl.api.subnet.CableInfoBean;
@@ -32,16 +33,20 @@ import com.intel.stl.api.subnet.SAConstants;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sa.h.1.90<br>
+ * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm.h.1.103
  *
- * <pre>
  *
  * CableInfoRecord
  *
  * STL Differences:
  *      LID lengthened to 32 bits.
  *      Reserved2 field shortened from 20 bits to 4 to preserve word-alignment.
+ *      RID.Port for HFI will return HFI port number
  *
  * #define STL_CIR_DATA_SIZE       64
  * typedef struct {
@@ -51,7 +56,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *     IB_BITFIELD2(uint8,
  *                 Length:7,
  *                 Reserved:1);
- *     IB_BITFIELD2(uint16,
+ *     STL_FIELDUNION2(ul, 16,
  *                 Address:12,
  *                 PortType:4); // Port type for response only
  *     };

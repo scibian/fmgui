@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,12 +24,13 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.api.subnet;
 
 /**
  * Title:        SwitchInfoBean
  * Description:  Switch info structure for the Fabric View API
- * 
+ *
  * @version 0.0
  */
 import java.io.Serializable;
@@ -42,6 +43,8 @@ public class SwitchInfoBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int linearFDBCap;
+
+    private int portGroupFDBCap;
 
     private int multicastFDBCap;
 
@@ -123,6 +126,21 @@ public class SwitchInfoBean implements Serializable {
      */
     public void setLinearFDBCap(int inearFDBCap) {
         this.linearFDBCap = inearFDBCap;
+    }
+
+    /**
+     * @return the portGroupFDBCap
+     */
+    public int getPortGroupFDBCap() {
+        return portGroupFDBCap;
+    }
+
+    /**
+     * @param portGroupFDBCap
+     *            the portGroupFDBCap to set
+     */
+    public void setPortGroupFDBCap(int portGroupFDBCap) {
+        this.portGroupFDBCap = portGroupFDBCap;
     }
 
     /**
@@ -506,7 +524,8 @@ public class SwitchInfoBean implements Serializable {
      * @param isAddrRangeConfigSupported
      *            the isAddrRangeConfigSupported to set
      */
-    public void setAddrRangeConfigSupported(boolean isAddrRangeConfigSupported) {
+    public void setAddrRangeConfigSupported(
+            boolean isAddrRangeConfigSupported) {
         this.isAddrRangeConfigSupported = isAddrRangeConfigSupported;
     }
 
@@ -521,7 +540,8 @@ public class SwitchInfoBean implements Serializable {
      * @param isAdaptiveRoutingSupported
      *            the isAdaptiveRoutingSupported to set
      */
-    public void setAdaptiveRoutingSupported(boolean isAdaptiveRoutingSupported) {
+    public void setAdaptiveRoutingSupported(
+            boolean isAdaptiveRoutingSupported) {
         this.isAdaptiveRoutingSupported = isAdaptiveRoutingSupported;
     }
 
@@ -542,16 +562,17 @@ public class SwitchInfoBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return "SwitchInfoBean [linearFDBCap=" + linearFDBCap
-                + ", multicastFDBCap=" + multicastFDBCap + ", linearFDBTop="
-                + linearFDBTop + ", multicastFDBTop=" + multicastFDBTop
-                + ", collectiveCap=" + collectiveCap + ", collectiveTop="
-                + collectiveTop + ", ipAddrIPV6=" + Arrays.toString(ipAddrIPV6)
+                + ", portGroupFDBCap=" + portGroupFDBCap + ", multicastFDBCap="
+                + multicastFDBCap + ", linearFDBTop=" + linearFDBTop
+                + ", multicastFDBTop=" + multicastFDBTop + ", collectiveCap="
+                + collectiveCap + ", collectiveTop=" + collectiveTop
+                + ", ipAddrIPV6=" + Arrays.toString(ipAddrIPV6)
                 + ", ipAddrIPV4=" + Arrays.toString(ipAddrIPV4)
                 + ", portStateChange=" + portStateChange
                 + ", partitionEnforcementCap=" + partitionEnforcementCap

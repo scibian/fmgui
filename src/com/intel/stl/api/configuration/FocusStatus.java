@@ -42,18 +42,18 @@ import com.intel.stl.api.StringUtils;
  *
  * </pre>
  */
-public enum FocusFlag {
+public enum FocusStatus {
     OK((byte) 0),
     PMA_IGNORE((byte) 1),
     PMA_NORESP((byte) 2),
     TOPO_NORESP((byte) 3);
 
-    private static final Map<Byte, FocusFlag> focusFlagMap =
-            new HashMap<Byte, FocusFlag>() {
+    private static final Map<Byte, FocusStatus> focusStatusMap =
+            new HashMap<Byte, FocusStatus>() {
                 private static final long serialVersionUID = 1L;
 
                 {
-                    for (FocusFlag ff : FocusFlag.values()) {
+                    for (FocusStatus ff : FocusStatus.values()) {
                         put(ff.code, ff);
                     }
                 }
@@ -61,7 +61,7 @@ public enum FocusFlag {
 
     private final byte code;
 
-    private FocusFlag(byte code) {
+    private FocusStatus(byte code) {
         this.code = code;
     }
 
@@ -72,8 +72,8 @@ public enum FocusFlag {
         return code;
     }
 
-    public static FocusFlag getFocusFlag(byte code) {
-        FocusFlag res = focusFlagMap.get(code);
+    public static FocusStatus getFocusStatus(byte code) {
+        FocusStatus res = focusStatusMap.get(code);
         if (res != null) {
             return res;
         } else {

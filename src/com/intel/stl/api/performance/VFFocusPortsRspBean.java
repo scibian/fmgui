@@ -46,11 +46,11 @@ public class VFFocusPortsRspBean implements ITimestamped, Serializable {
 
     private byte rate;
 
-    private byte mtu;
+    private byte maxVlMtu;
 
-    private byte localFlags;
+    private byte localStatus;
 
-    private byte neighborFlags;
+    private byte neighborStatus;
 
     private long value; // list sorting factor
 
@@ -143,46 +143,46 @@ public class VFFocusPortsRspBean implements ITimestamped, Serializable {
     /**
      * @return the mtu
      */
-    public byte getMtu() {
-        return mtu;
+    public byte getMaxVlMtu() {
+        return maxVlMtu;
     }
 
     /**
      * @param mtu
      *            the mtu to set
      */
-    public void setMtu(byte mtu) {
-        this.mtu = mtu;
+    public void setMaxVlMtu(byte mtu) {
+        this.maxVlMtu = mtu;
     }
 
     /**
-     * @return the localFlags
+     * @return the localStatus
      */
-    public byte getLocalFlags() {
-        return localFlags;
+    public byte getLocalStatus() {
+        return localStatus;
     }
 
     /**
-     * @param localFlags
-     *            the localFlags to set
+     * @param localStatus
+     *            the localStatus to set
      */
-    public void setLocalFlags(byte localFlags) {
-        this.localFlags = localFlags;
+    public void setLocalStatus(byte localStatus) {
+        this.localStatus = localStatus;
     }
 
     /**
-     * @return the neighborFlags
+     * @return the neighborStatus
      */
-    public byte getNeighborFlags() {
-        return neighborFlags;
+    public byte getNeighborStatus() {
+        return neighborStatus;
     }
 
     /**
-     * @param neighborFlags
-     *            the neighborFlags to set
+     * @param neighborStatus
+     *            the neighborStatus to set
      */
-    public void setNeighborFlags(byte neighborFlags) {
-        this.neighborFlags = neighborFlags;
+    public void setNeighborStatus(byte neighborStatus) {
+        this.neighborStatus = neighborStatus;
     }
 
     /**
@@ -365,9 +365,9 @@ public class VFFocusPortsRspBean implements ITimestamped, Serializable {
     @Override
     public String toString() {
         return "VFFocusPortRspBean [nodeLid=" + nodeLid + ", portNumber="
-                + portNumber + ", rate=" + rate + ", mtu=" + mtu
-                + ", localFlags=" + localFlags + ", neighborFlags="
-                + neighborFlags + ", value=0x" + Long.toHexString(value)
+                + portNumber + ", rate=" + rate + ", maxVlMtu=" + maxVlMtu
+                + ", localStatus=" + localStatus + ", neighborStatus="
+                + neighborStatus + ", value=0x" + Long.toHexString(value)
                 + ", nodeGUID=0x" + Long.toHexString(nodeGUID) + ", nodeDesc="
                 + nodeDesc + ", neighborLid=" + neighborLid
                 + ", neighborPortNumber=" + neighborPortNumber

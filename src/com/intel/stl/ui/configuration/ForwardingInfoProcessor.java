@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,6 +32,7 @@ import static com.intel.stl.ui.model.DeviceProperty.LINEAR_FDB_TOP;
 import static com.intel.stl.ui.model.DeviceProperty.MULTICAST_FDB_CAP;
 import static com.intel.stl.ui.model.DeviceProperty.MULTICAST_FDB_TOP;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_ADRR_RANGE_CONFIG;
+import static com.intel.stl.ui.model.DeviceProperty.PORT_GROUP_FDB_CAP;
 
 import com.intel.stl.api.subnet.SwitchInfoBean;
 import com.intel.stl.ui.common.STLConstants;
@@ -47,12 +48,19 @@ public class ForwardingInfoProcessor extends BaseCategoryProcessor {
             getEmptySwitchForwardingInfo(category);
             return;
         }
-        addProperty(category, LINEAR_FDB_CAP, dec(switchInfo.getLinearFDBCap()));
-        addProperty(category, LINEAR_FDB_TOP, dec(switchInfo.getLinearFDBTop()));
+        addProperty(category, LINEAR_FDB_CAP,
+                dec(switchInfo.getLinearFDBCap()));
+        addProperty(category, LINEAR_FDB_TOP,
+                hex(switchInfo.getLinearFDBTop()));
         addProperty(category, MULTICAST_FDB_CAP,
                 dec(switchInfo.getMulticastFDBCap()));
         addProperty(category, MULTICAST_FDB_TOP,
-                dec(switchInfo.getMulticastFDBTop()));
+                hex(switchInfo.getMulticastFDBTop()));
+        int cap = switchInfo.getPortGroupFDBCap();
+        if (cap != 0) {
+            addProperty(category, PORT_GROUP_FDB_CAP,
+                    dec(switchInfo.getPortGroupFDBCap()));
+        }
         String trueStr = STLConstants.K0385_TRUE.getValue();
         String falseStr = STLConstants.K0386_FALSE.getValue();
         String value = falseStr;
@@ -67,6 +75,7 @@ public class ForwardingInfoProcessor extends BaseCategoryProcessor {
         addProperty(category, LINEAR_FDB_TOP, "");
         addProperty(category, MULTICAST_FDB_CAP, "");
         addProperty(category, MULTICAST_FDB_TOP, "");
+        addProperty(category, PORT_GROUP_FDB_CAP, "");
         addProperty(category, PORT_ADRR_RANGE_CONFIG, "");
     }
 }

@@ -29,7 +29,7 @@ package com.intel.stl.ui.performance.observer;
 
 import java.util.Date;
 
-import com.intel.stl.api.performance.ErrStatBean;
+import com.intel.stl.api.performance.CategoryStatBean;
 import com.intel.stl.api.performance.VFInfoBean;
 import com.intel.stl.ui.model.DataType;
 import com.intel.stl.ui.performance.GroupSource;
@@ -73,9 +73,9 @@ public abstract class VFErrorDataObserver
 
             Date time = bean.getTimestampDate();
             int interval = bean.getImageInterval();
-            ErrStatBean[] errors = getErrStatBeans(bean, type);
+            CategoryStatBean[] errors = getCategoryStatBeans(bean, type);
             long value = 0;
-            for (ErrStatBean error : errors) {
+            for (CategoryStatBean error : errors) {
                 value += getValue(error);
             }
             GroupSource sourceName = new GroupSource(bean.getVfName());
@@ -83,6 +83,6 @@ public abstract class VFErrorDataObserver
         }
     }
 
-    protected abstract long getValue(ErrStatBean error);
+    protected abstract long getValue(CategoryStatBean error);
 
 }

@@ -39,6 +39,9 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.intel.stl.api.Utils;
 import com.intel.stl.api.configuration.ConfigurationException;
 import com.intel.stl.api.configuration.EventRule;
@@ -81,6 +84,8 @@ import com.intel.stl.ui.wizards.view.subnet.SubnetWizardView;
  */
 public class MultinetWizardController
         implements IMultinetWizardListener, IModelChangeListener<IWizardModel> {
+    private final static Logger log =
+            LoggerFactory.getLogger(MultinetWizardController.class);
 
     private final MultinetWizardView view;
 
@@ -1227,6 +1232,7 @@ public class MultinetWizardController
                 get();
             } catch (InterruptedException e) {
             } catch (ExecutionException e) {
+                log.error("Validation Error", e);
             }
 
             // We must update the event rules and recipients list in the local

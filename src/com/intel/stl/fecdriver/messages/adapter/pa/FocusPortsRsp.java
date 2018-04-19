@@ -24,6 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.pa;
 
 import com.intel.stl.api.performance.FocusPortsRspBean;
@@ -33,33 +34,38 @@ import com.intel.stl.common.StringUtils;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAccess/Common/Inc/stl_pa.h version 1.55
- *
  * <pre>
+ * ref: /ALL_EMB/IbAccess/Common/Inc/stl_pa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  *   // TBD is value2 always guid?
  *  typedef struct _STL_FOCUS_PORTS_RSP {
  * [16]     STL_PA_IMAGE_ID_DATA    imageId;
  * [20]     uint32                  nodeLid;
  * [21]     uint8                   portNumber;
  * [22]     uint8                   rate;   // IB_STATIC_RATE - 5 bit value
- * [23]     uint8                   mtu;    // enum IB_MTU - 4 bit value
- * [24]     IB_BITFIELD2(uint8,     localFlags : 4,
- *                                  neighborFlags : 4)
+ * [23]     uint8                   maxVlMtu;    // enum IB_MTU - 4 bit value
+ * [24]     IB_BITFIELD2(uint8,     localStatus : 4,
+ *                                  neighborStatus : 4)
  * [32]     uint64                  value;      // list sorting factor
  * [40]     uint64                  nodeGUID;
- * [104]    char                    nodeDesc[64]; // can be 64 char w/o \0
+ * [104]    char                    nodeDesc[STL_PM_NODEDESCLEN]; // \0 terminated.
  * [108]    uint32                  neighborLid;
  * [109]    uint8                   neighborPortNumber;
  * [112]    uint8                   reserved3[3];
  * [120]    uint64                  neighborValue;
  * [128]    uint64                  neighborGuid;
- * [192]    char                    neighborNodeDesc[64]; // can be 64 char w/o \0
+ * [192]    char                    neighborNodeDesc[STL_PM_NODEDESCLEN]; // \0 terminated.
  *  } PACK_SUFFIX STL_FOCUS_PORTS_RSP;
  *
  *   typedef struct _STL_PA_Image_ID_Data {
  *       uint64                  imageNumber;
  *       int32                   imageOffset;
- *       uint32                  reserved;
+ *       union {
+ *           uint32              absoluteTime;
+ *           int32               timeOffset;
+ *       }
  *   } PACK_SUFFIX STL_PA_IMAGE_ID_DATA;
  * </pre>
  *
@@ -78,15 +84,16 @@ public class FocusPortsRsp extends SimpleDatagram<FocusPortsRspBean> {
     public FocusPortsRspBean toObject() {
         buffer.clear();
         FocusPortsRspBean bean = new FocusPortsRspBean();
-        bean.setImageId(new ImageIdBean(buffer.getLong(), buffer.getInt()));
+        bean.setImageId(new ImageIdBean(buffer.getLong(), buffer.getInt(),
+                buffer.getInt()));
         buffer.position(16);
         bean.setNodeLid(buffer.getInt());
         bean.setPortNumber(buffer.get());
         bean.setRate(buffer.get());
-        bean.setMtu(buffer.get());
+        bean.setMaxVlMtu(buffer.get());
         byte val = buffer.get();
-        bean.setLocalFlags((byte) ((val & 0xf0) >> 4));
-        bean.setNeighborFlags((byte) (val & 0x0f));
+        bean.setLocalStatus((byte) ((val & 0xf0) >> 4));
+        bean.setNeighborStatus((byte) (val & 0x0f));
         bean.setValue(buffer.getLong());
         bean.setNodeGUID(buffer.getLong());
         bean.setNodeDesc(StringUtils.toString(buffer.array(),

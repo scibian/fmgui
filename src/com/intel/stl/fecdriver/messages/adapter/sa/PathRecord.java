@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,50 +24,53 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.sa;
 
 import com.intel.stl.api.subnet.PathRecordBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/ib_sa_records.h v1.68
- * 
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/ib_sa_records.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  * typedef struct _IB_PATH_RECORD {
  * 	uint64		ServiceID;
- * 	IB_GID		DGID;				// Destination GID 
- * 	IB_GID		SGID;				// Source GID 
- * 	uint16		DLID;				// Destination LID 
- * 	uint16		SLID;				// Source LID 
+ * 	IB_GID		DGID;				// Destination GID
+ * 	IB_GID		SGID;				// Source GID
+ * 	uint16		DLID;				// Destination LID
+ * 	uint16		SLID;				// Source LID
  * 	union {
  * 		uint32 AsReg32;
  * 		struct {
  * #if CPU_BE
- * 			uint32		RawTraffic	:1;	// 0 for IB Packet (P_Key must be valid) 
- * 										// 1 for Raw Packet (No P_Key) 
+ * 			uint32		RawTraffic	:1;	// 0 for IB Packet (P_Key must be valid)
+ * 										// 1 for Raw Packet (No P_Key)
  * 			uint32		Reserved	:3;
- * 			uint32		FlowLabel	:20;	// used in GRH		 
- * 			uint32		HopLimit	:8;		// Hop limit used in GRH 
+ * 			uint32		FlowLabel	:20;	// used in GRH
+ * 			uint32		HopLimit	:8;		// Hop limit used in GRH
  * #else
- * 			uint32		HopLimit	:8;		// Hop limit used in GRH 
- * 			uint32		FlowLabel	:20;	// used in GRH		 
+ * 			uint32		HopLimit	:8;		// Hop limit used in GRH
+ * 			uint32		FlowLabel	:20;	// used in GRH
  * 			uint32		Reserved	:3;
- * 			uint32		RawTraffic	:1;	// 0 for IB Packet (P_Key must be valid) 
- * 										// 1 for Raw Packet (No P_Key) 
+ * 			uint32		RawTraffic	:1;	// 0 for IB Packet (P_Key must be valid)
+ * 										// 1 for Raw Packet (No P_Key)
  * #endif
  * 		} PACK_SUFFIX s;
  * 	} u1;
- * 
- * 	uint8		TClass;				// Traffic Class used in GRH 
+ *
+ * 	uint8		TClass;				// Traffic Class used in GRH
  * #if CPU_BE
  * 	uint8		Reversible	:1;
- * 	uint8		NumbPath	:7;		// Max number of paths to (be) return(ed) 
- * 
- * #else // CPU_BE 
- * 	uint8		NumbPath	:7;		// Max number of paths to (be) return(ed) 
+ * 	uint8		NumbPath	:7;		// Max number of paths to (be) return(ed)
+ *
+ * #else // CPU_BE
+ * 	uint8		NumbPath	:7;		// Max number of paths to (be) return(ed)
  * 	uint8		Reversible	:1;
- * #endif // CPU_BE 
- * 	uint16		P_Key;				// Partition Key for this path 
+ * #endif // CPU_BE
+ * 	uint16		P_Key;				// Partition Key for this path
  * 	union {
  * 		uint16			AsReg16;
  * 		struct {
@@ -84,44 +87,44 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * #endif
  * 		} PACK_SUFFIX s;
  * 	} u2;
- * 
+ *
  * #if CPU_BE
- * 	uint8		MtuSelector	:2;		// enum IB_SELECTOR 
- * 	uint8		Mtu			:6;		// enum IB_MTU 
+ * 	uint8		MtuSelector	:2;		// enum IB_SELECTOR
+ * 	uint8		Mtu			:6;		// enum IB_MTU
  * #else
- * 	uint8		Mtu			:6;		// enum IB_MTU 
- * 	uint8		MtuSelector	:2;		// enum IB_SELECTOR 
+ * 	uint8		Mtu			:6;		// enum IB_MTU
+ * 	uint8		MtuSelector	:2;		// enum IB_SELECTOR
  * #endif
- * 
+ *
  * #if CPU_BE
- * 	uint8		RateSelector:2;		// enum IB_SELECTOR 
- * 	uint8		Rate		:6;		// enum IB_STATIC_RATE 
+ * 	uint8		RateSelector:2;		// enum IB_SELECTOR
+ * 	uint8		Rate		:6;		// enum IB_STATIC_RATE
  * #else
- * 	uint8		Rate		:6;		// enum IB_STATIC_RATE 
- * 	uint8		RateSelector:2;		// enum IB_SELECTOR 
+ * 	uint8		Rate		:6;		// enum IB_STATIC_RATE
+ * 	uint8		RateSelector:2;		// enum IB_SELECTOR
  * #endif
- * 
- * 	// ***************************************** 
- * 	// *** User be aware that the CM LifeTime & 
- * 	// *** TimeOut values are only 5-bit wide. 
- * 	// ***************************************** 
- * 	// 
- * 	// Accumulated packet life time for the path specified by an enumeration  
- * 	// deried from 4.096 usec * 2^PktLifeTime 
+ *
+ * 	// *****************************************
+ * 	// *** User be aware that the CM LifeTime &
+ * 	// *** TimeOut values are only 5-bit wide.
+ * 	// *****************************************
+ * 	//
+ * 	// Accumulated packet life time for the path specified by an enumeration
+ * 	// deried from 4.096 usec * 2^PktLifeTime
  * #if CPU_BE
- * 	uint8		PktLifeTimeSelector:2;	// enum IB_SELECTOR 
+ * 	uint8		PktLifeTimeSelector:2;	// enum IB_SELECTOR
  * 	uint8		PktLifeTime	:6;
  * #else
  * 	uint8		PktLifeTime	:6;
- * 	uint8		PktLifeTimeSelector:2;	// enum IB_SELECTOR 
+ * 	uint8		PktLifeTimeSelector:2;	// enum IB_SELECTOR
  * #endif
- * 
- * 	uint8		Preference;	// 1.1 specific. see page 800 of volume 1 
+ *
+ * 	uint8		Preference;	// 1.1 specific. see page 800 of volume 1
  * 	uint8		Reserved2 [6];
  * } PACK_SUFFIX IB_PATH_RECORD;
- * 
+ *
  * </pre>
- * 
+ *
  */
 public class PathRecord extends SimpleDatagram<PathRecordBean> {
     private GID<?> sGid, dGid;
@@ -137,8 +140,8 @@ public class PathRecord extends SimpleDatagram<PathRecordBean> {
     public void setDGID(GID<?> gid) {
         dGid = gid;
         buffer.position(8);
-        buffer.put(gid.getByteBuffer().array(), gid.getByteBuffer()
-                .arrayOffset(), gid.getLength());
+        buffer.put(gid.getByteBuffer().array(),
+                gid.getByteBuffer().arrayOffset(), gid.getLength());
     }
 
     public GID<?> getDGid() {
@@ -152,8 +155,8 @@ public class PathRecord extends SimpleDatagram<PathRecordBean> {
     public void setSGID(GID<?> gid) {
         sGid = gid;
         buffer.position(24);
-        buffer.put(gid.getByteBuffer().array(), gid.getByteBuffer()
-                .arrayOffset(), gid.getLength());
+        buffer.put(gid.getByteBuffer().array(),
+                gid.getByteBuffer().arrayOffset(), gid.getLength());
     }
 
     public GID<?> getSGid() {
@@ -236,7 +239,7 @@ public class PathRecord extends SimpleDatagram<PathRecordBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
      */
     @Override

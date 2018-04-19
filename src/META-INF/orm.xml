@@ -169,9 +169,9 @@
 			<transient name="eventSubnets"/>
 		</attributes>
 	</embeddable>
-    <embeddable class="com.intel.stl.api.performance.ErrBucketBean">
+    <embeddable class="com.intel.stl.api.performance.CategoryBucketBean">
     </embeddable>
-	<embeddable class="com.intel.stl.api.performance.ErrSummaryBean">
+	<embeddable class="com.intel.stl.api.performance.CategorySummaryBean">
 	</embeddable>
 	<embeddable class="com.intel.stl.api.subnet.GIDGlobal">
 	</embeddable>
@@ -183,17 +183,17 @@
 			<basic name="sweepTimestamp">
 				<column name="gi_sweepTimestamp"/>
 			</basic>
-            <element-collection name="internalErrorPorts" fetch="EAGER">
+            <element-collection name="internalCategoryStatPorts" fetch="EAGER">
                  <order-column/>
-                 <collection-table name="INTERNAL_ERROR_PORTS">
+                 <collection-table name="INTERNAL_CATEGORT_STAT_PORTS">
                      <join-column name="subnetId"/>
                      <join-column name="groupName"/>
                      <join-column name="sweepTimestamp"/>
                  </collection-table>
             </element-collection>
-            <element-collection name="externalErrorPorts" fetch="EAGER">
+            <element-collection name="externalCategoryStatPorts" fetch="EAGER">
                  <order-column/>
-                 <collection-table name="EXTERNAL_ERROR_PORTS">
+                 <collection-table name="EXTERNAL_CATEGORT_STAT_PORTS">
                      <join-column name="subnetId"/>
                      <join-column name="groupName"/>
                      <join-column name="sweepTimestamp"/>
@@ -227,11 +227,11 @@
 				<attribute-override name="maxKPps">
 					<column name="internal_maxKPps"/>
 				</attribute-override>
-				<attribute-override name="pmaFailedPorts">
-					<column name="internal_pmaFailedPorts"/>
+				<attribute-override name="pmaNoRespPorts">
+					<column name="internal_pmaNoRespPorts"/>
 				</attribute-override>
-				<attribute-override name="topoFailedPorts">
-					<column name="internal_topoFailedPorts"/>
+				<attribute-override name="topoIncompPorts">
+					<column name="internal_topoIncompPorts"/>
 				</attribute-override>
 			</embedded>
 			<embedded name="sendUtilStats">
@@ -262,11 +262,11 @@
 				<attribute-override name="maxKPps">
 					<column name="send_maxKPps"/>
 				</attribute-override>
-				<attribute-override name="pmaFailedPorts">
-					<column name="send_pmaFailedPorts"/>
+				<attribute-override name="pmaNoRespPorts">
+					<column name="send_pmaNoRespPorts"/>
 				</attribute-override>
-				<attribute-override name="topoFailedPorts">
-					<column name="send_topoFailedPorts"/>
+				<attribute-override name="topoIncompPorts">
+					<column name="send_topoIncompPorts"/>
 				</attribute-override>
 			</embedded>
 			<embedded name="recvUtilStats">
@@ -297,25 +297,25 @@
 				<attribute-override name="maxKPps">
 					<column name="recv_maxKPps"/>
 				</attribute-override>
-				<attribute-override name="pmaFailedPorts">
-					<column name="recv_pmaFailedPorts"/>
+				<attribute-override name="pmaNoRespPorts">
+					<column name="recv_pmaNoRespPorts"/>
 				</attribute-override>
-				<attribute-override name="topoFailedPorts">
-					<column name="recv_topoFailedPorts"/>
+				<attribute-override name="topoIncompPorts">
+					<column name="recv_topoIncompPorts"/>
 				</attribute-override>
 			</embedded>
-			<embedded name="internalErrorMaximums">
+			<embedded name="internalCategoryMaximums">
 				<attribute-override name="integrityErrors">
 					<column name="internal_integrityErrors"/>
 				</attribute-override>
-				<attribute-override name="congestionErrors">
-					<column name="internal_congestionErrors"/>
+				<attribute-override name="congestion">
+					<column name="internal_congestion"/>
 				</attribute-override>
-				<attribute-override name="smaCongestionErrors">
-					<column name="internal_smaCongestionErrors"/>
+				<attribute-override name="smaCongestion">
+					<column name="internal_smaCongestion"/>
 				</attribute-override>
-				<attribute-override name="bubbleErrors">
-					<column name="internal_bubbleErrors"/>
+				<attribute-override name="bubble">
+					<column name="internal_bubble"/>
 				</attribute-override>
 				<attribute-override name="securityErrors">
 					<column name="internal_securityErrors"/>
@@ -342,18 +342,18 @@
 					<column name="internal_utilizationPct10"/>
 				</attribute-override>
 			</embedded>
-			<embedded name="externalErrorMaximums">
+			<embedded name="externalCategoryMaximums">
 				<attribute-override name="integrityErrors">
 					<column name="external_integrityErrors"/>
 				</attribute-override>
-				<attribute-override name="congestionErrors">
-					<column name="external_congestionErrors"/>
+				<attribute-override name="congestion">
+					<column name="external_congestion"/>
 				</attribute-override>
-				<attribute-override name="smaCongestionErrors">
-					<column name="external_smaCongestionErrors"/>
+				<attribute-override name="smaCongestion">
+					<column name="external_smaCongestion"/>
 				</attribute-override>
-				<attribute-override name="bubbleErrors">
-					<column name="external_bubbleErrors"/>
+				<attribute-override name="bubble">
+					<column name="external_bubble"/>
 				</attribute-override>
 				<attribute-override name="securityErrors">
 					<column name="external_securityErrors"/>

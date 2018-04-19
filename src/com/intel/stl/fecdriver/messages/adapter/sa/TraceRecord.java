@@ -32,9 +32,11 @@ import com.intel.stl.api.subnet.TraceRecordBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sa.h v1.92
- *
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sa_types.h
+ * commit b0d0c6e7e1803a2416236b3918280b0b3a0d1205
+ * date 2017-07-31 13:52:56
+ *
  *  TraceRecord
  *
  *  STL Differences

@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,35 +24,40 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.sa;
 
 import com.intel.stl.api.subnet.VirtualLaneBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm.h v1.115
- * 
  * <pre>
- * 
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit a86e948b247e4d9fd98434e350b00f112ba93c39
+ * date 2017-08-16 10:28:01
+ *
+ *
  * 	struct {
  *      uint8    PreemptCap;
- * 
+ *
  * 		struct { IB_BITFIELD2( uint8,
  * 			Reserved:		3,
- * 			Cap:			5 )		// RO/HS-E Virtual Lanes supported on this port 
+ * 			Cap:			5 )		// RO/HS-E Virtual Lanes supported on this port
  * 		} s2;
- * 
- * 		uint16  HighLimit;			// RW/HS-E Limit of high priority component of 
- * 									//  VL Arbitration table 
- * 									// POD: 0 
- * 		uint16  PreemptingLimit;	// RW/HS-E Limit of preempt component of 
- * 									//  VL Arbitration table 
- * 									// POD: 0 
- * 		uint8   ArbitrationHighCap; // RO/HS-E 
- * 		uint8   ArbitrationLowCap;	// RO/HS-E 
+ *
+ * 		uint16  HighLimit;			// RW/HS-E Limit of high priority component of
+ * 									//  VL Arbitration table
+ * 									// POD: 0
+ * 		uint16  PreemptingLimit;	// RW/HS-E Limit of preempt component of
+ * 									//  VL Arbitration table
+ * 									// POD: 0
+ *      union {
+ * 		    uint8   ArbitrationHighCap; // RO/HS-E
+ *      };
+ * 		uint8   ArbitrationLowCap;	// RO/HS-E
  * 	} VL;
  * </pre>
- * 
+ *
  */
 public class VirtualLane extends SimpleDatagram<VirtualLaneBean> {
 
@@ -89,16 +94,15 @@ public class VirtualLane extends SimpleDatagram<VirtualLaneBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
      */
     @Override
     public VirtualLaneBean toObject() {
         buffer.clear();
-        VirtualLaneBean bean =
-                new VirtualLaneBean(buffer.get(), buffer.get(),
-                        buffer.getShort(), buffer.getShort(), buffer.get(),
-                        buffer.get());
+        VirtualLaneBean bean = new VirtualLaneBean(buffer.get(), buffer.get(),
+                buffer.getShort(), buffer.getShort(), buffer.get(),
+                buffer.get());
         return bean;
     }
 

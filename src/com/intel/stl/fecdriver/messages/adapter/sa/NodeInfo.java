@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,45 +24,48 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.fecdriver.messages.adapter.sa;
 
 import com.intel.stl.api.subnet.NodeInfoBean;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 
 /**
- * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm.h v1.115
- * 
  * <pre>
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit a86e948b247e4d9fd98434e350b00f112ba93c39
+ * date 2017-08-16 10:28:01
+ *
  * typedef struct {
- * 
- * 	uint8	BaseVersion;		// RO Supported MAD Base Version 
- * 	uint8	ClassVersion;		// RO Supported Subnet Management Class 
- * 								// (SMP) Version 
- * 	uint8	NodeType;	
- * 	uint8	NumPorts;			// RO Number of link ports on this node 
- * 
+ *
+ * 	uint8	BaseVersion;		// RO Supported MAD Base Version
+ * 	uint8	ClassVersion;		// RO Supported Subnet Management Class
+ * 								// (SMP) Version
+ * 	uint8	NodeType;
+ * 	uint8	NumPorts;			// RO Number of link ports on this node
+ *
  * 	uint32	Reserved;
- * 
- * 	uint64	SystemImageGUID;		
- * 
- * 	uint64	NodeGUID;			// RO GUID of the HFI or switch 
- * 
- * 	uint64	PortGUID;			// RO GUID of this end port itself 
- * 
- * 	uint16	PartitionCap;		// RO Number of entries in the Partition Table 
- * 								// for end ports 
- * 	uint16	DeviceID;			// RO Device ID information as assigned by 
- * 								// device manufacturer 
- * 	uint32	Revision;			// RO Device revision, assigned by manufacturer 
- * 
- * 	STL_FIELDUNION2(u1, 32, 
- * 			LocalPortNum:	8,		// RO The link port number this 
- * 									// SMP came on in 
- * 			VendorID:		24);	// RO Device vendor, per IEEE 
- * 
+ *
+ * 	uint64	SystemImageGUID;
+ *
+ * 	uint64	NodeGUID;			// RO GUID of the HFI or switch
+ *
+ * 	uint64	PortGUID;			// RO GUID of this end port itself
+ *
+ * 	uint16	PartitionCap;		// RO Number of entries in the Partition Table
+ * 								// for end ports
+ * 	uint16	DeviceID;			// RO Device ID information as assigned by
+ * 								// device manufacturer
+ * 	uint32	Revision;			// RO Device revision, assigned by manufacturer
+ *
+ * 	STL_FIELDUNION2(u1, 32,
+ * 			LocalPortNum:	8,		// RO The link port number this
+ * 									// SMP came on in
+ * 			VendorID:		24);	// RO Device vendor, per IEEE
+ *
  * } PACK_SUFFIX STL_NODE_INFO;
  * </pre>
- * 
+ *
  */
 public class NodeInfo extends SimpleDatagram<NodeInfoBean> {
 
@@ -128,7 +131,7 @@ public class NodeInfo extends SimpleDatagram<NodeInfoBean> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.hpc.stl.resourceadapter.data.SimpleDatagram#toObject()
      */
     @Override

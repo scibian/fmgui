@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -69,7 +69,8 @@ public class StackPanel extends JPanel {
 
     private boolean opened = false;
 
-    public StackPanel(TreeTypeEnum type, JTree tree, final IStack stackInterface) {
+    public StackPanel(TreeTypeEnum type, JTree tree,
+            final IStack stackInterface) {
         super(new GridBagLayout());
         this.id = type;
 
@@ -87,7 +88,7 @@ public class StackPanel extends JPanel {
         headerPanel.addMouseListener(new MouseAdapter() {
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.
              * MouseEvent)
              */
@@ -240,6 +241,14 @@ public class StackPanel extends JPanel {
         }
     }
 
+    public void ensureSelectionVisible() {
+        if (tree != null) {
+            TreePath path = tree.getSelectionPath();
+            int row = Math.max(0, tree.getRowForPath(path) - 5);
+            tree.scrollRowToVisible(row);
+        }
+    }
+
     public void clearSelection() {
         if (tree != null) {
             tree.clearSelection();
@@ -248,7 +257,7 @@ public class StackPanel extends JPanel {
 
     /**
      * Description:
-     * 
+     *
      * @param paths
      */
     public void collapse(TreePath path) {

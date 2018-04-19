@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -186,16 +186,18 @@ public interface SAConstants {
     byte SUBN_ADM_GETTABLE_RESP = (byte) 0x92;
 
     byte SUBN_ADM_GETTRACETABLE = (byte) 0x13; /* optional */
+
     byte SUBN_ADM_GETMULTI = (byte) 0x14; /* optional */
 
     byte SUBN_ADM_GETMULTI_RESP = (byte) 0x94; /* optional */
+
     byte SUBN_ADM_DELETE = (byte) 0x15;
 
     byte SUBN_ADM_DELETE_RESP = (byte) 0x95;
 
     /*
-     * --------------------------------------------------------------------------
-     * Link Record - details about a link in the fabric
+     * -------------------------------------------------------------------------
+     * - Link Record - details about a link in the fabric
      */
     /* ComponentMask bits */
     long IB_LINK_RECORD_COMP_FROMLID = 0x00000001;
@@ -207,8 +209,8 @@ public interface SAConstants {
     long IB_LINK_RECORD_COMP_TOLID = 0x00000008;
 
     /*
-     * --------------------------------------------------------------------------
-     * Path Record - describes path between 2 end nodes in the fabric
+     * -------------------------------------------------------------------------
+     * - Path Record - describes path between 2 end nodes in the fabric
      */
     /* ComponentMask bits */
     /*
@@ -330,6 +332,8 @@ public interface SAConstants {
 
     // ALL_EMB/IbAccess/Common/Inc/stl_types.h
     int STL_MAX_SLS = 32;
+
+    int STL_MAX_SCS = 32;
 
     // ALL_EMB/IbAccess/Common/Inc/stl_sm.h
     int STL_CABLE_INFO_PAGESZ = 128;

@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,39 +24,40 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.api.performance;
 
 import java.io.Serializable;
 
 /**
  */
-public class ErrBucketBean implements Serializable {
+public class CategoryBucketBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int integrityErrors;
 
-    private int congestionErrors;
+    private int congestion;
 
-    private int smaCongestionErrors;
+    private int smaCongestion;
 
-    private int bubbleErrors;
+    private int bubble;
 
     private int securityErrors;
 
     private int routingErrors;
 
-    public ErrBucketBean() {
+    public CategoryBucketBean() {
         super();
     }
 
-    public ErrBucketBean(int integrityErrors, int congestionErrors,
-            int smaCongestionErrors, int bubbleErrors, int securityErrors,
+    public CategoryBucketBean(int integrityErrors, int congestion,
+            int smaCongestion, int bubble, int securityErrors,
             int routingErrors) {
         super();
         this.integrityErrors = integrityErrors;
-        this.congestionErrors = congestionErrors;
-        this.smaCongestionErrors = smaCongestionErrors;
-        this.bubbleErrors = bubbleErrors;
+        this.congestion = congestion;
+        this.smaCongestion = smaCongestion;
+        this.bubble = bubble;
         this.securityErrors = securityErrors;
         this.routingErrors = routingErrors;
     }
@@ -77,48 +78,48 @@ public class ErrBucketBean implements Serializable {
     }
 
     /**
-     * @return the congestionErrors
+     * @return the congestion
      */
-    public int getCongestionErrors() {
-        return congestionErrors;
+    public int getCongestion() {
+        return congestion;
     }
 
     /**
-     * @param congestionErrors
-     *            the congestionErrors to set
+     * @param congestion
+     *            the congestion to set
      */
-    public void setCongestionErrors(int congestionErrors) {
-        this.congestionErrors = congestionErrors;
+    public void setCongestion(int congestion) {
+        this.congestion = congestion;
     }
 
     /**
-     * @return the smaCongestionErrors
+     * @return the smaCongestion
      */
-    public int getSmaCongestionErrors() {
-        return smaCongestionErrors;
+    public int getSmaCongestion() {
+        return smaCongestion;
     }
 
     /**
-     * @param smaCongestionErrors
-     *            the smaCongestionErrors to set
+     * @param smaCongestion
+     *            the smaCongestion to set
      */
-    public void setSmaCongestionErrors(int smaCongestionErrors) {
-        this.smaCongestionErrors = smaCongestionErrors;
+    public void setSmaCongestion(int smaCongestion) {
+        this.smaCongestion = smaCongestion;
     }
 
     /**
-     * @return the bubbleErrors
+     * @return the bubble
      */
-    public int getBubbleErrors() {
-        return bubbleErrors;
+    public int getBubble() {
+        return bubble;
     }
 
     /**
-     * @param bubbleErrors
-     *            the bubbleErrors to set
+     * @param bubble
+     *            the bubble to set
      */
-    public void setBubbleErrors(int bubbleErrors) {
-        this.bubbleErrors = bubbleErrors;
+    public void setBubble(int bubble) {
+        this.bubble = bubble;
     }
 
     /**
@@ -153,15 +154,14 @@ public class ErrBucketBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "ErrBucketBean [integrityErrors=" + integrityErrors
-                + ", congestionErrors=" + congestionErrors
-                + ", smaCongestionErrors=" + smaCongestionErrors
-                + ", bubbleErrors=" + bubbleErrors + ", securityErrors="
+        return "CategoryBucketBean [integrityErrors=" + integrityErrors
+                + ", congestion=" + congestion + ", smaCongestion="
+                + smaCongestion + ", bubble=" + bubble + ", securityErrors="
                 + securityErrors + ", routingErrors=" + routingErrors + "]";
     }
 
