@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015, Intel Corporation
+ * Copyright (c) 2017, Intel Corporation
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,55 +25,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.intel.stl.ui.model;
+package com.intel.stl.api.configuration;
 
-import com.intel.stl.api.subnet.PowerClassType;
-import com.intel.stl.ui.common.STLConstants;
+/**
+ * <pre>
+ * ref: /ALL_EMB/IbAccess/Common/Inc/stl_sm.h commit:
+ * ebe854e038f332c15aa4598bf6af7773d85405c5
+ *
+ * typedef enum {
+ *       VL_SCHED_MODE_VLARB             = 0,    // VL Arbitration Tables
+ *       VL_SCHED_MODE_BW_METER          = 1,    // BW Metering Tables
+ *       VL_SCHED_MODE_AUTOMATIC         = 2,    // harcoded, not configurabl
+ *       // reserved 3
+ * } STL_VL_SCHEDULING_MODE;
+ *
+ * </pre>
+ */
 
-public enum PowerClassTypeViz {
-    CLASS1(PowerClassType.CLASS1, STLConstants.K1145_CABLE_CLASS1.getValue()),
-    CLASS2(PowerClassType.CLASS2, STLConstants.K1146_CABLE_CLASS2.getValue()),
-    CLASS3(PowerClassType.CLASS3, STLConstants.K1147_CABLE_CLASS3.getValue()),
-    CLASS4(PowerClassType.CLASS4, STLConstants.K1148_CABLE_CLASS4.getValue()),
-    CLASS5(PowerClassType.CLASS5, STLConstants.K1149_CABLE_CLASS5.getValue()),
-    CLASS6(PowerClassType.CLASS6, STLConstants.K1150_CABLE_CLASS6.getValue()),
-    CLASS7(PowerClassType.CLASS7, STLConstants.K1151_CABLE_CLASS7.getValue()),
-    UNDEFINED(PowerClassType.UNDEFINED,
-            STLConstants.K1138_CABLE_UNDEFINED.getValue());
+public enum VLSchedulingMode {
+    VL_ARB((short) 0),
+    BW_METER((short) 1),
+    AUTOMATIC((short) 2);
 
-    private final PowerClassType type;
+    private final short code;
 
-    private final String name;
-
-    private PowerClassTypeViz(PowerClassType type, String name) {
-        this.type = type;
-        this.name = name;
+    private VLSchedulingMode(short code) {
+        this.code = code;
     }
 
     /**
-     * @return the type
+     * @return the code
      */
-    public PowerClassType getType() {
-        return type;
+    public short getCode() {
+        return code;
     }
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    public static PowerClassTypeViz getPowerClassTypeVizFor(PowerClassType type)
-            throws Exception {
-        PowerClassTypeViz[] values = PowerClassTypeViz.values();
-        for (int i = 0; i < values.length; i++) {
-            if (type == values[i].getType()) {
-                return values[i];
+    public static VLSchedulingMode getVLSchedulingMode(short vlCode) {
+        for (VLSchedulingMode vlMode : values()) {
+            if (vlCode == vlMode.getCode()) {
+                return vlMode;
             }
         }
         throw new IllegalArgumentException(
-                "Undefined PowerClassTypeViz : PowerClassType ='" + type + "'");
-    }
+                "Unknown VL Scheduling Mode " + vlCode);
 
+    }
 }

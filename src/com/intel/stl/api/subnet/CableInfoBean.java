@@ -45,108 +45,108 @@ public class CableInfoBean implements Serializable {
 
     protected static Logger log = LoggerFactory.getLogger(CableInfoBean.class);
 
-    private Byte id;
+    private byte id;
 
     private PowerClassType powerClass;
 
     // extIdent;
-    private Byte pwrClassLow;
+    private byte pwrClassLow;
 
-    private Byte extIdentOther;
+    private byte extIdentOther;
 
-    private Boolean txCDRSupported;
+    private boolean txCDRSupported;
 
-    private Boolean rxCDRSupported;
+    private boolean rxCDRSupported;
 
-    private Byte pwrClassHigh;
+    private byte pwrClassHigh;
 
-    private Byte connector;
+    private byte connector;
 
-    private Byte[] specComp;// 8 Bytes;
+    private byte[] specComp;// 8 bytes;
 
-    private Byte encode;
+    private byte encode;
 
-    private Byte bitRateLow;
+    private byte bitRateLow;
 
-    private Byte extRateComp;
+    private byte extRateComp;
 
-    private Byte lenSmf;
+    private byte lenSmf;
 
-    private Integer om3Length;
+    private int om3Length;
 
-    private Integer om2Length;
+    private int om2Length;
 
-    private Byte lenOm1;
+    private byte lenOm1;
 
-    private Byte lenOm4;
+    private byte lenOm4;
 
-    private Integer om4Length;
+    private int om4Length;
 
     // devTech;
-    private Byte xmitTech;
+    private byte xmitTech;
 
-    private Byte devTechOther;
+    private byte devTechOther;
 
     private String vendorName;// 16 bytes;
 
-    private Byte extMod;
+    private byte extMod;
 
-    private Byte[] vendorOui;// 3 bytes;
+    private byte[] vendorOui;// 3 bytes;
 
     private String vendorPn;// 16 bytes;
 
     private String vendorRev;// 2 bytes;
 
-    private Byte[] waveAtten;// 2 Bytes;
+    private byte[] waveAtten;// 2 bytes;
 
-    private Byte[] waveTol;// 2 Bytes;
+    private byte[] waveTol;// 2 bytes;
 
-    private Integer maxCaseTemp;
+    private int maxCaseTemp;
 
-    private Byte ccBase;
+    private byte ccBase;
 
-    private Byte linkCodes;
+    private byte linkCodes;
 
     // rxtxOptEquemp;
-    private Boolean txInpEqAutoAdp;
+    private boolean txInpEqAutoAdp;
 
-    private Boolean txInpEqFixProg;
+    private boolean txInpEqFixProg;
 
-    private Boolean rxOutpEmphFixProg;
+    private boolean rxOutpEmphFixProg;
 
-    private Boolean rxOutpAmplFixProg;
+    private boolean rxOutpAmplFixProg;
 
     // rxtxOptCdrsquel;
-    private Boolean txCDROnOffCtrl;
+    private boolean txCDROnOffCtrl;
 
-    private Boolean rxCDROnOffCtrl;
+    private boolean rxCDROnOffCtrl;
 
-    private Boolean txCdrLol;
+    private boolean txCdrLol;
 
-    private Boolean rxCdrLol;
+    private boolean rxCdrLol;
 
-    private Boolean rxSquelDis;
+    private boolean rxSquelDis;
 
-    private Boolean rxOutDis;
+    private boolean rxOutDis;
 
-    private Boolean txSquelDis;
+    private boolean txSquelDis;
 
-    private Boolean txSquelchImp;
+    private boolean txSquelchImp;
 
     // memtxOptPagesquel;
-    private Boolean memPage02Provided;
+    private boolean memPage02Provided;
 
-    private Boolean memPage01Provided;
+    private boolean memPage01Provided;
 
-    private Boolean rateSel;
+    private boolean rateSel;
 
-    private Boolean txDis;
+    private boolean txDis;
 
-    private Boolean txFault;
+    private boolean txFault;
 
-    private Boolean txSquelOmapav;
+    private boolean txSquelOmapav;
 
-    private Boolean txLos;
+    private boolean txLos;
 
     private String vendorSN;// 16 bytes;
 
@@ -154,27 +154,27 @@ public class CableInfoBean implements Serializable {
 
     private Date date;
 
-    private Byte diagMonType;
+    private byte diagMonType;
 
-    private Byte optionsEnh;
+    private byte optionsEnh;
 
-    private Byte bitRateHigh;
+    private byte bitRateHigh;
 
-    private Byte ccExt;
+    private byte ccExt;
 
-    private Byte[] vendor;// 26 Bytes;
+    private byte[] vendor;// 26 bytes;
 
-    private Byte opaCertCable;
+    private byte opaCertCable;
 
-    private Boolean certCableFlag;
+    private boolean certCableFlag;
 
-    private Byte vendor2;
+    private byte vendor2;
 
-    private Byte opaCertDataRate;
+    private byte opaCertDataRate;
 
-    private Byte[] vendor3;// 3 Bytes;
+    private byte[] vendor3;// 3 bytes;
 
-    private Integer reachClass;
+    private int reachClass;
 
     private CertifiedRateType certDataRate;
 
@@ -185,7 +185,7 @@ public class CableInfoBean implements Serializable {
     /**
      * @return the id
      */
-    public Byte getId() {
+    public byte getId() {
         return id;
     }
 
@@ -199,42 +199,42 @@ public class CableInfoBean implements Serializable {
     /**
      * @return the connector
      */
-    public Byte getConnector() {
+    public byte getConnector() {
         return connector;
     }
 
     /**
      * @return the bitRateLow
      */
-    public Byte getBitRateLow() {
+    public byte getBitRateLow() {
         return bitRateLow;
     }
 
     /**
      * @return the bitRateHigh
      */
-    public Byte getBitRateHigh() {
+    public byte getBitRateHigh() {
         return bitRateHigh;
     }
 
     /**
      * @return the om3Length
      */
-    public Integer getOm3Length() {
+    public int getOm3Length() {
         return om3Length;
     }
 
     /**
      * @return the om2Length
      */
-    public Integer getOm2Length() {
+    public int getOm2Length() {
         return om2Length;
     }
 
     /**
      * @return the copperLength
      */
-    public Integer getOm4Length() {
+    public int getOm4Length() {
         return om4Length;
     }
 
@@ -248,7 +248,7 @@ public class CableInfoBean implements Serializable {
     /**
      * @return the vendorOui
      */
-    public Byte[] getVendorOui() {
+    public byte[] getVendorOui() {
         return vendorOui;
     }
 
@@ -269,92 +269,92 @@ public class CableInfoBean implements Serializable {
     /**
      * @return the maxCaseTemp
      */
-    public Integer getMaxCaseTemp() {
+    public int getMaxCaseTemp() {
         return maxCaseTemp;
     }
 
     /**
      * @return the ccBase
      */
-    public Byte getCcBase() {
+    public byte getCcBase() {
         return ccBase;
     }
 
     /**
      * @return the linkCodes
      */
-    public Byte getLinkCodes() {
+    public byte getLinkCodes() {
         return linkCodes;
     }
 
     /**
      * @return the txInpEqAutoAdp
      */
-    public Boolean getTxInpEqAutoAdp() {
+    public boolean getTxInpEqAutoAdp() {
         return txInpEqAutoAdp;
     }
 
     /**
      * @return the txInpEqFixProg
      */
-    public Boolean getTxInpEqFixProg() {
+    public boolean getTxInpEqFixProg() {
         return txInpEqFixProg;
     }
 
     /**
      * @return the rxOutpEmphFixProg
      */
-    public Boolean getRxOutpEmphFixProg() {
+    public boolean getRxOutpEmphFixProg() {
         return rxOutpEmphFixProg;
     }
 
     /**
      * @return the rxOutpAmplFixProg
      */
-    public Boolean getRxOutpAmplFixProg() {
+    public boolean getRxOutpAmplFixProg() {
         return rxOutpAmplFixProg;
     }
 
     /**
      * @return the txCDROnOffCtrl
      */
-    public Boolean getTxCDROnOffCtrl() {
+    public boolean getTxCDROnOffCtrl() {
         return txCDROnOffCtrl;
     }
 
     /**
      * @return the rxCDROnOffCtrl
      */
-    public Boolean getRxCDROnOffCtrl() {
+    public boolean getRxCDROnOffCtrl() {
         return rxCDROnOffCtrl;
     }
 
-    public Boolean getTxCdrLol() {
+    public boolean getTxCdrLol() {
         return txCdrLol;
     }
 
-    public Boolean getRxCdrLol() {
+    public boolean getRxCdrLol() {
         return rxCdrLol;
     }
 
     /**
      * @return the txSquelchImp
      */
-    public Boolean isTxSquelchImp() {
+    public boolean isTxSquelchImp() {
         return txSquelchImp;
     }
 
     /**
      * @return the memPage02Provided
      */
-    public Boolean isMemPage02Provided() {
+    public boolean isMemPage02Provided() {
         return memPage02Provided;
     }
 
     /**
      * @return the memPage01Provided
      */
-    public Boolean isMemPage01Provided() {
+    public boolean isMemPage01Provided() {
         return memPage01Provided;
     }
 
@@ -379,21 +379,21 @@ public class CableInfoBean implements Serializable {
     /**
      * @return the ccExt
      */
-    public Byte getCcExt() {
+    public byte getCcExt() {
         return ccExt;
     }
 
     /**
      * @return the certCableFlag
      */
-    public Boolean getCertCableFlag() {
+    public boolean getCertCableFlag() {
         return certCableFlag;
     }
 
     /**
      * @return the reachClass
      */
-    public Integer getReachClass() {
+    public int getReachClass() {
         return reachClass;
     }
 
@@ -404,95 +404,95 @@ public class CableInfoBean implements Serializable {
         return certDataRate;
     }
 
-    public Byte getPwrClassLow() {
+    public byte getPwrClassLow() {
         return pwrClassLow;
     }
 
-    public Byte getExtIdentOther() {
+    public byte getExtIdentOther() {
         return extIdentOther;
     }
 
-    public Byte getPwrClassHigh() {
+    public byte getPwrClassHigh() {
         return pwrClassHigh;
     }
 
-    public Byte[] getSpecComp() {
+    public byte[] getSpecComp() {
         return specComp;
     }
 
-    public Byte getEncode() {
+    public byte getEncode() {
         return encode;
     }
 
-    public Byte getExtRateComp() {
+    public byte getExtRateComp() {
         return extRateComp;
     }
 
-    public Byte getLenSmf() {
+    public byte getLenSmf() {
         return lenSmf;
     }
 
-    public Byte getLenOm1() {
+    public byte getLenOm1() {
         return lenOm1;
     }
 
-    public Byte getXmitTech() {
+    public byte getXmitTech() {
         return xmitTech;
     }
 
-    public Byte getDevTechOther() {
+    public byte getDevTechOther() {
         return devTechOther;
     }
 
-    public Byte getExtMod() {
+    public byte getExtMod() {
         return extMod;
     }
 
-    public Byte[] getWaveAtten() {
+    public byte[] getWaveAtten() {
         return waveAtten;
     }
 
-    public Byte[] getWaveTol() {
+    public byte[] getWaveTol() {
         return waveTol;
     }
 
-    public Boolean getRxSquelDis() {
+    public boolean getRxSquelDis() {
         return rxSquelDis;
     }
 
-    public Boolean getRxOutDis() {
+    public boolean getRxOutDis() {
         return rxOutDis;
     }
 
-    public Boolean getTxSquelDis() {
+    public boolean getTxSquelDis() {
         return txSquelDis;
     }
 
-    public Boolean getMemPage02Provided() {
+    public boolean getMemPage02Provided() {
         return memPage02Provided;
     }
 
-    public Boolean getMemPage01Provided() {
+    public boolean getMemPage01Provided() {
         return memPage01Provided;
     }
 
-    public Boolean getRateSel() {
+    public boolean getRateSel() {
         return rateSel;
     }
 
-    public Boolean getTxDis() {
+    public boolean getTxDis() {
         return txDis;
     }
 
-    public Boolean getTxFault() {
+    public boolean getTxFault() {
         return txFault;
     }
 
-    public Boolean getTxSquelOmapav() {
+    public boolean getTxSquelOmapav() {
         return txSquelOmapav;
     }
 
-    public Boolean getTxLos() {
+    public boolean getTxLos() {
         return txLos;
     }
 
@@ -500,31 +500,31 @@ public class CableInfoBean implements Serializable {
         return date;
     }
 
-    public Byte getDiagMonType() {
+    public byte getDiagMonType() {
         return diagMonType;
     }
 
-    public Byte getOptionsEnh() {
+    public byte getOptionsEnh() {
         return optionsEnh;
     }
 
-    public Byte[] getVendor() {
+    public byte[] getVendor() {
         return vendor;
     }
 
-    public Byte getOpaCertCable() {
+    public byte getOpaCertCable() {
         return opaCertCable;
     }
 
-    public Byte getVendor2() {
+    public byte getVendor2() {
         return vendor2;
     }
 
-    public Byte getOpaCertDataRate() {
+    public byte getOpaCertDataRate() {
         return opaCertDataRate;
     }
 
-    public Byte[] getVendor3() {
+    public byte[] getVendor3() {
         return vendor3;
     }
 
@@ -532,7 +532,7 @@ public class CableInfoBean implements Serializable {
      * @param id
      *            the id to set
      */
-    public void setId(Byte id) {
+    public void setId(byte id) {
         this.id = id;
     }
 
@@ -547,7 +547,7 @@ public class CableInfoBean implements Serializable {
     /**
      * @return the txCDRSupported
      */
-    public Boolean getTxCDRSupported() {
+    public boolean getTxCDRSupported() {
         return txCDRSupported;
     }
 
@@ -555,14 +555,14 @@ public class CableInfoBean implements Serializable {
      * @param txCDRSupported
      *            the txCDRSupported to set
      */
-    public void setTxCDRSupported(Boolean txCDRSupported) {
+    public void setTxCDRSupported(boolean txCDRSupported) {
         this.txCDRSupported = txCDRSupported;
     }
 
     /**
      * @return the rxCDRSupported
      */
-    public Boolean getRxCDRSupported() {
+    public boolean getRxCDRSupported() {
         return rxCDRSupported;
     }
 
@@ -570,7 +570,7 @@ public class CableInfoBean implements Serializable {
      * @param rxCDRSupported
      *            the rxCDRSupported to set
      */
-    public void setRxCDRSupported(Boolean rxCDRSupported) {
+    public void setRxCDRSupported(boolean rxCDRSupported) {
         this.rxCDRSupported = rxCDRSupported;
     }
 
@@ -578,7 +578,7 @@ public class CableInfoBean implements Serializable {
      * @param connector
      *            the connector to set
      */
-    public void setConnector(Byte connector) {
+    public void setConnector(byte connector) {
         this.connector = connector;
     }
 
@@ -586,7 +586,7 @@ public class CableInfoBean implements Serializable {
      * @param bitRateLow
      *            the bitRateLow to set
      */
-    public void setBitRateLow(Byte bitRateLow) {
+    public void setBitRateLow(byte bitRateLow) {
         this.bitRateLow = bitRateLow;
     }
 
@@ -594,7 +594,7 @@ public class CableInfoBean implements Serializable {
      * @param bitRateHigh
      *            the bitRateHigh to set
      */
-    public void setBitRateHigh(Byte bitRateHigh) {
+    public void setBitRateHigh(byte bitRateHigh) {
         this.bitRateHigh = bitRateHigh;
     }
 
@@ -614,11 +614,11 @@ public class CableInfoBean implements Serializable {
         this.om2Length = om2Length;
     }
 
-    public Byte getLenOm4() {
+    public byte getLenOm4() {
         return lenOm4;
     }
 
-    public void setLenOm4(Byte lenOm4) {
+    public void setLenOm4(byte lenOm4) {
         this.lenOm4 = lenOm4;
     }
 
@@ -642,7 +642,7 @@ public class CableInfoBean implements Serializable {
      * @param vendorOui
      *            the vendorOui to set
      */
-    public void setVendorOui(Byte[] vendorOui) {
+    public void setVendorOui(byte[] vendorOui) {
         this.vendorOui = vendorOui;
     }
 
@@ -674,7 +674,7 @@ public class CableInfoBean implements Serializable {
      * @param ccBase
      *            the ccBase to set
      */
-    public void setCcBase(Byte ccBase) {
+    public void setCcBase(byte ccBase) {
         this.ccBase = ccBase;
     }
 
@@ -682,7 +682,7 @@ public class CableInfoBean implements Serializable {
      * @param linkCodes
      *            the linkCodes to set
      */
-    public void setLinkCodes(Byte linkCodes) {
+    public void setLinkCodes(byte linkCodes) {
         this.linkCodes = linkCodes;
     }
 
@@ -690,7 +690,7 @@ public class CableInfoBean implements Serializable {
      * @param txInpEqAutoAdp
      *            the txInpEqAutoAdp to set
      */
-    public void setTxInpEqAutoAdp(Boolean txInpEqAutoAdp) {
+    public void setTxInpEqAutoAdp(boolean txInpEqAutoAdp) {
         this.txInpEqAutoAdp = txInpEqAutoAdp;
     }
 
@@ -698,7 +698,7 @@ public class CableInfoBean implements Serializable {
      * @param txInpEqFixProg
      *            the txInpEqFixProg to set
      */
-    public void setTxInpEqFixProg(Boolean txInpEqFixProg) {
+    public void setTxInpEqFixProg(boolean txInpEqFixProg) {
         this.txInpEqFixProg = txInpEqFixProg;
     }
 
@@ -706,7 +706,7 @@ public class CableInfoBean implements Serializable {
      * @param rxOutpEmphFixProg
      *            the rxOutpEmphFixProg to set
      */
-    public void setRxOutpEmphFixProg(Boolean rxOutpEmphFixProg) {
+    public void setRxOutpEmphFixProg(boolean rxOutpEmphFixProg) {
         this.rxOutpEmphFixProg = rxOutpEmphFixProg;
     }
 
@@ -714,7 +714,7 @@ public class CableInfoBean implements Serializable {
      * @param rxOutpAmplFixProg
      *            the rxOutpAmplFixProg to set
      */
-    public void setRxOutpAmplFixProg(Boolean rxOutpAmplFixProg) {
+    public void setRxOutpAmplFixProg(boolean rxOutpAmplFixProg) {
         this.rxOutpAmplFixProg = rxOutpAmplFixProg;
     }
 
@@ -722,7 +722,7 @@ public class CableInfoBean implements Serializable {
      * @param txCDROnOffCtrl
      *            the txCDROnOffCtrl to set
      */
-    public void setTxCDROnOffCtrl(Boolean txCDROnOffCtrl) {
+    public void setTxCDROnOffCtrl(boolean txCDROnOffCtrl) {
         this.txCDROnOffCtrl = txCDROnOffCtrl;
     }
 
@@ -730,15 +730,15 @@ public class CableInfoBean implements Serializable {
      * @param rxCDROnOffCtrl
      *            the rxCDROnOffCtrl to set
      */
-    public void setRxCDROnOffCtrl(Boolean rxCDROnOffCtrl) {
+    public void setRxCDROnOffCtrl(boolean rxCDROnOffCtrl) {
         this.rxCDROnOffCtrl = rxCDROnOffCtrl;
     }
 
-    public void setTxCdrLol(Boolean txCdrLol) {
+    public void setTxCdrLol(boolean txCdrLol) {
         this.txCdrLol = txCdrLol;
     }
 
-    public void setRxCdrLol(Boolean rxCdrLol) {
+    public void setRxCdrLol(boolean rxCdrLol) {
         this.rxCdrLol = rxCdrLol;
     }
 
@@ -746,7 +746,7 @@ public class CableInfoBean implements Serializable {
      * @param txSquelchImp
      *            the txSquelchImp to set
      */
-    public void setTxSquelchImp(Boolean txSquelchImp) {
+    public void setTxSquelchImp(boolean txSquelchImp) {
         this.txSquelchImp = txSquelchImp;
     }
 
@@ -780,8 +780,12 @@ public class CableInfoBean implements Serializable {
      */
     public void setDateCode(String year, String month, String day, String lot) {
         dateCode = year + "/" + month + "/" + day + "-" + lot;
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yy/MM/dd-hh");
+        SimpleDateFormat formatter = null;
+        if (lot == null || lot.isEmpty()) {
+            formatter = new SimpleDateFormat("yy/MM/dd-");
+        } else {
+            formatter = new SimpleDateFormat("yy/MM/dd-hh");
+        }
         try {
             date = formatter.parse(dateCode);
         } catch (ParseException e) {
@@ -802,7 +806,7 @@ public class CableInfoBean implements Serializable {
      * @param ccExt
      *            the ccExt to set
      */
-    public void setCcExt(Byte ccExt) {
+    public void setCcExt(byte ccExt) {
         this.ccExt = ccExt;
     }
 
@@ -832,31 +836,31 @@ public class CableInfoBean implements Serializable {
         this.certDataRate = certDataRate;
     }
 
-    public void setPwrClassLow(Byte pwrClassLow) {
+    public void setPwrClassLow(byte pwrClassLow) {
         this.pwrClassLow = pwrClassLow;
     }
 
-    public void setExtIdentOther(Byte extIdentOther) {
+    public void setExtIdentOther(byte extIdentOther) {
         this.extIdentOther = extIdentOther;
     }
 
-    public void setPwrClassHigh(Byte pwrClassHigh) {
+    public void setPwrClassHigh(byte pwrClassHigh) {
         this.pwrClassHigh = pwrClassHigh;
     }
 
-    public void setSpecComp(Byte[] specComp) {
+    public void setSpecComp(byte[] specComp) {
         this.specComp = specComp;
     }
 
-    public void setEncode(Byte encode) {
+    public void setEncode(byte encode) {
         this.encode = encode;
     }
 
-    public void setExtRateComp(Byte extRateComp) {
+    public void setExtRateComp(byte extRateComp) {
         this.extRateComp = extRateComp;
     }
 
-    public void setLenSmf(Byte lenSmf) {
+    public void setLenSmf(byte lenSmf) {
         this.lenSmf = lenSmf;
     }
 
@@ -868,7 +872,7 @@ public class CableInfoBean implements Serializable {
         this.om2Length = om2Length;
     }
 
-    public void setLenOm1(Byte lenOm1) {
+    public void setLenOm1(byte lenOm1) {
         this.lenOm1 = lenOm1;
     }
 
@@ -876,23 +880,23 @@ public class CableInfoBean implements Serializable {
         this.om4Length = om4Length;
     }
 
-    public void setXmitTech(Byte xmitTech) {
+    public void setXmitTech(byte xmitTech) {
         this.xmitTech = xmitTech;
     }
 
-    public void setDevTechOther(Byte devTechOther) {
+    public void setDevTechOther(byte devTechOther) {
         this.devTechOther = devTechOther;
     }
 
-    public void setExtMod(Byte extMod) {
+    public void setExtMod(byte extMod) {
         this.extMod = extMod;
     }
 
-    public void setWaveAtten(Byte[] waveAtten) {
+    public void setWaveAtten(byte[] waveAtten) {
         this.waveAtten = waveAtten;
     }
 
-    public void setWaveTol(Byte[] waveTol) {
+    public void setWaveTol(byte[] waveTol) {
         this.waveTol = waveTol;
     }
 
@@ -900,75 +904,63 @@ public class CableInfoBean implements Serializable {
         this.maxCaseTemp = maxCaseTemp;
     }
 
-    public void setRxSquelDis(Boolean rxSquelDis) {
+    public void setRxSquelDis(boolean rxSquelDis) {
         this.rxSquelDis = rxSquelDis;
     }
 
-    public void setRxOutDis(Boolean rxOutDis) {
+    public void setRxOutDis(boolean rxOutDis) {
         this.rxOutDis = rxOutDis;
     }
 
-    public void setTxSquelDis(Boolean txSquelDis) {
+    public void setTxSquelDis(boolean txSquelDis) {
         this.txSquelDis = txSquelDis;
     }
 
-    public void setMemPage02Provided(Boolean memPage02Provided) {
-        this.memPage02Provided = memPage02Provided;
-    }
-
-    public void setMemPage01Provided(Boolean memPage01Provided) {
-        this.memPage01Provided = memPage01Provided;
-    }
-
-    public void setRateSel(Boolean rateSel) {
+    public void setRateSel(boolean rateSel) {
         this.rateSel = rateSel;
     }
 
-    public void setTxDis(Boolean txDis) {
+    public void setTxDis(boolean txDis) {
         this.txDis = txDis;
     }
 
-    public void setTxFault(Boolean txFault) {
+    public void setTxFault(boolean txFault) {
         this.txFault = txFault;
     }
 
-    public void setTxSquelOmapav(Boolean txSquelOmapav) {
+    public void setTxSquelOmapav(boolean txSquelOmapav) {
         this.txSquelOmapav = txSquelOmapav;
     }
 
-    public void setTxLos(Boolean txLos) {
+    public void setTxLos(boolean txLos) {
         this.txLos = txLos;
     }
 
-    public void setDiagMonType(Byte diagMonType) {
+    public void setDiagMonType(byte diagMonType) {
         this.diagMonType = diagMonType;
     }
 
-    public void setOptionsEnh(Byte optionsEnh) {
+    public void setOptionsEnh(byte optionsEnh) {
         this.optionsEnh = optionsEnh;
     }
 
-    public void setVendor(Byte[] vendor) {
+    public void setVendor(byte[] vendor) {
         this.vendor = vendor;
     }
 
-    public void setOpaCertCable(Byte opaCertCable) {
+    public void setOpaCertCable(byte opaCertCable) {
         this.opaCertCable = opaCertCable;
     }
 
-    public void setCertCableFlag(Boolean certCableFlag) {
-        this.certCableFlag = certCableFlag;
-    }
-
-    public void setVendor2(Byte vendor2) {
+    public void setVendor2(byte vendor2) {
         this.vendor2 = vendor2;
     }
 
-    public void setOpaCertDataRate(Byte opaCertDataRate) {
+    public void setOpaCertDataRate(byte opaCertDataRate) {
         this.opaCertDataRate = opaCertDataRate;
     }
 
-    public void setVendor3(Byte[] vendor3) {
+    public void setVendor3(byte[] vendor3) {
         this.vendor3 = vendor3;
     }
 
@@ -984,7 +976,7 @@ public class CableInfoBean implements Serializable {
      * @param codeHigh
      * @return
      */
-    public Integer stlCableInfoBitRate(Byte codeLow, Byte codeHigh) {
+    public Integer stlCableInfoBitRate(byte codeLow, byte codeHigh) {
         int result;
         if (codeLow == (byte) 0xFF) {
             result = (codeHigh / 4);
@@ -992,22 +984,6 @@ public class CableInfoBean implements Serializable {
             result = (codeLow / 10);
         }
         return result;
-    }
-
-    public CableType stlCableInfoCableType(int codeXmit, Byte codeConnector) {
-        CableType cableType = null;
-        int connectId = 0;
-        if ((codeXmit <= 9) && (codeXmit != 8)) {
-            if (codeConnector == SAConstants.CABLEINFO_CONNECTOR_NOSEP) {
-                connectId = 1;
-            } else {
-                connectId = 2;
-            }
-        }
-
-        cableType = CableType.getCableType(connectId, codeXmit);
-
-        return cableType;
     }
 
     /*

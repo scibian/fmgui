@@ -4,19 +4,19 @@
 # Copyright (c) 2015 Intel Corporation
 #
 %define name IntelOPA-FMGUI
-%define appdir IntelOPA-FMGUI-10.6.0.0
+%define appdir IntelOPA-FMGUI-10.7.0.0
 %define appfolder fmgui
 %define appjar fmgui.jar
 %define _binary_payload w9.gzdio
 
 Name: IntelOPA-FMGUI
-Version: 10.6.0.0
-Release: 136
+Version: 10.7.0.0
+Release: 145
 Summary: Fabric Manager Graphical User Interface
 Group: Applications/System
 ExclusiveArch: noarch
 BuildArch: noarch
-Source0: IntelOPA-FMGUI-10.6.0.0.source.tar.gz 
+Source0: IntelOPA-FMGUI-10.7.0.0.source.tar.gz 
 Buildroot: %{_topdir}/%{name}-%{version}-buildroot
 URL: www.intel.com
 Requires: libgnome

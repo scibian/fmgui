@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -84,7 +84,7 @@ public enum CableType {
         return connectorId;
     }
 
-    public static CableType getCableType(int connectorId, int codeXmit) {
+    public static CableType valueOf(int connectorId, int codeXmit) {
         for (CableType ct : CableType.values()) {
             if (ct.getCodeXmit() == codeXmit
                     && ct.getConnectorId() == connectorId) {
@@ -96,4 +96,21 @@ public enum CableType {
                 + ", code Xmit ='" + codeXmit + "'");
         return UNDEFINED;
     }
+
+    public static CableType getCableType(int codeXmit, byte codeConnector) {
+        CableType cableType = null;
+        int connectId = 0;
+        if ((codeXmit <= 9) && (codeXmit != 8)) {
+            if (codeConnector == SAConstants.CABLEINFO_CONNECTOR_NOSEP) {
+                connectId = 1;
+            } else {
+                connectId = 2;
+            }
+        }
+
+        cableType = valueOf(connectId, codeXmit);
+
+        return cableType;
+    }
+
 }

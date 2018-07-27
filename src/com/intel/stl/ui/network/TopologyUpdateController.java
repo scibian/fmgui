@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -40,6 +40,7 @@ import com.intel.stl.ui.common.Util;
 import com.intel.stl.ui.model.GraphNode;
 import com.intel.stl.ui.network.task.ITopologyUpdateTask;
 import com.intel.stl.ui.network.view.TopologyGraphView;
+import com.intel.stl.ui.network.view.TopologyView;
 import com.intel.stl.ui.publisher.CallbackAdapter;
 import com.intel.stl.ui.publisher.CancellableCall;
 import com.intel.stl.ui.publisher.ICallback;
@@ -58,20 +59,22 @@ import com.mxgraph.view.mxGraphView;
  * class in charge topology model update.
  */
 public class TopologyUpdateController {
-    private final static Logger log = LoggerFactory
-            .getLogger(TopologyUpdateController.class);
+    private final static Logger log =
+            LoggerFactory.getLogger(TopologyUpdateController.class);
 
     private TopGraph graph;
 
-    private final TopologyGraphView view;
+    private final TopologyView topView;
+
+    private final TopologyGraphView graphView;
 
     private final mxUndoManager undoManager = new mxUndoManager();
 
     private final mxIEventListener undoHandler = new mxIEventListener() {
         @Override
         public void invoke(Object source, mxEventObject evt) {
-            undoManager.undoableEditHappened((mxUndoableEdit) evt
-                    .getProperty("edit"));
+            undoManager.undoableEditHappened(
+                    (mxUndoableEdit) evt.getProperty("edit"));
         }
     };
 
@@ -85,14 +88,15 @@ public class TopologyUpdateController {
 
     /**
      * Description:
-     * 
+     *
      * @param topTreeModel
      * @param graphModel
      */
-    public TopologyUpdateController(TopGraph graph, TopologyGraphView view) {
+    public TopologyUpdateController(TopGraph graph, TopologyView topView) {
         super();
         this.graph = graph;
-        this.view = view;
+        this.topView = topView;
+        this.graphView = topView.getGraphView();
         taskMgr = new SingleTaskManager();
         taskMgr.setMayInterruptIfRunning(false);
     }
@@ -148,7 +152,7 @@ public class TopologyUpdateController {
             @Override
             public void run() {
                 if (modelUpdatingCounter.getAndIncrement() == 0) {
-                    view.showLayoutUpdating(true);
+                    graphView.showLayoutUpdating(true);
                 }
             }
         });
@@ -181,7 +185,7 @@ public class TopologyUpdateController {
                     newGraph = task.createNewGraph(indicator, graph);
                     task.applyChanges(indicator, newGraph);
 
-                    TopGraph oldGraph = view.getGraph();
+                    TopGraph oldGraph = graphView.getGraph();
                     uninstallUndoManager(oldGraph);
                     installUndoManager(newGraph);
 
@@ -203,7 +207,7 @@ public class TopologyUpdateController {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see com.intel.stl.ui.publisher.CallbackAdapter#onDone(java
              * .lang.Object )
              */
@@ -218,7 +222,7 @@ public class TopologyUpdateController {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see com.intel.stl.ui.publisher.CallbackAdapter#onError(java
              * .lang.Throwable[])
              */
@@ -229,7 +233,7 @@ public class TopologyUpdateController {
 
             /*
              * (non-Javadoc)
-             * 
+             *
              * @see com.intel.stl.ui.publisher.CallbackAdapter#onFinally()
              */
             @Override
@@ -241,7 +245,8 @@ public class TopologyUpdateController {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                view.showLayoutUpdating(false);
+                                graphView.showLayoutUpdating(false);
+                                topView.checkDivider();
                             }
                         });
                     }

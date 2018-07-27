@@ -150,6 +150,7 @@ public class ConnectivitySubpageController
             case HFI:
                 processHFI(node, observer);
                 break;
+
             case ACTIVE_PORT:
                 FVResourceNode parent = node.getParent();
                 String vfName = null;

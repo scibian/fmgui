@@ -27,7 +27,8 @@
 
 package com.intel.stl.ui.configuration;
 
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.intel.stl.api.configuration.IConfigurationApi;
 import com.intel.stl.api.performance.IPerformanceApi;
@@ -46,6 +47,8 @@ import com.intel.stl.ui.monitor.TreeNodeType;
 import com.intel.stl.ui.monitor.tree.FVResourceNode;
 
 public class CategoryProcessorContext implements ICategoryProcessorContext {
+    private final static Logger log =
+            LoggerFactory.getLogger(CategoryProcessorContext.class);
 
     private FVResourceNode resourceNode;
 
@@ -320,7 +323,7 @@ public class CategoryProcessorContext implements ICategoryProcessorContext {
         try {
             portBean = getSubnetApi().getPortByPortNum(lid, portNum);
         } catch (SubnetDataNotFoundException e) {
-            Log.error(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return portBean;

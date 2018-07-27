@@ -1,4 +1,6 @@
 #!/usr/bin/make -f
+#
+#
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 export OPA_JAVA=$(JAVA_HOME)
@@ -58,5 +60,5 @@ override_dh_auto_install:
 	cp -a $(APPDIR)/install/Fabric.menu $(DESTDIR)/etc/xdg/menus/applications-merged
 	chmod 755 $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util/fmguiclear.sh
 	chmod 755 $(DESTDIR)$(JAVADIR)/$(APPFOLDER)/util/postsetup.sh
-	chmod 751 $(DESTDIR)/var/opt/opafm/fmgui
+	chmod 755 $(DESTDIR)/var/opt/opafm/fmgui
 
