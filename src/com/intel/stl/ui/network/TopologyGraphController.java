@@ -185,7 +185,7 @@ public class TopologyGraphController implements ITopologyListener {
             }
         });
 
-        updateCtrl = new TopologyUpdateController(fullGraph, graphView);
+        updateCtrl = new TopologyUpdateController(fullGraph, parent.getView());
         subObservers[2].onFinish();
         if (observer.isCancelled()) {
             return;
@@ -203,7 +203,8 @@ public class TopologyGraphController implements ITopologyListener {
             guideView.setGraph(outlineGraph);
 
             graphView.setGraph(fullGraph);
-            updateCtrl = new TopologyUpdateController(fullGraph, graphView);
+            updateCtrl =
+                    new TopologyUpdateController(fullGraph, parent.getView());
         }
         RefreshGraphTask task = new RefreshGraphTask(this, null, null,
                 defaultLayout, observer) {
@@ -371,44 +372,57 @@ public class TopologyGraphController implements ITopologyListener {
                     FVResourceNode parent = node.getParent();
                     int lid = parent.getId();
                     TreeNodeType type = parent.getType();
-                    int portNum = node.getId();
-                    GraphNode gNode = updateCtrl.getGraphNode(lid);
-                    if (gNode != null) {
-                        GraphNode toNode = gNode.getNeighbor(portNum);
-                        if (toNode != null) {
-                            Integer toPort =
-                                    gNode.getLinkPorts(toNode).get(portNum);
-                            TreeMap<Integer, Integer> linkPorts =
-                                    new TreeMap<Integer, Integer>();
-                            if (toPort != null) {
-                                linkPorts.put(portNum, toPort);
-                            }
-                            GraphEdge tmp = new GraphEdge(lid,
-                                    TreeNodeType.getNodeTypeCode(type),
-                                    toNode.getLid(), toNode.getType(),
-                                    linkPorts);
-                            GraphEdge edge =
-                                    edges.get(new Point(lid, toNode.getLid()));
-                            if (edge == null) {
-                                edge = edges
-                                        .get(new Point(toNode.getLid(), lid));
-                                if (edge != null) {
-                                    // ensure its links are reversed as well
-                                    tmp = tmp.normalize();
+                    if (type == TreeNodeType.SWITCH && node.getId() == 0) {
+                        // special case: if we select switch port zero,
+                        // then treat as selecting the switch. We needn't to
+                        // worry we may have mixed nodes and edges because our
+                        // tree selection model already handle it to ensure we
+                        // only have nodes or edges
+                        GraphNode gNode = updateCtrl.getGraphNode(lid);
+                        current.addNode(gNode);
+                    } else {
+                        int portNum = node.getId();
+                        GraphNode gNode = updateCtrl.getGraphNode(lid);
+                        if (gNode != null) {
+                            GraphNode toNode = gNode.getNeighbor(portNum);
+                            if (toNode != null) {
+                                Integer toPort =
+                                        gNode.getLinkPorts(toNode).get(portNum);
+                                TreeMap<Integer, Integer> linkPorts =
+                                        new TreeMap<Integer, Integer>();
+                                if (toPort != null) {
+                                    linkPorts.put(portNum, toPort);
                                 }
-                            }
-                            if (edge == null) {
-                                current.addEdge(tmp);
-                                edges.put(new Point(lid, toNode.getLid()), tmp);
+                                GraphEdge tmp =
+                                        new GraphEdge(lid,
+                                                TreeNodeType.getNodeTypeCode(
+                                                        type),
+                                                toNode.getLid(),
+                                                toNode.getType(), linkPorts);
+                                GraphEdge edge = edges
+                                        .get(new Point(lid, toNode.getLid()));
+                                if (edge == null) {
+                                    edge = edges.get(
+                                            new Point(toNode.getLid(), lid));
+                                    if (edge != null) {
+                                        // ensure its links are reversed as well
+                                        tmp = tmp.normalize();
+                                    }
+                                }
+                                if (edge == null) {
+                                    current.addEdge(tmp);
+                                    edges.put(new Point(lid, toNode.getLid()),
+                                            tmp);
+                                } else {
+                                    edge.getLinks().putAll(tmp.getLinks());
+                                }
                             } else {
-                                edge.getLinks().putAll(tmp.getLinks());
+                                log.warn("Couldn't find connection for Lid="
+                                        + lid + " PortNum=" + portNum);
                             }
                         } else {
-                            log.warn("Couldn't find connection for Lid=" + lid
-                                    + " PortNum=" + portNum);
+                            log.warn("Couldn't find node with Lid=" + lid);
                         }
-                    } else {
-                        log.warn("Couldn't find node with Lid=" + lid);
                     }
                 }
                 return current;
@@ -610,7 +624,7 @@ public class TopologyGraphController implements ITopologyListener {
                             nodeSelection[i] = resourceSelection[i].getParent();
                         }
                         if (resourceSelection.length == 1) {
-                            onSingleNode(nodes.get(0), source, nodeSelection);
+                            onEdges(null, source, nodeSelection);
                         } else {
                             onMultipleNodes(nodes, source, nodeSelection);
                         }

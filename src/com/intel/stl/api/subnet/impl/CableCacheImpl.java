@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -50,7 +50,7 @@ public class CableCacheImpl extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.api.subnet.impl.CableCache#getCables()
      */
     @Override
@@ -84,7 +84,7 @@ public class CableCacheImpl extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.api.subnet.impl.CableCache#getCable(int)
      */
     @Override
@@ -114,25 +114,25 @@ public class CableCacheImpl extends
 
     /**
      * Cable info are in two records.
-     * 
+     *
      * @throws SubnetDataNotFoundException
      */
     @Override
-    public List<CableRecordBean> getCable(int lid, short portNum) {
+    public CableRecordBean getCable(int lid, short portNum) {
         Map<Integer, List<CableRecordBean>> map = getCachedObject();
-        List<CableRecordBean> res = new ArrayList<CableRecordBean>();
+        CableRecordBean res = null;
         if (map != null) {
             List<CableRecordBean> cables = map.get(lid);
             if (cables != null) {
                 for (CableRecordBean cable : cables) {
                     if (cable.getLid() == lid && cable.getPort() == portNum) {
-                        res.add(cable);
+                        res = cable;
                     }
                 }
             }
         }
 
-        if (!res.isEmpty()) {
+        if (res != null) {
             return res;
         }
 
@@ -143,7 +143,7 @@ public class CableCacheImpl extends
                 setCacheReady(false); // Force a refresh on next call;
                 for (CableRecordBean cable : cablesFromFE) {
                     if (cable.getLid() == lid && cable.getPort() == portNum) {
-                        res.add(cable);
+                        res = cable;
                     }
                 }
             }
@@ -160,10 +160,10 @@ public class CableCacheImpl extends
     protected Map<Integer, List<CableRecordBean>> retrieveObjectForCache()
             throws Exception {
         List<CableRecordBean> cables = helper.getCables();
-        log.info("Retrieve " + (cables == null ? 0 : cables.size())
-                + " Cable Infos from FE");
         Map<Integer, List<CableRecordBean>> map = null;
         if (cables != null) {
+            log.info("Retrieve " + (cables == null ? 0 : cables.size())
+                    + " Cable Infos from FE");
             map = new HashMap<Integer, List<CableRecordBean>>();
             for (CableRecordBean cable : cables) {
                 int lid = cable.getLid();
@@ -182,7 +182,7 @@ public class CableCacheImpl extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.configuration.BaseCache#refreshCache(com.intel.stl.api.
      * notice.impl.NoticeProcess)

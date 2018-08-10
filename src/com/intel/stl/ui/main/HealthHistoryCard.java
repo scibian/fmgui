@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,13 +32,12 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import net.engio.mbassy.bus.MBassador;
-
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.data.time.TimePeriodAnchor;
 import org.jfree.data.time.TimePeriodValues;
 import org.jfree.data.time.TimePeriodValuesCollection;
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.intel.stl.ui.common.PinDescription.PinID;
 import com.intel.stl.ui.common.PinnableCardController;
@@ -50,10 +49,15 @@ import com.intel.stl.ui.framework.IAppEvent;
 import com.intel.stl.ui.main.view.HealthHistoryView;
 import com.intel.stl.ui.model.TimedScore;
 
+import net.engio.mbassy.bus.MBassador;
+
 /**
  */
-public class HealthHistoryCard extends
-        PinnableCardController<ICardListener, HealthHistoryView> {
+public class HealthHistoryCard
+        extends PinnableCardController<ICardListener, HealthHistoryView> {
+    private final static Logger log =
+            LoggerFactory.getLogger(HealthHistoryCard.class);
+
     private final TimePeriodValues dataset;
 
     private final TimePeriodValuesCollection timeseriescollection;
@@ -70,9 +74,8 @@ public class HealthHistoryCard extends
     public HealthHistoryCard(HealthHistoryView view,
             MBassador<IAppEvent> eventBus) {
         super(view, eventBus);
-        dataset =
-                new TimePeriodValues(
-                        STLConstants.K0105_HEALTH_HISTORY.getValue());
+        dataset = new TimePeriodValues(
+                STLConstants.K0105_HEALTH_HISTORY.getValue());
         timeseriescollection = new TimePeriodValuesCollection(dataset);
         timeseriescollection.setXPosition(TimePeriodAnchor.START);
         view.setDataset(timeseriescollection);
@@ -80,7 +83,7 @@ public class HealthHistoryCard extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.ICardController#getHelpID()
      */
     @Override
@@ -119,7 +122,7 @@ public class HealthHistoryCard extends
     /**
      * @param score
      * @param time
-     * 
+     *
      *            Health score can be refreshed periodically by a timer or
      *            updated asynchronously by an external event.
      */
@@ -131,8 +134,8 @@ public class HealthHistoryCard extends
                 lastScore = score;
 
                 TimedScore tScore = new TimedScore(time.getTime(), score, tip);
-                view.setCurrentScore(tScore.getScoreString(),
-                        tScore.getColor(), tip);
+                view.setCurrentScore(tScore.getScoreString(), tScore.getColor(),
+                        tip);
 
                 if (lastTime == null) {
                     Date fakedLastTime = new Date(time.getTime() - 1000);
@@ -142,7 +145,7 @@ public class HealthHistoryCard extends
                 }
 
                 if (lastTime.after(time)) {
-                    Log.warn("time mismatch happend lastTime=" + lastTime
+                    log.warn("time mismatch happend lastTime=" + lastTime
                             + " current time=" + time);
                     dataset.add(new SimpleTimePeriod(lastTime, lastTime),
                             Double.valueOf(score));
@@ -153,9 +156,8 @@ public class HealthHistoryCard extends
                 }
 
                 long startTime = dataset.getTimePeriod(0).getStart().getTime();
-                long endTime =
-                        dataset.getTimePeriod(dataset.getItemCount() - 1)
-                                .getEnd().getTime();
+                long endTime = dataset.getTimePeriod(dataset.getItemCount() - 1)
+                        .getEnd().getTime();
                 while (endTime - startTime > maxHistoryLength) {
                     dataset.delete(0, 0);
                     startTime = dataset.getTimePeriod(0).getStart().getTime();
@@ -177,7 +179,7 @@ public class HealthHistoryCard extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.BaseCardController#getCardListener()
      */
     @Override
@@ -192,7 +194,7 @@ public class HealthHistoryCard extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.common.PinnableCardController#generateArgument(java.
      * util.Properties)
@@ -204,20 +206,20 @@ public class HealthHistoryCard extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.PinnableCardController#createPinView()
      */
     @Override
     protected HealthHistoryView createPinView() {
-        HealthHistoryView pinView =
-                new HealthHistoryView(UIConstants.H2_FONT.deriveFont(Font.BOLD));
+        HealthHistoryView pinView = new HealthHistoryView(
+                UIConstants.H2_FONT.deriveFont(Font.BOLD));
         pinView.setCardListener(getCardListener());
         return pinView;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.PinnableCardController#initPinView()
      */
     @Override
@@ -230,7 +232,7 @@ public class HealthHistoryCard extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.PinnableCardController#getPinID()
      */
     @Override

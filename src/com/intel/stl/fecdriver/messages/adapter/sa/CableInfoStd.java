@@ -148,9 +148,11 @@ public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
         super(128);
     }
 
-    public CableInfoBean toLowerObject() {
+    @Override
+    public CableInfoBean toObject() {
         CableInfoBean bean = new CableInfoBean();
 
+        // first 64 bytes
         bean.setId(buffer.get());
         // extIdent;
         byte byteVal = buffer.get();
@@ -166,7 +168,7 @@ public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
         bean.setConnector(buffer.get());
         byte[] byteVals = new byte[8];
         buffer.get(byteVals);
-        bean.setSpecComp(convertToByteArray(byteVals));
+        bean.setSpecComp(byteVals);
         bean.setEncode(buffer.get());
         bean.setBitRateLow(buffer.get());
         bean.setExtRateComp(buffer.get());
@@ -192,7 +194,7 @@ public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
 
         byteVals = new byte[3];
         buffer.get(byteVals);
-        bean.setVendorOui(convertToByteArray(byteVals));
+        bean.setVendorOui(byteVals);
         byteVals = new byte[16];
         buffer.get(byteVals);
         bean.setVendorPn(StringUtils.toString(byteVals, 0, 16));
@@ -201,24 +203,20 @@ public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
         bean.setVendorRev(StringUtils.toString(byteVals, 0, 2));
         byteVals = new byte[2];
         buffer.get(byteVals);
-        bean.setWaveAtten(convertToByteArray(byteVals));
+        bean.setWaveAtten(byteVals);
         byteVals = new byte[2];
         buffer.get(byteVals);
-        bean.setWaveTol(convertToByteArray(byteVals));
+        bean.setWaveTol(byteVals);
 
         bean.setMaxCaseTemp(buffer.get() & 0xFF);
         bean.setCcBase(buffer.get());
 
-        return bean;
-    }
-
-    public CableInfoBean toUpperObject() {
+        // second 64 bytes
         buffer.position(64);
-        CableInfoBean bean = new CableInfoBean();
         bean.setLinkCodes(buffer.get());
 
         // rxtxOptEquemp
-        byte byteVal = buffer.get();
+        byteVal = buffer.get();
         bean.setTxInpEqAutoAdp((byteVal & 0x8) == 0x8);
         bean.setTxInpEqFixProg((byteVal & 0x4) == 0x4);
         bean.setRxOutpEmphFixProg((byteVal & 0x2) == 0x2);
@@ -244,7 +242,7 @@ public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
         bean.setTxSquelOmapav((byteVal & 0x4) == 0x4);
         bean.setTxLos((byteVal & 0x2) == 0x2);
 
-        byte[] byteVals = new byte[16];
+        byteVals = new byte[16];
         buffer.get(byteVals);
         bean.setVendorSN(StringUtils.toString(byteVals, 0, 16));
         byteVals = new byte[8];
@@ -262,29 +260,20 @@ public class CableInfoStd extends SimpleDatagram<CableInfoBean> {
 
         byteVals = new byte[26];
         buffer.get(byteVals);
-        bean.setVendor(convertToByteArray(byteVals));
+        bean.setVendor(byteVals);
         bean.setOpaCertCable(buffer.get());
         bean.setVendor2(buffer.get());
         bean.setOpaCertDataRate(buffer.get());
         byteVals = new byte[3];
         buffer.get(byteVals);
-        bean.setVendor3(convertToByteArray(byteVals));
+        bean.setVendor3(byteVals);
 
         bean.setCertCableFlag(
                 isStlCableInfoCableCertified(bean.getOpaCertCable()));
         bean.setReachClass(bean.getVendor2());
         bean.setCertDataRate(CertifiedRateType
                 .getCertifiedRateType(bean.getOpaCertDataRate()));
-
         return bean;
-    }
-
-    private Byte[] convertToByteArray(byte[] bytes) {
-        Byte[] byteConv = new Byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            byteConv[i] = Byte.valueOf(bytes[i]);
-        }
-        return byteConv;
     }
 
     private boolean isStlCableInfoCableCertified(byte code_cert) {

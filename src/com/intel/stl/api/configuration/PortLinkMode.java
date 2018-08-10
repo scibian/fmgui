@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,20 +33,21 @@ import com.intel.stl.api.StringUtils;
 
 /**
  * <pre>
- * ref: /ALL_EMB/IbAccess/Common/Inc/stl_sm.h v1.148
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit 8d05ba37b98661fa539132e27cbd3bd15eea81aa
+ * date 2017-11-09 11:11:00
  * STL Port link mode, indicated as follows:
  * values are additive for Supported and Enabled fields
- * 
+ *
  * #define STL_PORT_LINK_MODE_NOP  0       // No change
  * // reserved 1
- * #define STL_PORT_LINK_MODE_ETH  2       // Port mode is ETH (Gateway)
+ * // reserved 2
  * #define STL_PORT_LINK_MODE_STL  4       // Port mode is STL
- * 
+ *
  * </pre>
  */
 public enum PortLinkMode {
     NOP((byte) 0x00),
-    ETH((byte) 0x02),
     STL((byte) 0x04);
 
     private final byte mode;
@@ -65,8 +66,8 @@ public enum PortLinkMode {
                 return plm;
             }
         }
-        throw new IllegalArgumentException("Unsupported PortLinkMode "
-                + StringUtils.byteHexString(mode));
+        throw new IllegalArgumentException(
+                "Unsupported PortLinkMode " + StringUtils.byteHexString(mode));
     }
 
     public static PortLinkMode[] getPortLinkModes(byte mode) {

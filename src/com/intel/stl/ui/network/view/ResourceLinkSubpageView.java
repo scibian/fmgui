@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -82,8 +82,8 @@ public class ResourceLinkSubpageView extends JSectionView<ISectionListener>
      */
     private static final long serialVersionUID = -8162278424319448619L;
 
-    private static Logger log = LoggerFactory
-            .getLogger(ResourceLinkSubpageView.class);
+    private static Logger log =
+            LoggerFactory.getLogger(ResourceLinkSubpageView.class);
 
     private static final int MAX_TABS = 5;
 
@@ -109,7 +109,7 @@ public class ResourceLinkSubpageView extends JSectionView<ISectionListener>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.view.JCardView#getMainComponent()
      */
     @Override
@@ -154,18 +154,17 @@ public class ResourceLinkSubpageView extends JSectionView<ISectionListener>
     protected void installMoreButton(JPanel ctrPanel) {
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
-        moreBtn =
-                new JButton(STLConstants.K0036_MORE.getValue(),
-                        UIImages.DOWN_ICON.getImageIcon()) {
-                    private static final long serialVersionUID = 1L;
+        moreBtn = new JButton(STLConstants.K0036_MORE.getValue(),
+                UIImages.DOWN_ICON.getImageIcon()) {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void setEnabled(boolean b) {
-                        super.setEnabled(b);
-                        setForeground(b ? UIConstants.INTEL_BLUE
-                                : UIConstants.INTEL_GRAY);
-                    }
-                };
+            @Override
+            public void setEnabled(boolean b) {
+                super.setEnabled(b);
+                setForeground(
+                        b ? UIConstants.INTEL_BLUE : UIConstants.INTEL_GRAY);
+            }
+        };
         moreBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -411,7 +410,7 @@ public class ResourceLinkSubpageView extends JSectionView<ISectionListener>
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see
          * javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing
          * .JList, java.lang.Object, int, boolean, boolean)
@@ -442,4 +441,10 @@ public class ResourceLinkSubpageView extends JSectionView<ISectionListener>
         }
     }
 
+    public void clear() {
+        tabbedPane.removeChangeListener(this);
+        tabbedPane.removeAll();
+        tabbedPane.addChangeListener(this);
+        moreBtn.setEnabled(false);
+    }
 }

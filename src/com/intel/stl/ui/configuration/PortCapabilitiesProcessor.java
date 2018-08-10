@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -34,26 +34,33 @@ import static com.intel.stl.ui.model.DeviceProperty.DEVICE_MGMT_SUPPORTED;
 import static com.intel.stl.ui.model.DeviceProperty.NOTICE_SUPPORTED;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_ADRR_RANGE_CONFIG;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_ASYNC_SC2VL;
+import static com.intel.stl.ui.model.DeviceProperty.PORT_MAXLID;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_PASSTHRU;
+import static com.intel.stl.ui.model.DeviceProperty.PORT_SHARED_GROUP_SPACE;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_SHARED_SPACE;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_SNOOP;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_VL15_MULTICAST;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_VLR;
 import static com.intel.stl.ui.model.DeviceProperty.PORT_VL_MARKER;
+import static com.intel.stl.ui.model.DeviceProperty.PORT_VL_SCHEDULING;
 import static com.intel.stl.ui.model.DeviceProperty.SUBNET_MANAGER;
 import static com.intel.stl.ui.model.DeviceProperty.VENDOR_CLASS_SUPPORTED;
 
 import com.intel.stl.api.configuration.CapabilityMask;
 import com.intel.stl.api.configuration.CapabilityMask3;
+import com.intel.stl.api.configuration.VLSchedulingMode;
 import com.intel.stl.api.subnet.PortInfoBean;
 import com.intel.stl.ui.common.STLConstants;
 import com.intel.stl.ui.model.DevicePropertyCategory;
+import com.intel.stl.ui.model.VLSchedulingModeViz;
 
 public class PortCapabilitiesProcessor extends BaseCategoryProcessor {
 
     @Override
     public void process(ICategoryProcessorContext context,
             DevicePropertyCategory category) {
+        String na = K0383_NA.getValue();
+
         PortInfoBean portInfo = context.getPortInfo();
         if (portInfo != null) {
             String trueStr = STLConstants.K0385_TRUE.getValue();
@@ -92,6 +99,22 @@ public class PortCapabilitiesProcessor extends BaseCategoryProcessor {
 
             short val3 = portInfo.getCapabilityMask3();
             value = falseStr;
+            if (CapabilityMask3.MAXLID_SUPPORTED.hasThisMask(val3)) {
+                value = trueStr;
+            }
+            addProperty(category, PORT_MAXLID, value);
+            try {
+                VLSchedulingMode vlMode = VLSchedulingMode.getVLSchedulingMode(
+                        (short) ((val >> 8) & (short) 0x03));
+                value = VLSchedulingModeViz.getVLSchedulingModeVizFor(vlMode)
+                        .getName();
+                addProperty(category, PORT_VL_SCHEDULING, value);
+            } catch (Exception e) {
+                e.printStackTrace();
+                addProperty(category, PORT_VL_SCHEDULING, na);
+            }
+
+            value = falseStr;
             if (CapabilityMask3.SNOOP_SUPPORTED.hasThisMask(val3)) {
                 value = trueStr;
             }
@@ -117,6 +140,11 @@ public class PortCapabilitiesProcessor extends BaseCategoryProcessor {
             }
             addProperty(category, PORT_SHARED_SPACE, value);
             value = falseStr;
+            if (CapabilityMask3.SHAREDGROUPSPACE_SUPPORTED.hasThisMask(val3)) {
+                value = trueStr;
+            }
+            addProperty(category, PORT_SHARED_GROUP_SPACE, value);
+            value = falseStr;
             if (CapabilityMask3.VLMARKER_SUPPORTED.hasThisMask(val3)) {
                 value = trueStr;
             }
@@ -127,18 +155,20 @@ public class PortCapabilitiesProcessor extends BaseCategoryProcessor {
             }
             addProperty(category, PORT_VLR, value);
         } else {
-            String na = K0383_NA.getValue();
             addProperty(category, SUBNET_MANAGER, na);
             addProperty(category, NOTICE_SUPPORTED, na);
             addProperty(category, AUTO_MIGR_SUPPORTED, na);
             addProperty(category, CONN_LABEL_SUPPORTED, na);
             addProperty(category, DEVICE_MGMT_SUPPORTED, na);
             addProperty(category, VENDOR_CLASS_SUPPORTED, na);
+            addProperty(category, PORT_MAXLID, na);
+            addProperty(category, PORT_VL_SCHEDULING, na);
             addProperty(category, PORT_SNOOP, na);
             addProperty(category, PORT_ASYNC_SC2VL, na);
             addProperty(category, PORT_ADRR_RANGE_CONFIG, na);
             addProperty(category, PORT_PASSTHRU, na);
             addProperty(category, PORT_SHARED_SPACE, na);
+            addProperty(category, PORT_SHARED_GROUP_SPACE, na);
             addProperty(category, PORT_VL15_MULTICAST, na);
             addProperty(category, PORT_VL_MARKER, na);
             addProperty(category, PORT_VLR, na);

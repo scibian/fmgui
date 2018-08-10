@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -39,7 +39,8 @@ import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.intel.stl.api.subnet.ISubnetApi;
 import com.intel.stl.api.subnet.NodeInfoBean;
@@ -61,6 +62,8 @@ import com.intel.stl.ui.network.view.ResourceLinkView;
  * Controller for the Link subpage on the Topology page
  */
 public class ResourceLinkPage implements IPageController {
+    private final static Logger log =
+            LoggerFactory.getLogger(ResourceLinkPage.class);
 
     private final static byte NUM_TAB_CHARS = 12;
 
@@ -72,21 +75,20 @@ public class ResourceLinkPage implements IPageController {
 
     private String pageName = STLConstants.K0013_LINKS.getValue();
 
-    private String pageDescription = new String(
-            STLConstants.K1023_LINK_RESOURCE_DESCRIPTION.getValue());
+    private String pageDescription =
+            new String(STLConstants.K1023_LINK_RESOURCE_DESCRIPTION.getValue());
 
     public ResourceLinkPage(ConnectivityTableModel tableModel,
             ConnectivitySubpageView tableView, ResourceLinkView view) {
         this.view = view;
         this.view.addTableView(tableView);
-        tableController =
-                new ConnectivityTableController(tableModel,
-                        tableView.getTable());
+        tableController = new ConnectivityTableController(tableModel,
+                tableView.getTable());
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.common.IPageController#setContext(com.intel.stl.ui.main
      * .Context, com.intel.stl.ui.common.IProgressObserver)
@@ -102,7 +104,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.common.IPageController#onRefresh(com.intel.stl.ui.common
      * .IProgressObserver)
@@ -113,7 +115,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#getName()
      */
     @Override
@@ -123,7 +125,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#getDescription()
      */
     @Override
@@ -133,7 +135,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#getView()
      */
     @Override
@@ -143,7 +145,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#getIcon()
      */
     @Override
@@ -154,7 +156,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#cleanup()
      */
     @Override
@@ -165,7 +167,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#onEnter()
      */
     @Override
@@ -176,7 +178,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#onExit()
      */
     @Override
@@ -187,7 +189,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#canExit()
      */
     @Override
@@ -197,7 +199,7 @@ public class ResourceLinkPage implements IPageController {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.common.IPageController#clear()
      */
     @Override
@@ -220,10 +222,9 @@ public class ResourceLinkPage implements IPageController {
 
             String fromGuid = String.format("%#020x", fromNode.getNodeGUID());
             String toGuid = String.format("%#020x", toNode.getNodeGUID());
-            toolTip =
-                    "<html>" + fromName + " GUID=" + fromGuid + "  LID="
-                            + fromLid + "<br>" + toName + " GUID=" + toGuid
-                            + "  LID=" + toLid + "</html>";
+            toolTip = "<html>" + fromName + " GUID=" + fromGuid + "  LID="
+                    + fromLid + "<br>" + toName + " GUID=" + toGuid + "  LID="
+                    + toLid + "</html>";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -242,11 +243,9 @@ public class ResourceLinkPage implements IPageController {
 
             String fromGuid = String.format("%#020x", fromNode.getNodeGUID());
             String toGuid = String.format("%#020x", toNode.getNodeGUID());
-            toolTip =
-                    "<html>" + fromName + " GUID=" + fromGuid + "  LID="
-                            + fromLid + " PORT=" + fromPort + "<br>" + toName
-                            + " GUID=" + toGuid + "  LID=" + toLid + " PORT="
-                            + toPort + "</html>";
+            toolTip = "<html>" + fromName + " GUID=" + fromGuid + "  LID="
+                    + fromLid + " PORT=" + fromPort + "<br>" + toName + " GUID="
+                    + toGuid + "  LID=" + toLid + " PORT=" + toPort + "</html>";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -278,7 +277,7 @@ public class ResourceLinkPage implements IPageController {
                 e.printStackTrace();
             }
             if (fromNodeBean == null || toNodeBean == null) {
-                Log.warn("Couldn't fond nodes for link " + edge);
+                log.warn("Couldn't fond nodes for link " + edge);
                 tableController.clear();
                 return;
             }
@@ -287,19 +286,16 @@ public class ResourceLinkPage implements IPageController {
             // tab
             Entry<Integer, Integer> link =
                     edge.getLinks().entrySet().iterator().next();
-            String fromName =
-                    createNodeName(fromNodeBean.getNodeDesc()) + " : "
-                            + link.getKey();
-            String toName =
-                    createNodeName(toNodeBean.getNodeDesc()) + " : "
-                            + link.getValue();
+            String fromName = createNodeName(fromNodeBean.getNodeDesc()) + " : "
+                    + link.getKey();
+            String toName = createNodeName(toNodeBean.getNodeDesc()) + " : "
+                    + link.getValue();
             setName(fromName + "," + toName);
 
             // Create the tool-tip description for the path end nodes with node
             // name, GUID, and LID
-            String description =
-                    createToolTip(fromName, edge.getFromLid(), link.getKey(),
-                            toName, edge.getToLid(), link.getValue());
+            String description = createToolTip(fromName, edge.getFromLid(),
+                    link.getKey(), toName, edge.getToLid(), link.getValue());
             setDescription(description);
 
             // Create the port list
@@ -327,7 +323,8 @@ public class ResourceLinkPage implements IPageController {
         }
     } // showLink
 
-    public void showPath(GraphEdge trace, List<GraphEdge> links, String vfName) {
+    public void showPath(GraphEdge trace, List<GraphEdge> links,
+            String vfName) {
         LinkedHashMap<GraphEdge, Short> portMap =
                 new LinkedHashMap<GraphEdge, Short>();
 
@@ -358,9 +355,8 @@ public class ResourceLinkPage implements IPageController {
 
         // Create the tool-tip description for the path end nodes with node
         // name, GUID, and LID
-        String description =
-                createToolTip(fromName, trace.getFromLid(), toName,
-                        trace.getToLid());
+        String description = createToolTip(fromName, trace.getFromLid(), toName,
+                trace.getToLid());
         setDescription(description);
 
         // Update the table

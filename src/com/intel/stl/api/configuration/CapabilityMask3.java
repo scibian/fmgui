@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,41 +29,50 @@ package com.intel.stl.api.configuration;
 
 /**
  * <pre>
- * ref: /ALL_EMB/IbAccess/Common/Inc/stl_sm.h v1.115
+ * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
+ * commit 8d05ba37b98661fa539132e27cbd3bd15eea81aa
+ * date 2017-11-09 11:11:00
+ *
  * Capability Mask 3 - a bit set to 1 for affirmation of supported capability
  *  by a given port
- * 
- * typedef union {
- *     uint16  AsReg16;
- *     struct { IB_BITFIELD9( uint16,          // RO/H-PE
- *         CmReserved:                 8,
- *         IsSnoopSupported:           1,      // RO/--PE Packet snoop
- *                                             // Reserved in Gen1
- *         IsAsyncSC2VLSupported:      1,      // RO/H-PE Port 0 indicates whole switch
- *         IsAddrRangeConfigSupported: 1,      // RO/H-PE Can addr range for Multicast
- *                                             // and Collectives be configured
- *                                             // Port 0 indicates whole switch
- *         IsPassThroughSupported:     1,      // RO/--PE Packet pass through
- *                                             // Port 0 indicates whole switch
- *         IsSharedSpaceSupported:     1,      // RO/H-PE Shared Space
- *                                             // Port 0 indicates whole switch
- *         CmReserved2:                1,
- *         IsVLMarkerSupported:        1,      // RO/H-PE VL Marker
- *                                             // Port 0 indicates whole switch
- *         IsVLrSupported:             1 )     // RO/H-PE SC->VL_r table
- *                                             // Reserved in Gen1
- *                                             // Port 0 indicates whole switch
- *     } s; 
- * } STL_CAPABILITY_MASK3;
- * 
+ *
+ *  typedef STL_FIELDUNION15(STL_CAPABILITY_MASK3, 16,
+ *       CmReserved0:                    1,
+ *       CmReserved1:                    1,
+ *       CmReserved2:                    1,
+ *       IsMAXLIDSupported:          1,      // RO/H--- Does the HFI support the MAX
+ *                                           // LID being configured
+ *       CmReserved3:                1,
+ *       CmReserved4:                1,
+ *       VLSchedulingConfig:         2,      // RO/H-PE VL Arbitration
+ *                                           // see STL_VL_SCHEDULING_MODE
+ *                                           // Port 0 indicates whole switch
+ *       IsSnoopSupported:           1,      // RO/--PE Packet snoop
+ *                                           // Port 0 indicates whole switch
+ *       IsAsyncSC2VLSupported:      1,      // RO/H-PE Port 0 indicates whole switch
+ *       IsAddrRangeConfigSupported: 1,      // RO/H-PE Can addr range for Multicast
+ *                                           // and Collectives be configured
+ *                                           // Port 0 indicates whole switch
+ *       IsPassThroughSupported:     1,      // RO/--PE Packet pass through
+ *                                           // Port 0 indicates whole switch
+ *       IsSharedSpaceSupported:     1,      // RO/H-PE Shared Space
+ *                                           // Port 0 indicates whole switch
+ *       IsSharedGroupSpaceSupported:1,      // RO/H-PE Shared Space
+ *                                           // Port 0 indicates whole switch
+ *       IsVLMarkerSupported:        1,      // RO/H-PE VL Marker
+ *                                           // Port 0 indicates whole switch
+ *       IsVLrSupported:             1 );    // RO/H-PE SC->VL_r table
+ *
  * </pre>
  */
 public enum CapabilityMask3 {
+    MAXLID_SUPPORTED((short) 0x1000),
     SNOOP_SUPPORTED((short) 0x0080),
     ASYNCSC2VL_SUPPORTED((short) 0x0040),
     ADDRRANGECONFIG_SUPPORTED((short) 0x0020),
     PASSTHROUGH_SUPPORTED((short) 0x0010),
     SHAREDSPACE_SUPPORTED((short) 0x0008),
+    SHAREDGROUPSPACE_SUPPORTED((short) 0x0004),
     VLMARKER_SUPPORTED((short) 0x0002),
     VLR_SUPPORTED((short) 0x0001);
 

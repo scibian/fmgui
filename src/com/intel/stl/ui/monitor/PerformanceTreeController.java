@@ -78,6 +78,8 @@ public class PerformanceTreeController
      */
     private EnumMap<TreeNodeType, List<IPerfSubpageController>> pageMap;
 
+    private List<IPerfSubpageController> swPortZeroPages;
+
     private FVResourceNode lastNode;
 
     public PerformanceTreeController(PerformanceTreeView pTreeView,
@@ -120,8 +122,7 @@ public class PerformanceTreeController
             page.clear();
         }
 
-        List<IPerfSubpageController> subpages =
-                getSubpagesByType(node.getType());
+        List<IPerfSubpageController> subpages = getSubpagesByType(node);
         if (subpages == null) {
             view.clearPage(node.getType());
             setRunning(false);
@@ -291,7 +292,7 @@ public class PerformanceTreeController
                 Arrays.asList(performanceSP, connectSP, propertySP));
         pageMap.put(TreeNodeType.ACTIVE_PORT,
                 Arrays.asList(performanceSP, connectSP, propertySP));
-
+        swPortZeroPages = Arrays.asList(performanceSP, propertySP);
         // for demo purpose
         // pageMap.put(TreeNodeType.HCA, Arrays.asList(performanceSP,
         // propertySP));
@@ -334,7 +335,15 @@ public class PerformanceTreeController
     }
 
     protected List<IPerfSubpageController> getSubpagesByType(
-            TreeNodeType type) {
+            FVResourceNode node) {
+        TreeNodeType type = node.getType();
+        if (type == TreeNodeType.ACTIVE_PORT) {
+            FVResourceNode parent = node.getParent();
+            if (parent != null && parent.getType() == TreeNodeType.SWITCH
+                    && node.getId() == 0) {
+                return swPortZeroPages;
+            }
+        }
         return pageMap.get(type);
     }
 
@@ -345,8 +354,7 @@ public class PerformanceTreeController
 
     @Override
     public synchronized void onPageChanged(String oldPageId, String newPageId) {
-        List<IPerfSubpageController> subpages =
-                getSubpagesByType(lastNode.getType());
+        List<IPerfSubpageController> subpages = getSubpagesByType(lastNode);
         if (subpages == null) {
             // shouldn't happen
             throw new RuntimeException(

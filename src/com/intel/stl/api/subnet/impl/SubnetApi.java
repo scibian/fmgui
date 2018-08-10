@@ -401,9 +401,37 @@ public class SubnetApi implements ISubnetApi {
     }
 
     @Override
-    public List<CableRecordBean> getCable(int lid, short portNum) {
+    public CableRecordBean getCable(int lid, short portNum) {
         CableCache cableCache = cacheMgr.acquireCableCache();
         return cableCache.getCable(lid, portNum);
+
+        // // For test purpose, all portNum 1 should have QSFP-DD.
+        // if (portNum != (short) 1) {
+        // return cableCache.getCable(lid, portNum);
+        // } else {
+        // DDCableInfoBean bean = new DDCableInfoBean();
+        // bean.setId((byte) 1);
+        // bean.setVendorName("VN");
+        // byte[] byteConv = new byte[3];
+        // byteConv[0] = 1;
+        // byteConv[1] = 2;
+        // byteConv[2] = 3;
+        // bean.setVendorOui(byteConv);
+        // bean.setVendorPn("PN");
+        // bean.setVendorRev("REV");
+        // bean.setVendorSN("SN");
+        // bean.setDateCode("17", "11", "13", "15");
+        // bean.setMaxPower((byte) 1);
+        // bean.setCableLength((byte) 1);
+        // bean.setConnector((byte) 0x23);
+        // bean.setXmitTech((byte) 1);
+        //
+        // CableRecordBean record = cableCache.getCable(lid, portNum);
+        // if (record != null) {
+        // record.setDdCableInfo(bean);
+        // }
+        // return record;
+        // }
     }
 
     /*

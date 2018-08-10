@@ -37,8 +37,8 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
 /**
  * <pre>
  * ref: /ALL_EMB/IbAcess/Common/Inc/stl_sm_types.h
- * commit a86e948b247e4d9fd98434e350b00f112ba93c39
- * date 2017-08-16 10:28:01
+ * commit 8d05ba37b98661fa539132e27cbd3bd15eea81aa
+ * date 2017-11-09 11:11:00
  *
  *  NOTE - first-pass ordering of PortInfo members:
  *    1  RW members before RO members;
@@ -61,7 +61,9 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *                                   // POD/LUD: flow control enabled all VLs except VL15
  *
  * [8]  struct {
- * [8]      uint8   PreemptCap;
+ * [8]      uint8   PreemptCap;      // RO/HS-E size of Preempting VL Arbitration table
+ *                                  // only used when VLSchedulingConfig
+ *                                  // is VL_SCHED_MODE_VLARB, otherwise reserved
  *
  * [9]      struct { IB_BITFIELD2( uint8,
  *           Reserved:       3,
@@ -70,14 +72,22 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *
  * [10]      uint16  HighLimit;          // RW/HS-E Limit of high priority component of
  *                                   //  VL Arbitration table
+ *                                   // only used when VLSchedulingConfig
+ *                                   // is VL_SCHED_MODE_VLARB, otherwise reserved
  *                                   // POD: 0
  * [12]      uint16  PreemptingLimit;    // RW/HS-E Limit of preempt component of
  *                                   //  VL Arbitration table
+ *                                   // only used when VLSchedulingConfig
+ *                                   // is VL_SCHED_MODE_VLARB, otherwise reserved
  *                                   // POD: 0
  *           union {
- * [14]        uint8   ArbitrationHighCap; // RO/HS-E
+ * [14]        uint8   ArbitrationHighCap; // RO/HS-E VL Arbitration table cap
+ *                                   // only used when VLSchedulingConfig
+ *                                   // is VL_SCHED_MODE_VLARB, otherwise reserved
  *           };
- * [15]      uint8   ArbitrationLowCap;  // RO/HS-E
+ * [15]      uint8   ArbitrationLowCap;  // RO/HS-E VL Arbitration table cap
+ *                                   // only used when VLSchedulingConfig
+ *                                   // is VL_SCHED_MODE_VLARB, otherwise reserved
  *      } VL;
  *
  * [16]  STL_PORT_STATES  PortStates;        // Port states
@@ -85,6 +95,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  * [20]  STL_FIELDUNION2(PortPhyConfig,8,
  *           Reserved:4,             // Reserved
  *           PortType:4);            // RO/HS-- PORT_TYPE
+ *                                   // Switch port 0 shall report Fixed
  *
  * [21]  struct { IB_BITFIELD3( uint8,   // Multicast/Collectives masks
  *       Reserved:           2,
@@ -251,7 +262,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *
  *       } FlitControl;
  *
- * [88]  uint32  Reserved13;
+ * [88]  STL_LID  MaxLID;                   // RW/H---: POD: 0xBFFF
  *
  * [92]  union _PortErrorAction {
  *           uint32  AsReg32;
@@ -354,14 +365,17 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *
  * [228]  uint16  OverallBufferSpace;     // RO/HS-E Overall dedicated + shared space
  *
- * [230]  uint16  Reserved21;
+ * [230]  struct {              // most significant 8 bits of Replay depths
+ *            uint8   BufferDepthH;     // RO/HS-- Replay buffer depth MSB
+ *            uint8   WireDepthH;       // RO/HS-- Replay wire depth MSB
+ *        } ReplayDepthH;
  *
  * [232]  STL_FIELDUNION3(DiagCode, 16,   // RO/H-PE Diagnostic code, Refer Node Diagnostics
  *       UniversalDiagCode:      4,
  *       VendorDiagCode:         11,
  *       Chain:                  1 );
  *
- * [234]  struct {                        // Replay depths
+ * [234]  struct {                        // least significant 8 bits of Replay depths
  * [234]      uint8   BufferDepth;        // RO/HS-E Replay buffer depth in LTP units
  * [235]      uint8   WireDepth;          // RO/HS-E Replay wire depth in LTP units
  *        } ReplayDepth;
@@ -372,7 +386,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *                                   // Switch: mgmt is allowed for neighbor
  *                                   // EP0: mgmt is allowed for port
  *       NeighborFWAuthenBypass: 1,  // RO/-S-E 0=Authenticated, 1=Not Authenticated
- *       NeighborNodeType:       2 ) // RO/-S-E 0=WFR (not trusted), 1=PRR (trusted)
+ *       NeighborNodeType:       2 ) // RO/-S-E 0=HFI (not trusted), 1=PRR (trusted)
  *        } PortNeighborMode;
  *
  * [237]  struct { IB_BITFIELD2( uint8,
@@ -396,7 +410,7 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *     uint32  AsReg32;
  *     struct { IB_BITFIELD8( uint32,  // Port states
  *         Reserved:                   9,
- *         LEDEnabled:                 1,  // RW/HS-- Set to 1 if the port LED is active.
+ *         LEDEnabled:                 1,  // RO/HS-- Set to 1 if the port LED is active.
  *         IsSMConfigurationStarted:   1,  // RO/HS-E - POD/LUD: 0
  *         NeighborNormal:             1,  // RO/HS--
  *                                         // POD/LUD: 0
@@ -441,10 +455,19 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *  // Capability Mask 3 - a bit set to 1 for affirmation of supported capability
  *   * by a given port
  *
- *  typedef STL_FIELDUNION9(STL_CAPABILITY_MASK3, 16,          // RO/H-PE
- *       CmReserved:                 8,
+ *  typedef STL_FIELDUNION15(STL_CAPABILITY_MASK3, 16,
+ *       CmReserved0:                    1,
+ *       CmReserved1:                    1,
+ *       CmReserved2:                    1,
+ *       IsMAXLIDSupported:          1,      // RO/H--- Does the HFI support the MAX
+ *                                           // LID being configured
+ *       CmReserved3:                1,
+ *       CmReserved4:                1,
+ *       VLSchedulingConfig:         2,      // RO/H-PE VL Arbitration
+ *                                           // see STL_VL_SCHEDULING_MODE
+ *                                           // Port 0 indicates whole switch
  *       IsSnoopSupported:           1,      // RO/--PE Packet snoop
- *                                           // Reserved in Gen1
+ *                                           // Port 0 indicates whole switch
  *       IsAsyncSC2VLSupported:      1,      // RO/H-PE Port 0 indicates whole switch
  *       IsAddrRangeConfigSupported: 1,      // RO/H-PE Can addr range for Multicast
  *                                           // and Collectives be configured
@@ -453,12 +476,11 @@ import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
  *                                           // Port 0 indicates whole switch
  *       IsSharedSpaceSupported:     1,      // RO/H-PE Shared Space
  *                                           // Port 0 indicates whole switch
- *       CmReserved2:                1,
+ *       IsSharedGroupSpaceSupported:1,      // RO/H-PE Shared Space
+ *                                           // Port 0 indicates whole switch
  *       IsVLMarkerSupported:        1,      // RO/H-PE VL Marker
  *                                           // Port 0 indicates whole switch
- *       IsVLrSupported:             1 );     // RO/H-PE SC->VL_r table
- *                                           // Reserved in Gen1
- *                                           // Port 0 indicates whole switch
+ *       IsVLrSupported:             1 );    // RO/H-PE SC->VL_r table
  *
  *  #define STL_MAX_VLS         32          // Max number of VLs
  * </pre>
@@ -588,8 +610,8 @@ public class PortInfo extends SimpleDatagram<PortInfoBean> {
         bean.setPpfSupported(buffer.getShort());
         bean.setPpfEnabled(buffer.getShort());
         bean.setFlitControl(flitControl.toObject());
-        // uint32 Reserved13;
-        buffer.position(92);
+        buffer.position(88);
+        bean.setMaxLid(buffer.getInt());
         bean.setPortErrorAction(buffer.getInt());
         bean.setEgressPort(buffer.get());
         bean.setDrControl((buffer.get() & 0x1) == 0x1);
@@ -637,7 +659,8 @@ public class PortInfo extends SimpleDatagram<PortInfoBean> {
         bean.setCapabilityMask3(buffer.getShort());
         buffer.position(228);
         bean.setOverallBufferSpace(buffer.getShort());
-        buffer.position(232);
+        bean.setBufferDepthH(buffer.get());
+        bean.setWireDepthH(buffer.get());
         shortVal = buffer.getShort();
         bean.setUniversalDiagCode((byte) ((shortVal >>> 12) & 0xf));
         bean.setVendorDiagCode((short) ((shortVal >>> 1) & 0x7ff));

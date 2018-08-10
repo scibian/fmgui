@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,12 +24,13 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package com.intel.stl.api.subnet;
 
 /**
  * Title:        PortInfoBean
  * Description:  Port Info from SA populated by the connect manager.
- * 
+ *
  * @version 0.0
  */
 import java.io.Serializable;
@@ -162,7 +163,9 @@ public class PortInfoBean implements Serializable {
     // FlitControl
     private FlitControlBean flitControl;
 
-    // Reserved13
+    // we don't show it in properties page because opasaquery doesn't display it
+    private long maxLid; // promoted to support unsigned int
+
     // PortErrorAction
     private int portErrorAction;
 
@@ -252,7 +255,12 @@ public class PortInfoBean implements Serializable {
     // Reserved23
     private int overallBufferSpace; // promote to handle unsigned short
 
-    // Reserved21
+    // we don't show it in properties page because opasaquery doesn't display it
+    // ReplayDepthH
+    private short bufferDepthH; // promote to handle unsigned byte
+
+    private short wireDepthH; // promote to handle unsigned byte
+
     // DiagCode
     private byte universalDiagCode;
 
@@ -1045,6 +1053,25 @@ public class PortInfoBean implements Serializable {
     }
 
     /**
+     * @return the maxLid
+     */
+    public long getMaxLid() {
+        return maxLid;
+    }
+
+    public void setMaxLid(int maxLid) {
+        this.maxLid = Utils.unsignedInt(maxLid);
+    }
+
+    /**
+     * @param maxLid
+     *            the maxLid to set
+     */
+    public void setMaxLid(long maxLid) {
+        this.maxLid = maxLid;
+    }
+
+    /**
      * @return the portErrorAction
      */
     public int getPortErrorAction() {
@@ -1391,6 +1418,52 @@ public class PortInfoBean implements Serializable {
     }
 
     /**
+     * @return the bufferDepth
+     */
+    public short getBufferDepthH() {
+        return bufferDepthH;
+    }
+
+    /**
+     * @param bufferDepth
+     *            the bufferDepth to set
+     */
+    public void setBufferDepthH(short bufferDepthH) {
+        this.bufferDepthH = bufferDepthH;
+    }
+
+    /**
+     * @param bufferDepth
+     *            the bufferDepth to set
+     */
+    public void setBufferDepthH(byte bufferDepthH) {
+        this.bufferDepthH = Utils.unsignedByte(bufferDepthH);
+    }
+
+    /**
+     * @return the wireDepth
+     */
+    public short getWireDepthH() {
+        return wireDepthH;
+    }
+
+    /**
+     * @param wireDepth
+     *            the wireDepth to set
+     */
+    public void setWireDepthH(short wireDepthH) {
+        this.wireDepthH = wireDepthH;
+    }
+
+    /**
+     * @param wireDepth
+     *            the wireDepth to set
+     */
+    public void setWireDepthH(byte wireDepthH) {
+        this.wireDepthH = Utils.unsignedByte(wireDepthH);
+    }
+
+    /**
      * @return the universalDiagCode
      */
     public byte getUniversalDiagCode() {
@@ -1585,7 +1658,7 @@ public class PortInfoBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -1599,7 +1672,7 @@ public class PortInfoBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -1625,7 +1698,7 @@ public class PortInfoBean implements Serializable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -1638,8 +1711,7 @@ public class PortInfoBean implements Serializable {
                 + ", lmc=" + lmc + ", masterSMSL=" + masterSMSL
                 + ", linkInitReason="
                 + StringUtils.byteHexString(linkInitReason)
-                + ", partitionEnforcementInbound="
-                + partitionEnforcementInbound
+                + ", partitionEnforcementInbound=" + partitionEnforcementInbound
                 + ", partitionEnforcementOutbound="
                 + partitionEnforcementOutbound + ", operationalVL="
                 + operationalVL + ", pKey8B=" + pKey8B + ", pKey10B=" + pKey10B
@@ -1682,9 +1754,9 @@ public class PortInfoBean implements Serializable {
                 + ", isVLMarkerEnabled=" + isVLMarkerEnabled
                 + ", is16BTrapQueryEnabled=" + is16BTrapQueryEnabled
                 + ", ppfSupported=" + ppfSupported + ", ppfEnabled="
-                + ppfEnabled + ", flitControl=" + flitControl
-                + ", portErrorAction=" + portErrorAction + ", egressPort="
-                + egressPort + ", drControl=" + drControl
+                + ppfEnabled + ", flitControl=" + flitControl + ", maxLid="
+                + maxLid + ", portErrorAction=" + portErrorAction
+                + ", egressPort=" + egressPort + ", drControl=" + drControl
                 + ", mKeyLeasePeriod=" + mKeyLeasePeriod + ", vl15Init="
                 + StringUtils.intHexString(vl15Init) + ", vl15CreditRate="
                 + StringUtils.byteHexString(vl15CreditRate) + ", creditAck="
@@ -1703,7 +1775,8 @@ public class PortInfoBean implements Serializable {
                 + ", capabilityMask3="
                 + StringUtils.shortHexString(capabilityMask3)
                 + ", overallBufferSpace=" + overallBufferSpace
-                + ", universalDiagCode="
+                + ", bufferDepthH=" + bufferDepthH + ", wireDepthH="
+                + wireDepthH + ", universalDiagCode="
                 + StringUtils.shortHexString(universalDiagCode)
                 + ", vendorDiagCode="
                 + StringUtils.shortHexString(vendorDiagCode) + ", chain="
