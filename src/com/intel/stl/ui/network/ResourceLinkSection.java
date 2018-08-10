@@ -36,9 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.engio.mbassy.bus.MBassador;
-
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.intel.stl.api.subnet.NodeType;
 import com.intel.stl.ui.common.ICardController;
@@ -65,6 +64,8 @@ import com.intel.stl.ui.monitor.view.ConnectivitySubpageView;
 import com.intel.stl.ui.network.view.ResourceLinkSubpageView;
 import com.intel.stl.ui.network.view.ResourceLinkView;
 
+import net.engio.mbassy.bus.MBassador;
+
 /**
  * Controller for the JCardView to display tabbed pages when links are selected
  * on the topology graph
@@ -72,6 +73,8 @@ import com.intel.stl.ui.network.view.ResourceLinkView;
 public class ResourceLinkSection
         extends ResourceSection<ResourceLinkSubpageView>
         implements IPortSelectionListener, IPageListener {
+    private final static Logger log =
+            LoggerFactory.getLogger(ResourceLinkSection.class);
 
     /**
      * Subpages for the Topology page
@@ -150,14 +153,16 @@ public class ResourceLinkSection
     }
 
     protected void showLinks(List<GraphEdge> links, String vfName) {
-        links = toPortLinks(links);
+        if (links != null) {
+            links = toPortLinks(links);
+        }
         if (links != null && links.equals(currentLinks)) {
             for (GraphEdge link : links) {
                 ResourceLinkPage page = subpages.get(link);
                 if (page != null) {
                     page.showLink(link, vfName);
                 } else {
-                    Log.warn("Cannot find page for " + link);
+                    log.warn("Cannot find page for " + link);
                 }
             }
             return;
@@ -169,6 +174,9 @@ public class ResourceLinkSection
         // Clear out the subpage list and page map
         clearSubpages();
         if (links == null || links.isEmpty()) {
+            view.clear();
+            view.setTitle(STLConstants.K0013_LINKS.getValue() + " ("
+                    + STLConstants.K0039_NOT_AVAILABLE.getValue() + ")");
             currentLinks = null;
             currentTraces = null;
             return;

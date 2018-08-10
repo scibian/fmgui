@@ -27,7 +27,12 @@
 
 package com.intel.stl.api.subnet.impl;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,12 +168,37 @@ public class SAHelper extends FEHelper {
 
     public List<CableRecordBean> getCables() throws Exception {
         FVCmdGetCable cmd = new FVCmdGetCable();
-        return statement.execute(cmd);
+        List<CableRecordBean> cables = statement.execute(cmd);
+        if (cables != null && !cables.isEmpty()) {
+            cables = combineCables(cables);
+        }
+        return cables;
     }
 
     public List<CableRecordBean> getCables(int lid) throws Exception {
         FVCmdGetCable cmd = new FVCmdGetCable(new InputLid(lid));
-        return statement.execute(cmd);
+        List<CableRecordBean> cables = statement.execute(cmd);
+        if (cables != null && !cables.isEmpty()) {
+            cables = combineCables(cables);
+        }
+        return cables;
+    }
+
+    private List<CableRecordBean> combineCables(List<CableRecordBean> raw) {
+        // keep the order
+        Map<Point, CableRecordBean> map =
+                new LinkedHashMap<Point, CableRecordBean>();
+        for (CableRecordBean bean : raw) {
+            Point key = new Point(bean.getLid(), bean.getPort());
+            CableRecordBean finalBean = map.get(key);
+            if (finalBean == null) {
+                map.put(key, bean);
+            } else {
+                finalBean.combine(bean);
+            }
+        }
+        return Collections
+                .unmodifiableList(new ArrayList<CableRecordBean>(map.values()));
     }
 
     public List<SC2SLMTRecordBean> getSC2SLMTs() throws Exception {

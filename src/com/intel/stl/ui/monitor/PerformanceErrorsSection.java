@@ -30,7 +30,8 @@ package com.intel.stl.ui.monitor;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.intel.stl.api.performance.PortCountersBean;
 import com.intel.stl.api.performance.VFPortCountersBean;
@@ -74,6 +75,9 @@ import net.engio.mbassy.bus.MBassador;
 public class PerformanceErrorsSection extends
         BaseSectionController<ISectionListener, PerformanceErrorsSectionView>
         implements IPropertyListener, ILabelListener {
+    private final static Logger log =
+            LoggerFactory.getLogger(PerformanceErrorsSection.class);
+
     private PerfErrorsCard errorsCard;
 
     private final ChartsCard chartCard;
@@ -450,7 +454,7 @@ public class PerformanceErrorsSection extends
         if (item != null) {
             item.setValStr(UIConstants.INTEGER.format(value));
         } else {
-            Log.warn("Couldn't find item '" + key + "'");
+            log.warn("Couldn't find item '" + key + "'");
         }
     }
 
@@ -461,7 +465,7 @@ public class PerformanceErrorsSection extends
             item.setValStr(UIConstants.INTEGER.format(value) + " "
                     + STLConstants.K0748_FLITS.getValue());
         } else {
-            Log.warn("Couldn't find item '" + key + "'");
+            log.warn("Couldn't find item '" + key + "'");
         }
     }
 

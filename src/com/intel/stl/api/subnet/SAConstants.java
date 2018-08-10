@@ -340,6 +340,12 @@ public interface SAConstants {
 
     int STL_CIB_STD_START_ADDR = 128;
 
+    int CABLE_STD_NUM_CHUNKS = 2;
+
+    int CABLE_DD_NUM_CHUNKS = 2;
+
+    int CABLE_DD_ID = 0x18;
+
     // ALL_EMB/IbAccess/Common/Inc/stl_helper.h
     byte CABLEINFO_OPA_CERTIFIED = (byte) 0xab;
 

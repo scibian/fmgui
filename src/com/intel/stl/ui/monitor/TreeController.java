@@ -267,7 +267,7 @@ public abstract class TreeController<E extends TreeViewInterface>
                 currentSelection = new TreeSelection(currentTreeModel);
                 currentSelection.addNode((FVResourceNode) node,
                         tree.isExpanded(tree.getSelectionPath()));
-                showNode(preprocessNode((FVResourceNode) node));
+                showNode((FVResourceNode) node);
             }
         } else {
             TreePath[] paths = tree.getSelectionPaths();
@@ -276,7 +276,7 @@ public abstract class TreeController<E extends TreeViewInterface>
             for (int i = 0; i < nodes.length; i++) {
                 Object node = paths[i].getLastPathComponent();
                 if (node != null && (node instanceof FVResourceNode)) {
-                    nodes[i] = preprocessNode((FVResourceNode) node);
+                    nodes[i] = (FVResourceNode) node;
                     currentSelection.addNode(nodes[i],
                             tree.isExpanded(paths[i]));
                 }
@@ -298,17 +298,6 @@ public abstract class TreeController<E extends TreeViewInterface>
         if (isSystemUpdate) {
             isSystemUpdate = false;
         }
-    }
-
-    protected FVResourceNode preprocessNode(FVResourceNode node) {
-        // treat switch port zero as a switch
-        if (node.isPort() && node.getId() == 0) {
-            FVResourceNode parent = node.getParent();
-            if (parent.getType() == TreeNodeType.SWITCH) {
-                return parent;
-            }
-        }
-        return node;
     }
 
     protected abstract UndoableSelection<?> getUndoableSelection(

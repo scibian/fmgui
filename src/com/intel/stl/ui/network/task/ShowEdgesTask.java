@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -56,7 +56,7 @@ public class ShowEdgesTask extends TopologyUpdateTask {
 
     /**
      * Description:
-     * 
+     *
      * @param controller
      * @param source
      * @param selectedResources
@@ -95,19 +95,20 @@ public class ShowEdgesTask extends TopologyUpdateTask {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.intel.stl.ui.network.task.TopologyUpdateTask#preBackgroundTask(com
      * .intel.stl.ui.common.ICancelIndicator)
      */
     @Override
-    public void preBackgroundTask(ICancelIndicator indicator, TopGraph oldGraph) {
+    public void preBackgroundTask(ICancelIndicator indicator,
+            TopGraph oldGraph) {
         resourceController.showLinks(edges, vfName);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.network.TopologyUpdateTask#getNodes(com.intel
      * .stl.ui.common.ICancelIndicator)
      */
@@ -115,16 +116,22 @@ public class ShowEdgesTask extends TopologyUpdateTask {
     protected Collection<Integer> getInvolvedNodes(ICancelIndicator indicator,
             TopGraph oldGraph) {
         Set<Integer> involvedNodes = new HashSet<Integer>();
-        for (GraphEdge edge : edges) {
-            involvedNodes.add(edge.getFromLid());
-            involvedNodes.add(edge.getToLid());
+        if (edges != null) {
+            for (GraphEdge edge : edges) {
+                involvedNodes.add(edge.getFromLid());
+                involvedNodes.add(edge.getToLid());
+            }
+        } else {
+            for (FVResourceNode node : selectedResources) {
+                involvedNodes.add(node.getId());
+            }
         }
         return involvedNodes;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.network.TopologyUpdateTask#applyChanges(com.
      * intel.stl.ui.common.ICancelIndicator, com.intel.stl.ui.network.TopGraph)
      */
@@ -138,7 +145,7 @@ public class ShowEdgesTask extends TopologyUpdateTask {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.intel.stl.ui.network.TopologyUpdateTask#onDone(com.intel.
      * stl.ui.common.ICancelIndicator, com.intel.stl.ui.network.TopGraph)
      */
@@ -149,7 +156,7 @@ public class ShowEdgesTask extends TopologyUpdateTask {
         controller.setTopTreeModel(tmpTreeMode);
 
         FVResourceNode[] selectedNodes = selectedResources;
-        if (!indicator.isCancelled() && source != controller) {
+        if (!indicator.isCancelled() && source != controller && edges != null) {
             selectedNodes = controller.selectTreePorts(edges, indicator);
         }
         final mxCell[] cells = getEdgeCells(edges, newGraph);
@@ -185,6 +192,10 @@ public class ShowEdgesTask extends TopologyUpdateTask {
     }
 
     protected mxCell[] getEdgeCells(List<GraphEdge> edges, TopGraph graph) {
+        if (edges == null) {
+            return new mxCell[0];
+        }
+
         mxCell[] cells = new mxCell[edges.size()];
         for (int i = 0; i < edges.size(); i++) {
             GraphEdge edge = edges.get(i);

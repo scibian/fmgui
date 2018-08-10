@@ -1,3 +1,9 @@
+fmgui (10.7.0.0-145-1ifs+deb9) UNRELEASED; urgency=medium
+
+  * New upstream version 10.7.0.0-145.
+
+ -- Brian T. Smith <bsmith@systemfabricworks.com>  Fri, 27 Jul 2018 16:04:09 -0500
+
 fmgui (10.6.0.0-136-2ifs+deb9sci9+opa10.6u1) scibian9+opa10.6; urgency=medium
 
   * Scibian9+OPA10.6 Release.

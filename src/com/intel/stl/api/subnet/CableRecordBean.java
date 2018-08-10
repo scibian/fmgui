@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,11 +29,11 @@ package com.intel.stl.api.subnet;
 
 /*
  * CableInfoRecord
- * 
+ *
  * STL Differences:
  *      LID lengthened to 32 bits.
  *      Reserved2 field shortened from 20 bits to 4 to preserve word-alignment.
- * 
+ *
  * #define STL_CIR_DATA_SIZE       64
  * typedef struct {
  *   struct {
@@ -44,35 +44,39 @@ package com.intel.stl.api.subnet;
  *                 Reserved:1);
  *     IB_BITFIELD2(uint16,
  *                 Address:12,
- *                 PortType:4); // Port type for response only 
+ *                 PortType:4); // Port type for response only
  *     };
- *     
+ *
  *     uint8       Data[STL_CIR_DATA_SIZE];
- * 
+ *
  * } PACK_SUFFIX STL_CABLE_INFO_RECORD;
- * 
- * 
+ *
+ *
  * CableInfo
- * 
+ *
  * Attribute Modifier as: 0AAA AAAA AAAA ALLL LLL0 0000 PPPP PPPP
  *                        A: Starting address of cable data
  *                        L: Length (bytes) of cable data - 1
- *                           (L+1 bytes of data read)  
+ *                           (L+1 bytes of data read)
  *                        P: Port number (0 - management port, switches only)
- * 
+ *
  * NOTE: Cable Info is mapped onto a linear 4096-byte address space (0-4095).
  * Cable Info can only be read within 128-byte pages; that is, a single
  * read cannot cross a 128-byte (page) boundary.
- * 
+ *
  * typedef struct {
- *     uint8   Data[64];           // RO Cable Info data (up to 64 bytes) 
- *         
+ *     uint8   Data[64];           // RO Cable Info data (up to 64 bytes)
+ *
  * } PACK_SUFFIX STL_CABLE_INFO;
- * 
+ *
  */
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.intel.stl.api.Utils;
+import com.intel.stl.fecdriver.messages.adapter.sa.CableInfoDD;
+import com.intel.stl.fecdriver.messages.adapter.sa.CableInfoStd;
 
 /**
  * Cable Record from SA populated by the connect manager.
@@ -91,21 +95,34 @@ public class CableRecordBean implements Serializable {
 
     private byte portType;
 
+    private byte[] data;
+
+    private List<CableRecordBean> otherBeans;
+
+    private Byte cableType;
+
+    private int totalLength;
+
     private CableInfoBean cableInfo;
+
+    private DDCableInfoBean ddCableInfo;
 
     public CableRecordBean() {
         super();
     }
 
     public CableRecordBean(int lid, byte port, byte length, short address,
-            byte portType, CableInfoBean cableInfo) {
+            byte portType, byte[] data) {
         super();
         this.lid = lid;
         this.port = Utils.unsignedByte(port);
         this.length = length;
         this.address = address;
         this.portType = portType;
-        this.cableInfo = cableInfo;
+        this.data = data;
+        if (address == SAConstants.STL_CIB_STD_START_ADDR) {
+            cableType = data[0];
+        }
     }
 
     /**
@@ -158,6 +175,10 @@ public class CableRecordBean implements Serializable {
         return cableInfo;
     }
 
+    public DDCableInfoBean getDdCableInfo() {
+        return ddCableInfo;
+    }
+
     /**
      * @param port
      *            the port to set
@@ -206,16 +227,72 @@ public class CableRecordBean implements Serializable {
         this.cableInfo = cableInfo;
     }
 
+    /**
+     * @param ddCableInfo
+     *            the ddCableInfo to set
+     */
+    public void setDdCableInfo(DDCableInfoBean ddCableInfo) {
+        this.ddCableInfo = ddCableInfo;
+    }
+
+    public void combine(CableRecordBean bean) {
+        if (cableInfo != null || ddCableInfo != null) {
+            throw new IllegalArgumentException("Already combined data!");
+        }
+
+        if (otherBeans == null) {
+            otherBeans = new ArrayList<CableRecordBean>();
+            totalLength = length + 1;
+        }
+        otherBeans.add(bean);
+        totalLength += bean.getLength() + 1;
+        if (cableType == null && bean.cableType != null) {
+            cableType = bean.cableType;
+        }
+        if (cableType == SAConstants.CABLE_DD_ID
+                && otherBeans.size() == SAConstants.CABLE_DD_NUM_CHUNKS - 1) {
+            byte[] tmpData = populateData();
+            CableInfoDD cid = new CableInfoDD();
+            cid.wrap(tmpData, 0);
+            ddCableInfo = cid.toObject();
+            // release memory
+            otherBeans = null;
+            data = null;
+        } else if (cableType != null
+                && otherBeans.size() == SAConstants.CABLE_STD_NUM_CHUNKS - 1) {
+            byte[] tmpData = populateData();
+            CableInfoStd cis = new CableInfoStd();
+            cis.wrap(tmpData, 0);
+            cableInfo = cis.toObject();
+            // release memory
+            otherBeans = null;
+            data = null;
+        }
+    }
+
+    private byte[] populateData() {
+        byte[] res = new byte[totalLength];
+        System.arraycopy(data, 0, res,
+                address - SAConstants.STL_CIB_STD_START_ADDR, length + 1);
+        for (CableRecordBean bean : otherBeans) {
+            System.arraycopy(bean.data, 0, res,
+                    bean.address - SAConstants.STL_CIB_STD_START_ADDR,
+                    bean.length + 1);
+        }
+        return res;
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return "CableRecordBean [lid=" + lid + ", port=" + port + ", length="
                 + length + ",  address=" + address + ",  portType=" + portType
-                + ", cableInfo=" + cableInfo + "]";
+                + ", cableInfo=" + cableInfo + ", ddCableInfo=" + ddCableInfo
+                + "]";
     }
 
 }

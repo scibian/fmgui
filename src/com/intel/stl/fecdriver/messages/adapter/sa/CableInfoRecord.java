@@ -27,7 +27,6 @@
 
 package com.intel.stl.fecdriver.messages.adapter.sa;
 
-import com.intel.stl.api.subnet.CableInfoBean;
 import com.intel.stl.api.subnet.CableRecordBean;
 import com.intel.stl.api.subnet.SAConstants;
 import com.intel.stl.fecdriver.messages.adapter.SimpleDatagram;
@@ -149,38 +148,12 @@ public class CableInfoRecord extends SimpleDatagram<CableRecordBean> {
         short address = (short) (shortVal >>> 4);
         byte portType = (byte) (shortVal & 0x0f);
 
-        // NOTE: Cable Info is mapped onto a linear 4096-byte address space
-        // (0-4095). Cable Info can only be read within 128-byte pages; that is,
-        // a single read cannot cross a 128-byte (page) boundary.
-        byte[] data = new byte[SAConstants.STL_CABLE_INFO_PAGESZ];
-        for (int i = 0; i < SAConstants.STL_CIR_DATA_SIZE; i++) {
-            data[i + address - SAConstants.STL_CIB_STD_START_ADDR] =
-                    buffer.get();
-        }
-
-        CableInfoBean cableInfoBean = interpretToQSFP(data, address);
-
+        byte[] data = new byte[intLength + 1];
+        buffer.get(data);
         CableRecordBean bean = new CableRecordBean(lid, port, (byte) intLength,
-                address, portType, cableInfoBean);
+                address, portType, data);
 
         return bean;
     }
 
-    private CableInfoBean interpretToQSFP(byte[] data, int addr) {
-
-        // CableInfoStd is size of 128 bytes.
-        CableInfoStd cableInfoStd = new CableInfoStd();
-        cableInfoStd.wrap(data, 0);
-
-        // Only fill the fields by 64 bytes (1st 64 bytes and then 2nd 64
-        // bytes). When byte array 'data' is passed,
-        // every byte is at least initialized with zero. We cannot tell if the
-        // byte is data zero or initialized value zero. When UI process this
-        // CableInfoBean, null fields are not processed.
-        if (addr == SAConstants.STL_CIB_STD_START_ADDR) {
-            return cableInfoStd.toLowerObject();
-        } else {
-            return cableInfoStd.toUpperObject();
-        }
-    }
 }

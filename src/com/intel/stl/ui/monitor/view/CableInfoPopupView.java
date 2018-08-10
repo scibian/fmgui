@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2015, Intel Corporation
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of Intel Corporation nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -42,7 +42,8 @@ import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXTable;
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.intel.stl.api.configuration.ResourceCategory;
 import com.intel.stl.api.subnet.NodeType;
@@ -60,6 +61,8 @@ import com.intel.stl.ui.monitor.ICableInfoListener;
  * View to hold the Cable Info popup for the connectivity table
  */
 public class CableInfoPopupView {
+    private final static Logger log =
+            LoggerFactory.getLogger(CableInfoPopupView.class);
 
     protected ICableInfoListener cableInfoListener;
 
@@ -100,31 +103,27 @@ public class CableInfoPopupView {
         cell.addFocusListener(focusListener);
 
         // Get the GUID from the table model
-        long portGuid =
-                Long.decode((String) model.getValueAt(row,
-                        ConnectivityTableColumns.NODE_GUID.getId()));
+        long portGuid = Long.decode((String) model.getValueAt(row,
+                ConnectivityTableColumns.NODE_GUID.getId()));
 
         // Get the port # from the table model
-        String value =
-                (String) model.getValueAt(row,
-                        ConnectivityTableColumns.PORT_NUMBER.getId());
+        String value = (String) model.getValueAt(row,
+                ConnectivityTableColumns.PORT_NUMBER.getId());
         if (value != null) {
             short portNum = Short.valueOf((value).split(" ")[0]);
 
             // Get the node type from the table model
-            NodeType nodeType =
-                    (NodeType) model.getValueAt(row,
-                            ConnectivityTableColumns.NODE_TYPE.getId());
+            NodeType nodeType = (NodeType) model.getValueAt(row,
+                    ConnectivityTableColumns.NODE_TYPE.getId());
 
             // Get the node lid from the table model
-            int lid =
-                    (int) model.getValueAt(row,
-                            ConnectivityTableColumns.NODE_LID.getId());
+            int lid = (int) model.getValueAt(row,
+                    ConnectivityTableColumns.NODE_LID.getId());
 
             cableInfoListener.onCableInfoSelection(lid, portGuid, portNum,
                     nodeType);
         } else {
-            Log.error(UILabels.STL50202_CONNECTIVITY_PORT_IS_NULL
+            log.error(UILabels.STL50202_CONNECTIVITY_PORT_IS_NULL
                     .getDescription());
         }
 
@@ -139,9 +138,8 @@ public class CableInfoPopupView {
             @Override
             public void run() {
                 Point p = getPopupLocation(mouseEvent, popupComp);
-                popup =
-                        popupFactory.getPopup(mouseEvent.getComponent(),
-                                popupComp, p.x, p.y);
+                popup = popupFactory.getPopup(mouseEvent.getComponent(),
+                        popupComp, p.x, p.y);
 
                 popupComp.setPopup(popup);
             }
@@ -166,8 +164,9 @@ public class CableInfoPopupView {
             @Override
             public void run() {
                 popupComp.setModel(model);
-                popupComp.setPopupIcon(isFinal ? UIImages.CABLE.getImageIcon()
-                        : UIImages.RUNNING.getImageIcon(),
+                popupComp.setPopupIcon(
+                        isFinal ? UIImages.CABLE.getImageIcon()
+                                : UIImages.RUNNING.getImageIcon(),
                         STLConstants.K3049_CABLE_INFO.getValue());
                 setPopup();
                 showPopup();
